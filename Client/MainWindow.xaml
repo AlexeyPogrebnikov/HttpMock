@@ -4,6 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-  <Grid />
+        xmlns:client="clr-namespace:TcpMock.Client"
+        Title="TcpMock" Height="450" Width="800">
+  <Window.DataContext>
+    <client:MainWindowViewModel />
+  </Window.DataContext>
+  <Grid>
+    <StackPanel>
+      <ToolBar>
+        <Button Content="New..." />
+      </ToolBar>
+      <TabControl>
+        <TabItem Header="Mocks">
+          <ListView ItemsSource="{Binding MockListViewItems}">
+            <ListView.View>
+              <GridView>
+                <GridViewColumn DisplayMemberBinding="{Binding Caption}" />
+              </GridView>
+            </ListView.View>
+          </ListView>
+        </TabItem>
+        <TabItem Header="Requests" />
+      </TabControl>
+    </StackPanel>
+  </Grid>
 </Window>
