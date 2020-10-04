@@ -14,6 +14,13 @@
       <ToolBar>
         <Button Content="New..." />
       </ToolBar>
+      <StackPanel Orientation="Horizontal">
+        <Label Content="Host:" />
+        <TextBox Text="{Binding ConnectionSettings.Host}" Width="200" />
+        <Label Content="Port:" />
+        <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" />
+        <Button Content="Connect" Command="{Binding Connect}" CommandParameter="{Binding ConnectionSettings}" />
+      </StackPanel>
       <TabControl>
         <TabItem Header="Mocks">
           <ListView ItemsSource="{Binding MockListViewItems}">
