@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Threading;
 using TcpMock.Client.Annotations;
 
@@ -33,7 +34,12 @@ namespace TcpMock.Client
 				Host = "127.0.0.1",
 				Port = 5000
 			};
-			Connect = new ConnectCommand();
+
+			StartTcpServer = new StartTcpServerCommand();
+			StopTcpServer = new StopTcpServerCommand();
+			StartTcpServerVisibility = Visibility.Visible;
+			StopTcpServerVisibility = Visibility.Hidden;
+
 			var dispatcherTimer = new DispatcherTimer
 			{
 				Interval = new TimeSpan(0, 0, 0, 0, 100)
@@ -54,7 +60,22 @@ namespace TcpMock.Client
 					Url = request.Url
 				});
 			}
+
 			OnPropertyChanged(nameof(RequestsHeader));
+
+			if (TcpServer.IsStarted)
+			{
+				StartTcpServerVisibility = Visibility.Collapsed;
+				StopTcpServerVisibility = Visibility.Visible;
+			}
+			else
+			{
+				StartTcpServerVisibility = Visibility.Visible;
+				StopTcpServerVisibility = Visibility.Collapsed;
+			}
+
+			OnPropertyChanged(nameof(StartTcpServerVisibility));
+			OnPropertyChanged(nameof(StopTcpServerVisibility));
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -71,7 +92,10 @@ namespace TcpMock.Client
 
 		public ConnectionSettings ConnectionSettings { get; }
 
-		public ConnectCommand Connect { get; }
+		public StartTcpServerCommand StartTcpServer { get; }
+		public Visibility StartTcpServerVisibility { get; set; }
+		public StopTcpServerCommand StopTcpServer { get; }
+		public Visibility StopTcpServerVisibility { get; set; }
 
 		public string RequestsHeader => $"Requests ({RequestListViewItems.Count})";
 	}

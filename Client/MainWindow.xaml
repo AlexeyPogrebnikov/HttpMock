@@ -19,7 +19,9 @@
         <TextBox Text="{Binding ConnectionSettings.Host}" Width="200" />
         <Label Content="Port:" />
         <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" />
-        <Button Content="Connect" Command="{Binding Connect}" CommandParameter="{Binding ConnectionSettings}" />
+        <Button Content="Start" Command="{Binding StartTcpServer}" CommandParameter="{Binding ConnectionSettings}"
+                Visibility="{Binding StartTcpServerVisibility}" />
+        <Button Content="Stop" Command="{Binding StopTcpServer}" Visibility="{Binding StopTcpServerVisibility}" />
       </StackPanel>
       <TabControl>
         <TabItem Header="Mocks">
