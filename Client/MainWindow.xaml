@@ -31,7 +31,16 @@
             </ListView.View>
           </ListView>
         </TabItem>
-        <TabItem Header="Requests" />
+        <TabItem Header="Requests">
+          <ListView ItemsSource="{Binding RequestListViewItems}">
+            <ListView.View>
+              <GridView>
+                <GridViewColumn DisplayMemberBinding="{Binding Time}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Url}" />
+              </GridView>
+            </ListView.View>
+          </ListView>
+        </TabItem>
       </TabControl>
     </StackPanel>
   </Grid>

@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace TcpMock.Client
@@ -42,7 +41,11 @@ namespace TcpMock.Client
 					NetworkStream stream = client.GetStream();
 					var buffer = new byte[1024];
 					stream.Read(buffer, 0, 1024);
-					MessageBox.Show(Encoding.ASCII.GetString(buffer));
+					RequestCache.Add(new Request
+					{
+						Time = DateTime.Now.TimeOfDay,
+						Url = Encoding.ASCII.GetString(buffer)
+					});
 
 					var response = "Привет мир";
 					byte[] data = Encoding.UTF8.GetBytes(response);
