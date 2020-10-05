@@ -54,6 +54,7 @@ namespace TcpMock.Client
 					Url = request.Url
 				});
 			}
+			OnPropertyChanged(nameof(RequestsHeader));
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -71,5 +72,7 @@ namespace TcpMock.Client
 		public ConnectionSettings ConnectionSettings { get; }
 
 		public ConnectCommand Connect { get; }
+
+		public string RequestsHeader => $"Requests ({RequestListViewItems.Count})";
 	}
 }

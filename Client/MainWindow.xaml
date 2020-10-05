@@ -31,7 +31,7 @@
             </ListView.View>
           </ListView>
         </TabItem>
-        <TabItem Header="Requests">
+        <TabItem Header="{Binding RequestsHeader}">
           <ListView ItemsSource="{Binding RequestListViewItems}">
             <ListView.View>
               <GridView>
