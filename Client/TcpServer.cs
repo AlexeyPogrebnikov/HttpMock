@@ -9,6 +9,10 @@ namespace TcpMock.Client
 	{
 		public static bool IsStarted => _server != null;
 
+		// ReSharper disable InconsistentNaming
+		private const string CRLF = "\r\n";
+		// ReSharper restore InconsistentNaming
+
 		private static TcpListener _server;
 
 		public static void Start(IPAddress address, int port)
@@ -29,10 +33,10 @@ namespace TcpMock.Client
 					RequestCache.Add(new Request
 					{
 						Time = DateTime.Now.TimeOfDay,
-						Url = Encoding.ASCII.GetString(buffer)
+						Url = Encoding.UTF8.GetString(buffer)
 					});
 
-					var response = "Привет мир";
+					var response = $"HTTP/1.1 200 OK{CRLF}{CRLF}";
 					byte[] data = Encoding.UTF8.GetBytes(response);
 
 					stream.Write(data, 0, data.Length);
