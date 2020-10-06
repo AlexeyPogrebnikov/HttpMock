@@ -14,14 +14,14 @@
       <ToolBar>
         <Button Content="New..." />
       </ToolBar>
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 5">
         <Label Content="Host:" />
-        <TextBox Text="{Binding ConnectionSettings.Host}" Width="200" />
+        <TextBox Text="{Binding ConnectionSettings.Host}" Width="150" VerticalContentAlignment="Center" Margin="0, 0, 5, 0" />
         <Label Content="Port:" />
-        <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" />
+        <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0, 0, 10, 0" />
         <Button Content="Start" Command="{Binding StartTcpServer}" CommandParameter="{Binding ConnectionSettings}"
-                Visibility="{Binding StartTcpServerVisibility}" />
-        <Button Content="Stop" Command="{Binding StopTcpServer}" Visibility="{Binding StopTcpServerVisibility}" />
+                Visibility="{Binding StartTcpServerVisibility}" Padding="10, 0, 10, 0" />
+        <Button Content="Stop" Command="{Binding StopTcpServer}" Visibility="{Binding StopTcpServerVisibility}" Padding="10, 0, 10, 0" />
       </StackPanel>
       <TabControl>
         <TabItem Header="Mocks">
