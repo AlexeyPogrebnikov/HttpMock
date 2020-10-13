@@ -16,22 +16,60 @@
       </ToolBar>
       <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 5">
         <Label Content="Host:" />
-        <TextBox Text="{Binding ConnectionSettings.Host}" Width="150" VerticalContentAlignment="Center" Margin="0, 0, 5, 0" />
+        <TextBox Text="{Binding ConnectionSettings.Host}" Width="150" VerticalContentAlignment="Center"
+                 Margin="0, 0, 5, 0" />
         <Label Content="Port:" />
-        <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0, 0, 10, 0" />
+        <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" VerticalContentAlignment="Center"
+                 HorizontalContentAlignment="Center" Margin="0, 0, 10, 0" />
         <Button Content="Start" Command="{Binding StartTcpServer}" CommandParameter="{Binding ConnectionSettings}"
                 Visibility="{Binding StartTcpServerVisibility}" Padding="10, 0, 10, 0" />
-        <Button Content="Stop" Command="{Binding StopTcpServer}" Visibility="{Binding StopTcpServerVisibility}" Padding="10, 0, 10, 0" />
+        <Button Content="Stop" Command="{Binding StopTcpServer}" Visibility="{Binding StopTcpServerVisibility}"
+                Padding="10, 0, 10, 0" />
       </StackPanel>
       <TabControl>
         <TabItem Header="Mocks">
-          <ListView ItemsSource="{Binding MockListViewItems}">
-            <ListView.View>
-              <GridView>
-                <GridViewColumn DisplayMemberBinding="{Binding Caption}" />
-              </GridView>
-            </ListView.View>
-          </ListView>
+          <StackPanel Orientation="Horizontal">
+            <ListView ItemsSource="{Binding Mocks}">
+              <ListView.View>
+                <GridView>
+                  <GridViewColumn>
+                    <GridViewColumn.CellTemplate>
+                      <DataTemplate>
+                        <TextBlock>
+                          <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                              <Binding Path="Method" />
+                              <Binding Path="Path" />
+                            </MultiBinding>
+                          </TextBlock.Text>
+                        </TextBlock>
+                      </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                  </GridViewColumn>
+                </GridView>
+              </ListView.View>
+              <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                  <EventSetter Event="PreviewMouseLeftButtonDown" Handler="MockListView_PreviewMouseLeftButtonDown" />
+                </Style>
+              </ListView.ItemContainerStyle>
+            </ListView>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Label Grid.Column="0" Grid.Row="0" Content="Method" />
+              <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Methods}"
+                        SelectedValue="{Binding SelectedMock.Method}" />
+              <Label Grid.Column="0" Grid.Row="1" Content="Path" />
+              <TextBox Grid.Column="1" Grid.Row="1" Width="200" Text="{Binding SelectedMock.Path}" />
+            </Grid>
+          </StackPanel>
         </TabItem>
         <TabItem Header="{Binding RequestsHeader}">
           <ListView ItemsSource="{Binding RequestListViewItems}">

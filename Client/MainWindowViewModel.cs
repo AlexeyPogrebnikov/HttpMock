@@ -12,22 +12,26 @@ namespace TcpMock.Client
 {
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
+		private Mock _selectedMock;
+
 		public MainWindowViewModel()
 		{
 			//TODO test data
-			var mockListViewItems = new[]
+			var mocks = new[]
 			{
-				new MockListViewItem
+				new Mock
 				{
-					Caption = "GET /"
+					Method = "GET",
+					Path = "/"
 				},
-				new MockListViewItem
+				new Mock
 				{
-					Caption = "POST /Book/"
+					Method = "POST",
+					Path = "/Book/"
 				}
 			};
 
-			MockListViewItems = new ObservableCollection<MockListViewItem>(mockListViewItems);
+			Mocks = new ObservableCollection<Mock>(mocks);
 			RequestListViewItems = new ObservableCollection<RequestListViewItem>();
 			ConnectionSettings = new ConnectionSettings
 			{
@@ -86,7 +90,7 @@ namespace TcpMock.Client
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public ObservableCollection<MockListViewItem> MockListViewItems { get; }
+		public ObservableCollection<Mock> Mocks { get; }
 
 		public ObservableCollection<RequestListViewItem> RequestListViewItems { get; }
 
@@ -98,5 +102,20 @@ namespace TcpMock.Client
 		public Visibility StopTcpServerVisibility { get; set; }
 
 		public string RequestsHeader => $"Requests ({RequestListViewItems.Count})";
+
+		public Mock SelectedMock
+		{
+			get => _selectedMock;
+			set
+			{
+				_selectedMock = value;
+				OnPropertyChanged(nameof(SelectedMock));
+			}
+		}
+
+		public IEnumerable<string> Methods
+		{
+			get { return new[] { "GET", "POST" }; }
+		}
 	}
 }

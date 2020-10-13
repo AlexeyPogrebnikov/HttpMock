@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace TcpMock.Client
 {
@@ -10,6 +12,18 @@ namespace TcpMock.Client
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void MockListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (sender is ListViewItem item)
+			{
+				if (item.Content is Mock mock)
+				{
+					var dataContext = (MainWindowViewModel) DataContext;
+					dataContext.SelectedMock = mock;
+				}
+			}
 		}
 	}
 }
