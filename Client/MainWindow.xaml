@@ -71,12 +71,24 @@
             </Grid>
           </StackPanel>
         </TabItem>
-        <TabItem Header="{Binding RequestsHeader}">
-          <ListView ItemsSource="{Binding RequestListViewItems}">
+        <TabItem Header="{Binding Path=HandledRequests.Count}" HeaderStringFormat="Handled Requests ({0})">
+          <ListView ItemsSource="{Binding HandledRequests}">
             <ListView.View>
               <GridView>
                 <GridViewColumn DisplayMemberBinding="{Binding Time}" />
-                <GridViewColumn DisplayMemberBinding="{Binding Url}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Method}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Path}" />
+              </GridView>
+            </ListView.View>
+          </ListView>
+        </TabItem>
+        <TabItem Header="{Binding Path=UnhandledRequests.Count}" HeaderStringFormat="Unhandled Requests ({0})">
+          <ListView ItemsSource="{Binding UnhandledRequests}">
+            <ListView.View>
+              <GridView>
+                <GridViewColumn DisplayMemberBinding="{Binding Time}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Method}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Path}" />
               </GridView>
             </ListView.View>
           </ListView>

@@ -8,4 +8,8 @@
     <RootNamespace>TcpMock.Client</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
 </Project>

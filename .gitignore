@@ -1,5 +1,8 @@
-*.csproj.user
-
+*.user
 .vs/
 Client/bin/
 Client/obj/
+Core/bin/
+Core/obj/
+Core.Tests/bin/
+Core.Tests/obj/

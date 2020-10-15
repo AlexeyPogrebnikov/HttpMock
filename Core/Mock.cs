@@ -1,4 +1,4 @@
-﻿namespace TcpMock.Client
+﻿namespace TcpMock.Core
 {
 	public class Mock
 	{

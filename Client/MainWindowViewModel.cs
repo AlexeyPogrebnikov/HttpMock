@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
-using TcpMock.Client.Annotations;
+using TcpMock.Core;
 
 namespace TcpMock.Client
 {
@@ -16,23 +16,11 @@ namespace TcpMock.Client
 
 		public MainWindowViewModel()
 		{
-			//TODO test data
-			var mocks = new[]
-			{
-				new Mock
-				{
-					Method = "GET",
-					Path = "/"
-				},
-				new Mock
-				{
-					Method = "POST",
-					Path = "/Book/"
-				}
-			};
+			IEnumerable<Mock> mocks = MockCache.GetAll();
 
 			Mocks = new ObservableCollection<Mock>(mocks);
-			RequestListViewItems = new ObservableCollection<RequestListViewItem>();
+			HandledRequests = new ObservableCollection<RequestListViewItem>();
+			UnhandledRequests = new ObservableCollection<RequestListViewItem>();
 			ConnectionSettings = new ConnectionSettings
 			{
 				Host = "127.0.0.1",
@@ -54,18 +42,24 @@ namespace TcpMock.Client
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
-			RequestListViewItems.Clear();
+			HandledRequests.Clear();
+			UnhandledRequests.Clear();
+
 			IEnumerable<Request> requests = RequestCache.GetAll().Reverse();
 			foreach (Request request in requests)
 			{
-				RequestListViewItems.Add(new RequestListViewItem
+				var item = new RequestListViewItem
 				{
 					Time = request.Time,
-					Url = request.Url
-				});
-			}
+					Method = request.Method,
+					Path = request.Path
+				};
 
-			OnPropertyChanged(nameof(RequestsHeader));
+				if (request.Handled)
+					HandledRequests.Add(item);
+				else
+					UnhandledRequests.Add(item);
+			}
 
 			if (TcpServer.IsStarted)
 			{
@@ -92,7 +86,8 @@ namespace TcpMock.Client
 
 		public ObservableCollection<Mock> Mocks { get; }
 
-		public ObservableCollection<RequestListViewItem> RequestListViewItems { get; }
+		public ObservableCollection<RequestListViewItem> HandledRequests { get; }
+		public ObservableCollection<RequestListViewItem> UnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
 
@@ -100,8 +95,6 @@ namespace TcpMock.Client
 		public Visibility StartTcpServerVisibility { get; set; }
 		public StopTcpServerCommand StopTcpServer { get; }
 		public Visibility StopTcpServerVisibility { get; set; }
-
-		public string RequestsHeader => $"Requests ({RequestListViewItems.Count})";
 
 		public Mock SelectedMock
 		{
