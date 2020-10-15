@@ -15,13 +15,15 @@ namespace TcpMock.Client
 			MockCache.Add(new Mock
 			{
 				Method = "GET",
-				Path = "/"
+				Path = "/",
+				StatusCode = "200"
 			});
 
 			MockCache.Add(new Mock
 			{
 				Method = "POST",
-				Path = "/"
+				Path = "/",
+				StatusCode = "200"
 			});
 		}
 	}

@@ -50,11 +50,11 @@ namespace TcpMock.Core
 
 					RequestCache.Add(request);
 
-					var responseCode = "200";
-					if (mock == null)
-						responseCode = "404";
+					var statusCode = "404";
+					if (mock != null)
+						statusCode = mock.StatusCode;
 
-					var response = $"HTTP/1.1 {responseCode} OK{CRLF}{CRLF}";
+					var response = $"HTTP/1.1 {statusCode} OK{CRLF}{CRLF}";
 
 					byte[] data = Encoding.UTF8.GetBytes(response);
 
