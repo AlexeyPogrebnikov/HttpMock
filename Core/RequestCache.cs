@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TcpMock.Core;
 
-namespace TcpMock.Client
+namespace TcpMock.Core
 {
 	public static class RequestCache
 	{

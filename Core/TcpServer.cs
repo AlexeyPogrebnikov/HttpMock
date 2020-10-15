@@ -3,9 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TcpMock.Core;
 
-namespace TcpMock.Client
+namespace TcpMock.Core
 {
 	public static class TcpServer
 	{
@@ -31,7 +30,7 @@ namespace TcpMock.Client
 				{
 					using TcpClient client = _server.AcceptTcpClient();
 					using NetworkStream stream = client.GetStream();
-					
+
 					if (!IsStarted)
 						return;
 

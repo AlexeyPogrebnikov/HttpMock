@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using TcpMock.Core;
 
 namespace TcpMock.Client
 {
