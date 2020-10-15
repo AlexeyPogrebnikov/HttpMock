@@ -29,9 +29,9 @@ namespace TcpMock.Client
 
 				while (true)
 				{
-					TcpClient client = _server.AcceptTcpClient();
-					NetworkStream stream = client.GetStream();
-
+					using TcpClient client = _server.AcceptTcpClient();
+					using NetworkStream stream = client.GetStream();
+					
 					if (!IsStarted)
 						return;
 
@@ -60,14 +60,11 @@ namespace TcpMock.Client
 					byte[] data = Encoding.UTF8.GetBytes(response);
 
 					stream.Write(data, 0, data.Length);
-					stream.Close();
-					client.Close();
 				}
 			}
-			catch (Exception e)
+			catch
 			{
-				Console.WriteLine(e.Message);
-				_server = null;
+				//TODO log error
 			}
 			finally
 			{
@@ -77,8 +74,18 @@ namespace TcpMock.Client
 
 		public static void Stop()
 		{
-			_server?.Stop();
-			_server = null;
+			try
+			{
+				_server?.Stop();
+			}
+			catch
+			{
+				//TODO log error
+			}
+			finally
+			{
+				_server = null;
+			}
 		}
 	}
 }
