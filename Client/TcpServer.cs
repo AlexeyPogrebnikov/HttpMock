@@ -31,13 +31,24 @@ namespace TcpMock.Client
 				{
 					TcpClient client = _server.AcceptTcpClient();
 					NetworkStream stream = client.GetStream();
+
+					if (!IsStarted)
+						return;
+
 					var buffer = new byte[1024];
 					stream.Read(buffer, 0, 1024);
 					string content = Encoding.UTF8.GetString(buffer);
 					Request request = requestParser.Parse(content);
 					request.Time = DateTime.Now.TimeOfDay;
-					Mock mock = MockCache.GetAll().FirstOrDefault(m => m.Path == request.Path);
+					Mock mock = MockCache.GetAll()
+						.Where(m => m.Method == request.Method)
+						.FirstOrDefault(m => m.Path == request.Path);
+
 					request.Handled = mock != null;
+
+					if (!IsStarted)
+						return;
+
 					RequestCache.Add(request);
 
 					var responseCode = "200";
@@ -60,13 +71,14 @@ namespace TcpMock.Client
 			}
 			finally
 			{
-				_server?.Stop();
+				Stop();
 			}
 		}
 
 		public static void Stop()
 		{
 			_server?.Stop();
+			_server = null;
 		}
 	}
 }
