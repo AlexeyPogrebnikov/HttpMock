@@ -2,8 +2,10 @@
 
 namespace TcpMock.Client
 {
-	public class RequestListViewItem
+	public class RequestPresentation
 	{
+		public Guid Uid { get; set; }
+
 		public TimeSpan Time { get; set; }
 
 		public string Method { get; set; }

@@ -19,8 +19,8 @@ namespace TcpMock.Client
 			IEnumerable<Mock> mocks = MockCache.GetAll();
 
 			Mocks = new ObservableCollection<Mock>(mocks);
-			HandledRequests = new ObservableCollection<RequestListViewItem>();
-			UnhandledRequests = new ObservableCollection<RequestListViewItem>();
+			HandledRequests = new ObservableCollection<RequestPresentation>();
+			UnhandledRequests = new ObservableCollection<RequestPresentation>();
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			StartTcpServer = new StartTcpServerCommand();
@@ -38,25 +38,6 @@ namespace TcpMock.Client
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
-			HandledRequests.Clear();
-			UnhandledRequests.Clear();
-
-			IEnumerable<Request> requests = RequestCache.GetAll().Reverse();
-			foreach (Request request in requests)
-			{
-				var item = new RequestListViewItem
-				{
-					Time = request.Time,
-					Method = request.Method,
-					Path = request.Path
-				};
-
-				if (request.Handled)
-					HandledRequests.Add(item);
-				else
-					UnhandledRequests.Add(item);
-			}
-
 			if (TcpServer.IsStarted)
 			{
 				StartTcpServerVisibility = Visibility.Collapsed;
@@ -70,6 +51,30 @@ namespace TcpMock.Client
 
 			OnPropertyChanged(nameof(StartTcpServerVisibility));
 			OnPropertyChanged(nameof(StopTcpServerVisibility));
+
+			IEnumerable<Request> requests = RequestCache.GetAll();
+
+			foreach (Request request in requests)
+			{
+				var item = new RequestPresentation
+				{
+					Uid = request.Uid,
+					Time = request.Time,
+					Method = request.Method,
+					Path = request.Path
+				};
+
+				if (request.Handled)
+				{
+					if (HandledRequests.All(rp => rp.Uid != item.Uid))
+						HandledRequests.Insert(0, item);
+				}
+				else
+				{
+					if (UnhandledRequests.All(rp => rp.Uid != item.Uid))
+						UnhandledRequests.Insert(0, item);
+				}
+			}
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -82,8 +87,8 @@ namespace TcpMock.Client
 
 		public ObservableCollection<Mock> Mocks { get; }
 
-		public ObservableCollection<RequestListViewItem> HandledRequests { get; }
-		public ObservableCollection<RequestListViewItem> UnhandledRequests { get; }
+		public ObservableCollection<RequestPresentation> HandledRequests { get; }
+		public ObservableCollection<RequestPresentation> UnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
 

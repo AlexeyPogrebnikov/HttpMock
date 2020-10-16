@@ -38,6 +38,7 @@ namespace TcpMock.Core
 					stream.Read(buffer, 0, 1024);
 					string content = Encoding.UTF8.GetString(buffer);
 					Request request = requestParser.Parse(content);
+					request.Uid = Guid.NewGuid();
 					request.Time = DateTime.Now.TimeOfDay;
 					Mock mock = MockCache.GetAll()
 						.Where(m => m.Method == request.Method)
