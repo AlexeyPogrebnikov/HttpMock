@@ -21,11 +21,7 @@ namespace TcpMock.Client
 			Mocks = new ObservableCollection<Mock>(mocks);
 			HandledRequests = new ObservableCollection<RequestListViewItem>();
 			UnhandledRequests = new ObservableCollection<RequestListViewItem>();
-			ConnectionSettings = new ConnectionSettings
-			{
-				Host = "127.0.0.1",
-				Port = 5000
-			};
+			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			StartTcpServer = new StartTcpServerCommand();
 			StopTcpServer = new StopTcpServerCommand();

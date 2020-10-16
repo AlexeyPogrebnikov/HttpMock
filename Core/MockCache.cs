@@ -5,14 +5,14 @@ namespace TcpMock.Core
 {
 	public static class MockCache
 	{
-		private static readonly IList<Mock> Mocks = new List<Mock>();
+		private static IList<Mock> _mocks;
 		private static readonly object SyncRoot = new object();
 
 		public static void Add(Mock mock)
 		{
 			lock (SyncRoot)
 			{
-				Mocks.Add(mock);
+				_mocks.Add(mock);
 			}
 		}
 
@@ -20,7 +20,15 @@ namespace TcpMock.Core
 		{
 			lock (SyncRoot)
 			{
-				return Mocks.ToArray();
+				return _mocks.ToArray();
+			}
+		}
+
+		public static void Init(Mock[] mocks)
+		{
+			lock (SyncRoot)
+			{
+				_mocks = new List<Mock>(mocks);
 			}
 		}
 	}

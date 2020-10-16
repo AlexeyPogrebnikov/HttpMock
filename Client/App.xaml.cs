@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using TcpMock.Core;
 
 namespace TcpMock.Client
@@ -8,23 +9,29 @@ namespace TcpMock.Client
 	/// </summary>
 	public partial class App : Application
 	{
+		private readonly WorkSessionSaver _saver = new WorkSessionSaver();
+
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
 
-			MockCache.Add(new Mock
-			{
-				Method = "GET",
-				Path = "/",
-				StatusCode = "200"
-			});
+			WorkSession workSession = _saver.Load();
 
-			MockCache.Add(new Mock
+			ConnectionSettingsCache.Init(workSession.ConnectionSettings);
+			MockCache.Init(workSession.Mocks);
+		}
+
+		protected override void OnExit(ExitEventArgs e)
+		{
+			base.OnExit(e);
+
+			var workSession = new WorkSession
 			{
-				Method = "POST",
-				Path = "/",
-				StatusCode = "200"
-			});
+				ConnectionSettings = ConnectionSettingsCache.ConnectionSettings,
+				Mocks = MockCache.GetAll().ToArray()
+			};
+
+			_saver.Save(workSession);
 		}
 	}
 }
