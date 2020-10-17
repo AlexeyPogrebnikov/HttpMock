@@ -34,12 +34,20 @@ namespace TcpMock.Core
 					if (!IsStarted)
 						return;
 
+					TimeSpan time = DateTime.Now.TimeOfDay;
 					var buffer = new byte[1024];
 					stream.Read(buffer, 0, 1024);
 					string content = Encoding.UTF8.GetString(buffer);
-					TcpInteraction tcpInteraction = requestParser.Parse(content);
-					tcpInteraction.Uid = Guid.NewGuid();
-					tcpInteraction.Time = DateTime.Now.TimeOfDay;
+					Request request = requestParser.Parse(content);
+
+					var tcpInteraction = new TcpInteraction
+					{
+						Uid = Guid.NewGuid(),
+						Time = time,
+						Method = request.Method,
+						Path = request.Path
+					};
+
 					Mock mock = MockCache.GetAll()
 						.Where(m => m.Method == tcpInteraction.Method)
 						.FirstOrDefault(m => m.Path == tcpInteraction.Path);

@@ -10,10 +10,10 @@ namespace TcpMock.Core.Tests
 		{
 			var requestParser = new RequestParser();
 
-			TcpInteraction tcpInteraction = requestParser.Parse("GET / HTTP/1.1");
+			Request request = requestParser.Parse("GET / HTTP/1.1");
 
-			Assert.AreEqual("GET", tcpInteraction.Method);
-			Assert.AreEqual("/", tcpInteraction.Path);
+			Assert.AreEqual("GET", request.Method);
+			Assert.AreEqual("/", request.Path);
 		}
 
 		[Test]
@@ -21,10 +21,10 @@ namespace TcpMock.Core.Tests
 		{
 			var requestParser = new RequestParser();
 
-			TcpInteraction tcpInteraction = requestParser.Parse("POST /favicon.ico HTTP/1.1");
+			Request request = requestParser.Parse("POST /favicon.ico HTTP/1.1");
 
-			Assert.AreEqual("POST", tcpInteraction.Method);
-			Assert.AreEqual("/favicon.ico", tcpInteraction.Path);
+			Assert.AreEqual("POST", request.Method);
+			Assert.AreEqual("/favicon.ico", request.Path);
 		}
 	}
 }
