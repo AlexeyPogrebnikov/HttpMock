@@ -2,11 +2,11 @@
 {
 	public class RequestParser
 	{
-		public Request Parse(string s)
+		public TcpInteraction Parse(string s)
 		{
 			string[] parts = s.Split(" ");
 
-			return new Request
+			return new TcpInteraction
 			{
 				Method = parts[0],
 				Path = parts[1]

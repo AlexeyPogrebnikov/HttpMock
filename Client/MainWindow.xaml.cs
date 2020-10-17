@@ -26,5 +26,21 @@ namespace TcpMock.Client
 				}
 			}
 		}
+
+		private void RequestsListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			if (sender is ListViewItem item)
+			{
+				if (item.Content is TcpInteraction interaction)
+				{
+					var window = new RequestDetailWindow();
+					var viewModel = (TcpInteractionDetailWindowViewModel) window.DataContext;
+					viewModel.TcpInteraction = interaction;
+					window.ShowInTaskbar = false;
+					window.Owner = this;
+					window.Show();
+				}
+			}
+		}
 	}
 }

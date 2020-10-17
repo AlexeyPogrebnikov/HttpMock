@@ -69,7 +69,7 @@
                         SelectedValue="{Binding SelectedMock.Method}" />
               <Label Grid.Column="0" Grid.Row="1" Content="Path" />
               <TextBox Grid.Column="1" Grid.Row="1" Width="200" Text="{Binding SelectedMock.Path}" />
-              <Label Grid.Column="0" Grid.Row="2" Content="Status code"></Label>
+              <Label Grid.Column="0" Grid.Row="2" Content="Status code" />
               <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedMock.StatusCode}" />
             </Grid>
           </StackPanel>
@@ -84,6 +84,11 @@
                 <GridViewColumn DisplayMemberBinding="{Binding StatusCode}" />
               </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+              <Style TargetType="ListViewItem">
+                <EventSetter Event="PreviewMouseDoubleClick" Handler="RequestsListView_PreviewMouseDoubleClick" />
+              </Style>
+            </ListView.ItemContainerStyle>
           </ListView>
         </TabItem>
         <TabItem Header="{Binding Path=UnhandledRequests.Count}" HeaderStringFormat="Unhandled Requests ({0})">
@@ -96,6 +101,11 @@
                 <GridViewColumn DisplayMemberBinding="{Binding StatusCode}" />
               </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+              <Style TargetType="ListViewItem">
+                <EventSetter Event="PreviewMouseDoubleClick" Handler="RequestsListView_PreviewMouseDoubleClick" />
+              </Style>
+            </ListView.ItemContainerStyle>
           </ListView>
         </TabItem>
       </TabControl>

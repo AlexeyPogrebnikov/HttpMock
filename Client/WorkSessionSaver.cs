@@ -10,13 +10,13 @@ namespace TcpMock.Client
 		{
 			string tcpMockPath = GetTcpMockPath();
 
-			if (!Directory.Exists(tcpMockPath)) 
+			if (!Directory.Exists(tcpMockPath))
 				Directory.CreateDirectory(tcpMockPath);
 
 			string workSessionFileName = GetWorkSessionFileName(tcpMockPath);
 
 			string json = JsonSerializer.Serialize(workSession);
-			
+
 			File.WriteAllText(workSessionFileName, json);
 		}
 

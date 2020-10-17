@@ -1,4 +1,6 @@
 *.user
+TcpMock.sln.DotSettings
+
 .vs/
 Client/bin/
 Client/obj/

@@ -2,7 +2,7 @@
 
 namespace TcpMock.Core
 {
-	public class Request
+	public class TcpInteraction
 	{
 		public Guid Uid { get; set; }
 
@@ -15,5 +15,7 @@ namespace TcpMock.Core
 		public string Method { get; set; }
 
 		public string StatusCode { get; set; }
+
+		public string RawRequest { get; set; }
 	}
 }

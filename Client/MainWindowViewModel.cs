@@ -19,8 +19,8 @@ namespace TcpMock.Client
 			IEnumerable<Mock> mocks = MockCache.GetAll();
 
 			Mocks = new ObservableCollection<Mock>(mocks);
-			HandledRequests = new ObservableCollection<RequestPresentation>();
-			UnhandledRequests = new ObservableCollection<RequestPresentation>();
+			HandledRequests = new ObservableCollection<TcpInteraction>();
+			UnhandledRequests = new ObservableCollection<TcpInteraction>();
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			StartTcpServer = new StartTcpServerCommand();
@@ -52,28 +52,19 @@ namespace TcpMock.Client
 			OnPropertyChanged(nameof(StartTcpServerVisibility));
 			OnPropertyChanged(nameof(StopTcpServerVisibility));
 
-			IEnumerable<Request> requests = RequestCache.GetAll();
+			IEnumerable<TcpInteraction> interactions = TcpInteractionCache.GetAll();
 
-			foreach (Request request in requests)
+			foreach (TcpInteraction interaction in interactions)
 			{
-				var item = new RequestPresentation
+				if (interaction.Handled)
 				{
-					Uid = request.Uid,
-					Time = request.Time,
-					Method = request.Method,
-					Path = request.Path,
-					StatusCode = request.StatusCode
-				};
-
-				if (request.Handled)
-				{
-					if (HandledRequests.All(rp => rp.Uid != item.Uid))
-						HandledRequests.Insert(0, item);
+					if (HandledRequests.All(rp => rp.Uid != interaction.Uid))
+						HandledRequests.Insert(0, interaction);
 				}
 				else
 				{
-					if (UnhandledRequests.All(rp => rp.Uid != item.Uid))
-						UnhandledRequests.Insert(0, item);
+					if (UnhandledRequests.All(rp => rp.Uid != interaction.Uid))
+						UnhandledRequests.Insert(0, interaction);
 				}
 			}
 		}
@@ -88,8 +79,8 @@ namespace TcpMock.Client
 
 		public ObservableCollection<Mock> Mocks { get; }
 
-		public ObservableCollection<RequestPresentation> HandledRequests { get; }
-		public ObservableCollection<RequestPresentation> UnhandledRequests { get; }
+		public ObservableCollection<TcpInteraction> HandledRequests { get; }
+		public ObservableCollection<TcpInteraction> UnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
 

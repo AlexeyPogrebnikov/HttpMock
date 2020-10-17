@@ -37,14 +37,14 @@ namespace TcpMock.Core
 					var buffer = new byte[1024];
 					stream.Read(buffer, 0, 1024);
 					string content = Encoding.UTF8.GetString(buffer);
-					Request request = requestParser.Parse(content);
-					request.Uid = Guid.NewGuid();
-					request.Time = DateTime.Now.TimeOfDay;
+					TcpInteraction tcpInteraction = requestParser.Parse(content);
+					tcpInteraction.Uid = Guid.NewGuid();
+					tcpInteraction.Time = DateTime.Now.TimeOfDay;
 					Mock mock = MockCache.GetAll()
-						.Where(m => m.Method == request.Method)
-						.FirstOrDefault(m => m.Path == request.Path);
+						.Where(m => m.Method == tcpInteraction.Method)
+						.FirstOrDefault(m => m.Path == tcpInteraction.Path);
 
-					request.Handled = mock != null;
+					tcpInteraction.Handled = mock != null;
 
 					if (!IsStarted)
 						return;
@@ -53,7 +53,7 @@ namespace TcpMock.Core
 					if (mock != null)
 						statusCode = mock.StatusCode;
 
-					request.StatusCode = statusCode;
+					tcpInteraction.StatusCode = statusCode;
 
 					var response = $"HTTP/1.1 {statusCode} OK{CRLF}{CRLF}";
 
@@ -61,7 +61,7 @@ namespace TcpMock.Core
 
 					stream.Write(data, 0, data.Length);
 
-					RequestCache.Add(request);
+					TcpInteractionCache.Add(tcpInteraction);
 				}
 			}
 			catch
