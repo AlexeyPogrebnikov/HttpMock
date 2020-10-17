@@ -61,7 +61,8 @@ namespace TcpMock.Client
 					Uid = request.Uid,
 					Time = request.Time,
 					Method = request.Method,
-					Path = request.Path
+					Path = request.Path,
+					StatusCode = request.StatusCode
 				};
 
 				if (request.Handled)

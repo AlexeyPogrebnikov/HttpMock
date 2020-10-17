@@ -49,17 +49,19 @@ namespace TcpMock.Core
 					if (!IsStarted)
 						return;
 
-					RequestCache.Add(request);
-
 					var statusCode = "404";
 					if (mock != null)
 						statusCode = mock.StatusCode;
+
+					request.StatusCode = statusCode;
 
 					var response = $"HTTP/1.1 {statusCode} OK{CRLF}{CRLF}";
 
 					byte[] data = Encoding.UTF8.GetBytes(response);
 
 					stream.Write(data, 0, data.Length);
+
+					RequestCache.Add(request);
 				}
 			}
 			catch

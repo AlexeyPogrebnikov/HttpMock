@@ -81,6 +81,7 @@
                 <GridViewColumn DisplayMemberBinding="{Binding Time}" />
                 <GridViewColumn DisplayMemberBinding="{Binding Method}" />
                 <GridViewColumn DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn DisplayMemberBinding="{Binding StatusCode}" />
               </GridView>
             </ListView.View>
           </ListView>
@@ -92,6 +93,7 @@
                 <GridViewColumn DisplayMemberBinding="{Binding Time}" />
                 <GridViewColumn DisplayMemberBinding="{Binding Method}" />
                 <GridViewColumn DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn DisplayMemberBinding="{Binding StatusCode}" />
               </GridView>
             </ListView.View>
           </ListView>
