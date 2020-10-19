@@ -86,7 +86,7 @@
             </ListView.View>
             <ListView.ItemContainerStyle>
               <Style TargetType="ListViewItem">
-                <EventSetter Event="PreviewMouseDoubleClick" Handler="RequestsListView_PreviewMouseDoubleClick" />
+                <EventSetter Event="PreviewMouseDoubleClick" Handler="HandledRequestsListView_PreviewMouseDoubleClick" />
               </Style>
             </ListView.ItemContainerStyle>
           </ListView>
@@ -103,7 +103,8 @@
             </ListView.View>
             <ListView.ItemContainerStyle>
               <Style TargetType="ListViewItem">
-                <EventSetter Event="PreviewMouseDoubleClick" Handler="RequestsListView_PreviewMouseDoubleClick" />
+                <EventSetter Event="PreviewMouseDoubleClick"
+                             Handler="UnhandledRequestsListView_PreviewMouseDoubleClick" />
               </Style>
             </ListView.ItemContainerStyle>
           </ListView>

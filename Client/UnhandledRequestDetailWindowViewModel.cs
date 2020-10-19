@@ -4,7 +4,7 @@ using TcpMock.Core;
 
 namespace TcpMock.Client
 {
-	public class TcpInteractionDetailWindowViewModel : INotifyPropertyChanged
+	public class UnhandledRequestDetailWindowViewModel : INotifyPropertyChanged
 	{
 		private TcpInteraction _tcpInteraction;
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -27,7 +27,7 @@ namespace TcpMock.Client
 				if (TcpInteraction == null)
 					return null;
 
-				return TcpInteraction.Handled ? $"Handled request at {TcpInteraction.Time}" : $"Unhandled request at {TcpInteraction.Time}";
+				return $"Unhandled request at {TcpInteraction.Time}";
 			}
 		}
 

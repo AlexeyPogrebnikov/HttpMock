@@ -27,14 +27,30 @@ namespace TcpMock.Client
 			}
 		}
 
-		private void RequestsListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private void HandledRequestsListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			if (sender is ListViewItem item)
 			{
 				if (item.Content is TcpInteraction interaction)
 				{
-					var window = new RequestDetailWindow();
-					var viewModel = (TcpInteractionDetailWindowViewModel) window.DataContext;
+					var window = new HandledRequestDetailWindow();
+					var viewModel = (HandledRequestDetailWindowViewModel) window.DataContext;
+					viewModel.TcpInteraction = interaction;
+					window.ShowInTaskbar = false;
+					window.Owner = this;
+					window.Show();
+				}
+			}
+		}
+
+		private void UnhandledRequestsListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			if (sender is ListViewItem item)
+			{
+				if (item.Content is TcpInteraction interaction)
+				{
+					var window = new UnhandledRequestDetailWindow();
+					var viewModel = (UnhandledRequestDetailWindowViewModel) window.DataContext;
 					viewModel.TcpInteraction = interaction;
 					window.ShowInTaskbar = false;
 					window.Owner = this;
