@@ -1,11 +1,19 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using System.Text.Json;
+using TcpMock.Core;
 
 namespace TcpMock.Client
 {
 	public class WorkSessionSaver
 	{
+		private readonly IEnvironmentWrapper _environmentWrapper;
+
+		public WorkSessionSaver(IEnvironmentWrapper environmentWrapper)
+		{
+			_environmentWrapper = environmentWrapper;
+		}
+
 		public void Save(WorkSession workSession)
 		{
 			string tcpMockPath = GetTcpMockPath();
@@ -28,12 +36,18 @@ namespace TcpMock.Client
 
 			string json = File.ReadAllText(workSessionFileName);
 
-			return JsonSerializer.Deserialize<WorkSession>(json);
+			var workSession = JsonSerializer.Deserialize<WorkSession>(json);
+
+			workSession.Mocks = workSession.Mocks == null
+				? new Mock[0]
+				: workSession.Mocks.Where(mock => mock != null).ToArray();
+
+			return workSession;
 		}
 
-		private static string GetTcpMockPath()
+		private string GetTcpMockPath()
 		{
-			string roamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string roamingPath = _environmentWrapper.GetRoamingPath();
 
 			string tcpMockPath = Path.Combine(roamingPath, "TcpMock");
 

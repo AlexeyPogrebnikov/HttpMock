@@ -2,9 +2,9 @@
 using System.Windows.Input;
 using TcpMock.Core;
 
-namespace TcpMock.Client
+namespace TcpMock.Client.Commands
 {
-	public class StopTcpServerCommand : ICommand
+	public class CreateMockCommand : ICommand
 	{
 		public bool CanExecute(object parameter)
 		{
@@ -13,9 +13,13 @@ namespace TcpMock.Client
 
 		public void Execute(object parameter)
 		{
-			TcpServer.Stop();
+			var mock = (Mock) parameter;
+			MockCache.Add(mock);
+			CloseWindowAction();
 		}
 
 		public event EventHandler CanExecuteChanged;
+
+		public Action CloseWindowAction { get; set; }
 	}
 }

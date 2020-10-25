@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
+using TcpMock.Client.Commands;
 using TcpMock.Core;
 
 namespace TcpMock.Client

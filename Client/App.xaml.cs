@@ -9,7 +9,7 @@ namespace TcpMock.Client
 	/// </summary>
 	public partial class App : Application
 	{
-		private readonly WorkSessionSaver _saver = new WorkSessionSaver();
+		private readonly WorkSessionSaver _saver = new WorkSessionSaver(new EnvironmentWrapper());
 
 		protected override void OnStartup(StartupEventArgs e)
 		{

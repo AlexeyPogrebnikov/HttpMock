@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TcpMock.Core;
 
-namespace TcpMock.Client
+namespace TcpMock.Client.Commands
 {
 	public class StartTcpServerCommand : ICommand
 	{

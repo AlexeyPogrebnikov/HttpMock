@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TcpMock.Client.Commands;
 using TcpMock.Core;
 
 namespace TcpMock.Client
@@ -8,6 +9,12 @@ namespace TcpMock.Client
 	{
 		private TcpInteraction _tcpInteraction;
 		public event PropertyChangedEventHandler PropertyChanged;
+		public CreateMockFromUnhandledRequestCommand CreateMock { get; }
+
+		public UnhandledRequestDetailWindowViewModel()
+		{
+			CreateMock = new CreateMockFromUnhandledRequestCommand();
+		}
 
 		public TcpInteraction TcpInteraction
 		{

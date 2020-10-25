@@ -4,6 +4,8 @@ TcpMock.sln.DotSettings
 .vs/
 Client/bin/
 Client/obj/
+Client.Tests/bin/
+Client.Tests/obj/
 Core/bin/
 Core/obj/
 Core.Tests/bin/
