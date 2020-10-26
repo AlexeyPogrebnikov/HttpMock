@@ -15,7 +15,8 @@ namespace TcpMock.Client
 
 		public NewMockWindowViewModel()
 		{
-			CreateMock = new CreateMockCommand();
+			var mockCache = ServiceLocator.Resolve<IMockCache>();
+			CreateMock = new CreateMockCommand(mockCache);
 		}
 
 		[NotifyPropertyChangedInvocator]

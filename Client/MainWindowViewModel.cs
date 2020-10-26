@@ -14,18 +14,28 @@ namespace TcpMock.Client
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		private Mock _selectedMock;
+		private readonly ITcpServer _tcpServer;
 
 		public MainWindowViewModel()
 		{
-			IEnumerable<Mock> mocks = MockCache.GetAll();
+			_tcpServer = ServiceLocator.Resolve<ITcpServer>();
+			var mockCache = ServiceLocator.Resolve<IMockCache>();
+			if (mockCache != null)
+			{
+				IEnumerable<Mock> mocks = mockCache.GetAll();
+				Mocks = new ObservableCollection<Mock>(mocks);
+			}
+			else
+			{
+				Mocks = new ObservableCollection<Mock>();
+			}
 
-			Mocks = new ObservableCollection<Mock>(mocks);
 			HandledRequests = new ObservableCollection<TcpInteraction>();
 			UnhandledRequests = new ObservableCollection<TcpInteraction>();
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
-			StartTcpServer = new StartTcpServerCommand();
-			StopTcpServer = new StopTcpServerCommand();
+			StartTcpServer = new StartTcpServerCommand(_tcpServer);
+			StopTcpServer = new StopTcpServerCommand(_tcpServer);
 			StartTcpServerVisibility = Visibility.Visible;
 			StopTcpServerVisibility = Visibility.Hidden;
 
@@ -33,17 +43,16 @@ namespace TcpMock.Client
 			{
 				Interval = new TimeSpan(0, 0, 0, 0, 100)
 			};
+
 			dispatcherTimer.Tick += DispatcherTimer_Tick;
 			dispatcherTimer.Start();
 		}
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
-			var tcpServer = ServiceLocator.Resolve<ITcpServer>();
-
-			if (tcpServer != null)
+			if (_tcpServer != null)
 			{
-				if (tcpServer.IsStarted)
+				if (_tcpServer.IsStarted)
 				{
 					StartTcpServerVisibility = Visibility.Collapsed;
 					StopTcpServerVisibility = Visibility.Visible;

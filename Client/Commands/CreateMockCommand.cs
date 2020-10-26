@@ -6,6 +6,13 @@ namespace TcpMock.Client.Commands
 {
 	public class CreateMockCommand : ICommand
 	{
+		private readonly IMockCache _mockCache;
+
+		public CreateMockCommand(IMockCache mockCache)
+		{
+			_mockCache = mockCache;
+		}
+
 		public bool CanExecute(object parameter)
 		{
 			return true;
@@ -14,7 +21,7 @@ namespace TcpMock.Client.Commands
 		public void Execute(object parameter)
 		{
 			var mock = (Mock) parameter;
-			MockCache.Add(mock);
+			_mockCache.Add(mock);
 			CloseWindowAction();
 		}
 

@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace TcpMock.Core
 {
-	public static class MockCache
+	public class MockCache : IMockCache
 	{
-		private static IList<Mock> _mocks = new List<Mock>();
-		private static readonly object SyncRoot = new object();
+		private IList<Mock> _mocks = new List<Mock>();
+		private readonly object SyncRoot = new object();
 
-		public static void Add(Mock mock)
+		public void Add(Mock mock)
 		{
 			if (mock == null)
 				throw new ArgumentNullException(nameof(mock));
@@ -20,7 +20,7 @@ namespace TcpMock.Core
 			}
 		}
 
-		public static IEnumerable<Mock> GetAll()
+		public IEnumerable<Mock> GetAll()
 		{
 			lock (SyncRoot)
 			{
@@ -28,7 +28,7 @@ namespace TcpMock.Core
 			}
 		}
 
-		public static void Init(Mock[] mocks)
+		public void Init(Mock[] mocks)
 		{
 			lock (SyncRoot)
 			{

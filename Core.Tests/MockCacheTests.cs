@@ -9,7 +9,8 @@ namespace TcpMock.Core.Tests
 		[Test]
 		public void Add_throw_ArgumentNullException_if_mock_is_null()
 		{
-			Assert.Throws<ArgumentNullException>(() => MockCache.Add(null));
+			var mockCache = new MockCache();
+			Assert.Throws<ArgumentNullException>(() => mockCache.Add(null));
 		}
 	}
 }

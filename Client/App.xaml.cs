@@ -10,10 +10,12 @@ namespace TcpMock.Client
 	public partial class App : Application
 	{
 		private readonly WorkSessionSaver _saver = new WorkSessionSaver(new EnvironmentWrapper());
+		private readonly IMockCache _mockCache;
 
 		public App()
 		{
 			ServiceLocator.Init();
+			_mockCache = ServiceLocator.Resolve<IMockCache>();
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
@@ -23,7 +25,7 @@ namespace TcpMock.Client
 			WorkSession workSession = _saver.Load();
 
 			ConnectionSettingsCache.Init(workSession.ConnectionSettings);
-			MockCache.Init(workSession.Mocks);
+			_mockCache.Init(workSession.Mocks);
 		}
 
 		protected override void OnExit(ExitEventArgs e)
@@ -33,7 +35,7 @@ namespace TcpMock.Client
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = ConnectionSettingsCache.ConnectionSettings,
-				Mocks = MockCache.GetAll().ToArray()
+				Mocks = _mockCache.GetAll().ToArray()
 			};
 
 			_saver.Save(workSession);

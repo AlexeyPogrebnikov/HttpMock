@@ -6,6 +6,13 @@ namespace TcpMock.Client.Commands
 {
 	public class StopTcpServerCommand : ICommand
 	{
+		private readonly ITcpServer _tcpServer;
+
+		public StopTcpServerCommand(ITcpServer tcpServer)
+		{
+			_tcpServer = tcpServer;
+		}
+
 		public bool CanExecute(object parameter)
 		{
 			return true;
@@ -13,8 +20,7 @@ namespace TcpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var tcpServer = ServiceLocator.Resolve<ITcpServer>();
-			tcpServer.Stop();
+			_tcpServer.Stop();
 		}
 
 		public event EventHandler CanExecuteChanged;

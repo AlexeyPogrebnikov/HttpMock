@@ -26,13 +26,14 @@ namespace TcpMock.Client
 		public static T Resolve<T>()
 		{
 			if (!_isInitialized)
-				return default(T);
+				return default;
 
 			return (T) _serviceProvider.GetService(typeof(T));
 		}
 
 		private static void ConfigureServices(IServiceCollection services)
 		{
+			services.AddSingleton<IMockCache, MockCache>();
 			services.AddSingleton<ITcpServer, TcpServer>();
 		}
 	}

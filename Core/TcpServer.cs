@@ -8,6 +8,7 @@ namespace TcpMock.Core
 {
 	public class TcpServer : ITcpServer
 	{
+		private readonly IMockCache _mockCache;
 		public bool IsStarted => _server != null;
 
 		// ReSharper disable InconsistentNaming
@@ -15,6 +16,11 @@ namespace TcpMock.Core
 		// ReSharper restore InconsistentNaming
 
 		private TcpListener _server;
+
+		public TcpServer(IMockCache mockCache)
+		{
+			_mockCache = mockCache;
+		}
 
 		public void Start(IPAddress address, int port)
 		{
@@ -48,7 +54,7 @@ namespace TcpMock.Core
 						Path = request.Path
 					};
 
-					Mock mock = MockCache.GetAll()
+					Mock mock = _mockCache.GetAll()
 						.Where(m => m.Method == tcpInteraction.Method)
 						.FirstOrDefault(m => m.Path == tcpInteraction.Path);
 
