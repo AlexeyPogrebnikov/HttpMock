@@ -39,15 +39,20 @@ namespace TcpMock.Client
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
-			if (TcpServer.IsStarted)
+			var tcpServer = ServiceLocator.Resolve<ITcpServer>();
+
+			if (tcpServer != null)
 			{
-				StartTcpServerVisibility = Visibility.Collapsed;
-				StopTcpServerVisibility = Visibility.Visible;
-			}
-			else
-			{
-				StartTcpServerVisibility = Visibility.Visible;
-				StopTcpServerVisibility = Visibility.Collapsed;
+				if (tcpServer.IsStarted)
+				{
+					StartTcpServerVisibility = Visibility.Collapsed;
+					StopTcpServerVisibility = Visibility.Visible;
+				}
+				else
+				{
+					StartTcpServerVisibility = Visibility.Visible;
+					StopTcpServerVisibility = Visibility.Collapsed;
+				}
 			}
 
 			OnPropertyChanged(nameof(StartTcpServerVisibility));

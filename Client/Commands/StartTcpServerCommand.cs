@@ -20,7 +20,11 @@ namespace TcpMock.Client.Commands
 			IPAddress address = IPAddress.Parse(connectionSettings.Host);
 			int port = connectionSettings.Port;
 
-			Task.Run(() => TcpServer.Start(address, port));
+			Task.Run(() =>
+			{
+				var tcpServer = ServiceLocator.Resolve<ITcpServer>();
+				tcpServer.Start(address, port);
+			});
 		}
 
 		public event EventHandler CanExecuteChanged;

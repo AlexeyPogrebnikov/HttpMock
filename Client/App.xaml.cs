@@ -11,6 +11,11 @@ namespace TcpMock.Client
 	{
 		private readonly WorkSessionSaver _saver = new WorkSessionSaver(new EnvironmentWrapper());
 
+		public App()
+		{
+			ServiceLocator.Init();
+		}
+
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);

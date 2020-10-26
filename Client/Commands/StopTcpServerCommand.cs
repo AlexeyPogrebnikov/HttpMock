@@ -13,7 +13,8 @@ namespace TcpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			TcpServer.Stop();
+			var tcpServer = ServiceLocator.Resolve<ITcpServer>();
+			tcpServer.Stop();
 		}
 
 		public event EventHandler CanExecuteChanged;

@@ -6,17 +6,17 @@ using System.Text;
 
 namespace TcpMock.Core
 {
-	public static class TcpServer
+	public class TcpServer : ITcpServer
 	{
-		public static bool IsStarted => _server != null;
+		public bool IsStarted => _server != null;
 
 		// ReSharper disable InconsistentNaming
 		private const string CRLF = "\r\n";
 		// ReSharper restore InconsistentNaming
 
-		private static TcpListener _server;
+		private TcpListener _server;
 
-		public static void Start(IPAddress address, int port)
+		public void Start(IPAddress address, int port)
 		{
 			_server = null;
 			var requestParser = new RequestParser();
@@ -82,7 +82,7 @@ namespace TcpMock.Core
 			}
 		}
 
-		public static void Stop()
+		public void Stop()
 		{
 			try
 			{
