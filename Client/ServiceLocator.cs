@@ -35,6 +35,7 @@ namespace TcpMock.Client
 		{
 			services.AddSingleton<IMockCache, MockCache>();
 			services.AddSingleton<ITcpServer, TcpServer>();
+			services.AddSingleton<ITcpInteractionCache, TcpInteractionCache>();
 		}
 	}
 }

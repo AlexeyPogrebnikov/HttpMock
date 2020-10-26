@@ -3,24 +3,24 @@ using System.Linq;
 
 namespace TcpMock.Core
 {
-	public static class TcpInteractionCache
+	public class TcpInteractionCache : ITcpInteractionCache
 	{
-		private static readonly IList<TcpInteraction> TcpInteractions = new List<TcpInteraction>();
-		private static readonly object SyncRoot = new object();
+		private readonly IList<TcpInteraction> _tcpInteractions = new List<TcpInteraction>();
+		private readonly object _syncRoot = new object();
 
-		public static void Add(TcpInteraction tcpInteraction)
+		public void Add(TcpInteraction tcpInteraction)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				TcpInteractions.Add(tcpInteraction);
+				_tcpInteractions.Add(tcpInteraction);
 			}
 		}
 
-		public static IEnumerable<TcpInteraction> GetAll()
+		public IEnumerable<TcpInteraction> GetAll()
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				return TcpInteractions.ToArray();
+				return _tcpInteractions.ToArray();
 			}
 		}
 	}

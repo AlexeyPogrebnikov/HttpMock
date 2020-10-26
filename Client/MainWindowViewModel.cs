@@ -15,6 +15,7 @@ namespace TcpMock.Client
 	{
 		private Mock _selectedMock;
 		private readonly ITcpServer _tcpServer;
+		private readonly ITcpInteractionCache _tcpInteractionCache;
 
 		public MainWindowViewModel()
 		{
@@ -29,6 +30,8 @@ namespace TcpMock.Client
 			{
 				Mocks = new ObservableCollection<Mock>();
 			}
+
+			_tcpInteractionCache = ServiceLocator.Resolve<ITcpInteractionCache>();
 
 			HandledRequests = new ObservableCollection<TcpInteraction>();
 			UnhandledRequests = new ObservableCollection<TcpInteraction>();
@@ -67,19 +70,22 @@ namespace TcpMock.Client
 			OnPropertyChanged(nameof(StartTcpServerVisibility));
 			OnPropertyChanged(nameof(StopTcpServerVisibility));
 
-			IEnumerable<TcpInteraction> interactions = TcpInteractionCache.GetAll();
-
-			foreach (TcpInteraction interaction in interactions)
+			if (_tcpInteractionCache != null)
 			{
-				if (interaction.Handled)
+				IEnumerable<TcpInteraction> interactions = _tcpInteractionCache.GetAll();
+
+				foreach (TcpInteraction interaction in interactions)
 				{
-					if (HandledRequests.All(rp => rp.Uid != interaction.Uid))
-						HandledRequests.Insert(0, interaction);
-				}
-				else
-				{
-					if (UnhandledRequests.All(rp => rp.Uid != interaction.Uid))
-						UnhandledRequests.Insert(0, interaction);
+					if (interaction.Handled)
+					{
+						if (HandledRequests.All(rp => rp.Uid != interaction.Uid))
+							HandledRequests.Insert(0, interaction);
+					}
+					else
+					{
+						if (UnhandledRequests.All(rp => rp.Uid != interaction.Uid))
+							UnhandledRequests.Insert(0, interaction);
+					}
 				}
 			}
 		}

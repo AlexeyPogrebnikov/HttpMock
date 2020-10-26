@@ -9,6 +9,7 @@ namespace TcpMock.Core
 	public class TcpServer : ITcpServer
 	{
 		private readonly IMockCache _mockCache;
+		private readonly ITcpInteractionCache _tcpInteractionCache;
 		public bool IsStarted => _server != null;
 
 		// ReSharper disable InconsistentNaming
@@ -17,9 +18,10 @@ namespace TcpMock.Core
 
 		private TcpListener _server;
 
-		public TcpServer(IMockCache mockCache)
+		public TcpServer(IMockCache mockCache, ITcpInteractionCache tcpInteractionCache)
 		{
 			_mockCache = mockCache;
+			_tcpInteractionCache = tcpInteractionCache;
 		}
 
 		public void Start(IPAddress address, int port)
@@ -75,7 +77,7 @@ namespace TcpMock.Core
 
 					stream.Write(data, 0, data.Length);
 
-					TcpInteractionCache.Add(tcpInteraction);
+					_tcpInteractionCache.Add(tcpInteraction);
 				}
 			}
 			catch
