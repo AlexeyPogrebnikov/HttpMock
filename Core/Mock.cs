@@ -1,7 +1,11 @@
-﻿namespace TcpMock.Core
+﻿using System;
+
+namespace TcpMock.Core
 {
 	public class Mock
 	{
+		public Guid Uid { get; set; }
+
 		public string Method { get; set; }
 
 		public string Path { get; set; }

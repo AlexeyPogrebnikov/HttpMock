@@ -20,6 +20,7 @@ namespace TcpMock.Client.Commands
 			var dataContext = (NewMockWindowViewModel) window.DataContext;
 			dataContext.NewMock = new Mock
 			{
+				Uid = Guid.NewGuid(),
 				Method = tcpInteraction.Method,
 				Path = tcpInteraction.Path,
 				StatusCode = "200"

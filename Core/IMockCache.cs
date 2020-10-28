@@ -7,5 +7,6 @@ namespace TcpMock.Core
 		void Add(Mock mock);
 		IEnumerable<Mock> GetAll();
 		void Init(Mock[] mocks);
+		void Remove(Mock mock);
 	}
 }

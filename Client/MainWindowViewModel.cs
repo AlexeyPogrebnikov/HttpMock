@@ -16,14 +16,15 @@ namespace TcpMock.Client
 		private Mock _selectedMock;
 		private readonly ITcpServer _tcpServer;
 		private readonly ITcpInteractionCache _tcpInteractionCache;
+		private readonly IMockCache _mockCache;
 
 		public MainWindowViewModel()
 		{
 			_tcpServer = ServiceLocator.Resolve<ITcpServer>();
-			var mockCache = ServiceLocator.Resolve<IMockCache>();
-			if (mockCache != null)
+			_mockCache = ServiceLocator.Resolve<IMockCache>();
+			if (_mockCache != null)
 			{
-				IEnumerable<Mock> mocks = mockCache.GetAll();
+				IEnumerable<Mock> mocks = _mockCache.GetAll();
 				Mocks = new ObservableCollection<Mock>(mocks);
 			}
 			else
@@ -42,6 +43,9 @@ namespace TcpMock.Client
 			StartTcpServerVisibility = Visibility.Visible;
 			StopTcpServerVisibility = Visibility.Hidden;
 
+			RemoveMock = new RemoveMockCommand(_mockCache);
+			RemoveMock.MockCollectionChanged += RemoveMock_MockCollectionChanged;
+
 			var dispatcherTimer = new DispatcherTimer
 			{
 				Interval = new TimeSpan(0, 0, 0, 0, 100)
@@ -49,6 +53,14 @@ namespace TcpMock.Client
 
 			dispatcherTimer.Tick += DispatcherTimer_Tick;
 			dispatcherTimer.Start();
+		}
+
+		private void RemoveMock_MockCollectionChanged(object sender, EventArgs e)
+		{
+			Mock[] mocks = _mockCache.GetAll().ToArray();
+
+			var synchronizer = new MockCollectionSynchronizer();
+			synchronizer.Synchronize(mocks, Mocks);
 		}
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -119,6 +131,8 @@ namespace TcpMock.Client
 				OnPropertyChanged(nameof(SelectedMock));
 			}
 		}
+
+		public RemoveMockCommand RemoveMock { get; }
 
 		public IEnumerable<string> Methods
 		{

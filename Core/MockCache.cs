@@ -35,5 +35,13 @@ namespace TcpMock.Core
 				_mocks = new List<Mock>(mocks);
 			}
 		}
+
+		public void Remove(Mock mock)
+		{
+			lock (_syncRoot)
+			{
+				_mocks.Remove(mock);
+			}
+		}
 	}
 }

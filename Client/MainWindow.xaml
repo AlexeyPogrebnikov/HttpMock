@@ -53,6 +53,13 @@
                   <EventSetter Event="PreviewMouseLeftButtonDown" Handler="MockListView_PreviewMouseLeftButtonDown" />
                 </Style>
               </ListView.ItemContainerStyle>
+              <ListView.ContextMenu>
+                <ContextMenu>
+                  <MenuItem Header="Remove"
+                            Command="{Binding RemoveMock}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                </ContextMenu>
+              </ListView.ContextMenu>
             </ListView>
             <Grid>
               <Grid.RowDefinitions>
