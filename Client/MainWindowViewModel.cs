@@ -57,10 +57,7 @@ namespace TcpMock.Client
 
 		private void RemoveMock_MockCollectionChanged(object sender, EventArgs e)
 		{
-			Mock[] mocks = _mockCache.GetAll().ToArray();
-
-			var synchronizer = new MockCollectionSynchronizer();
-			synchronizer.Synchronize(mocks, Mocks);
+			UpdateMocks();
 		}
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -81,6 +78,8 @@ namespace TcpMock.Client
 
 			OnPropertyChanged(nameof(StartTcpServerVisibility));
 			OnPropertyChanged(nameof(StopTcpServerVisibility));
+
+			UpdateMocks();
 
 			if (_tcpInteractionCache != null)
 			{
@@ -113,13 +112,17 @@ namespace TcpMock.Client
 		public ObservableCollection<Mock> Mocks { get; }
 
 		public ObservableCollection<TcpInteraction> HandledRequests { get; }
+
 		public ObservableCollection<TcpInteraction> UnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
 
 		public StartTcpServerCommand StartTcpServer { get; }
+
 		public Visibility StartTcpServerVisibility { get; set; }
+
 		public StopTcpServerCommand StopTcpServer { get; }
+
 		public Visibility StopTcpServerVisibility { get; set; }
 
 		public Mock SelectedMock
@@ -137,6 +140,17 @@ namespace TcpMock.Client
 		public IEnumerable<string> Methods
 		{
 			get { return new[] { "GET", "POST" }; }
+		}
+
+		private void UpdateMocks()
+		{
+			if (_mockCache != null)
+			{
+				Mock[] mocks = _mockCache.GetAll().ToArray();
+
+				var synchronizer = new MockCollectionSynchronizer();
+				synchronizer.Synchronize(mocks, Mocks);
+			}
 		}
 	}
 }
