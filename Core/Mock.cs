@@ -11,5 +11,7 @@ namespace TcpMock.Core
 		public string Path { get; set; }
 
 		public string StatusCode { get; set; }
+
+		public string Content { get; set; }
 	}
 }

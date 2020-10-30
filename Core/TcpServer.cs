@@ -71,7 +71,9 @@ namespace TcpMock.Core
 
 					tcpInteraction.StatusCode = statusCode;
 
-					var response = $"HTTP/1.1 {statusCode} OK{CRLF}{CRLF}";
+					var response = $"HTTP/1.1 {statusCode} OK{CRLF}";
+					response += $"Content-Length: {mock?.Content.Length}{CRLF}{CRLF}";
+					response += mock?.Content + CRLF;
 
 					byte[] data = Encoding.UTF8.GetBytes(response);
 
