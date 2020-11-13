@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TcpMock.Client.Commands;
-using TcpMock.Core;
+using HttpMock.Client.Commands;
+using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	public class UnhandledRequestDetailWindowViewModel : INotifyPropertyChanged
 	{

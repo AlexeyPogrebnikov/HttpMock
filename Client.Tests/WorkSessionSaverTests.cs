@@ -2,10 +2,9 @@
 using System.IO;
 using Moq;
 using NUnit.Framework;
-using TcpMock.Client;
-using Mock = TcpMock.Core.Mock;
+using Mock = HttpMock.Core.Mock;
 
-namespace Client.Tests
+namespace HttpMock.Client.Tests
 {
 	[TestFixture]
 	public class WorkSessionSaverTests

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace TcpMock.Core
+namespace HttpMock.Core
 {
 	public interface ITcpServer
 	{

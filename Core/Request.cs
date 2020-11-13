@@ -1,4 +1,4 @@
-﻿namespace TcpMock.Core
+﻿namespace HttpMock.Core
 {
 	public class Request
 	{

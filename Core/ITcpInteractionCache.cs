@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TcpMock.Core
+namespace HttpMock.Core
 {
 	public interface ITcpInteractionCache
 	{

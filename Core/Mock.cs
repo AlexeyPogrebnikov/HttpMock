@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TcpMock.Core
+namespace HttpMock.Core
 {
 	public class Mock
 	{

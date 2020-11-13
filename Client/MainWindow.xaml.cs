@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TcpMock.Core;
+using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml

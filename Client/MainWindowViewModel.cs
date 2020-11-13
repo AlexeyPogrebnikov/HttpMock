@@ -6,10 +6,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
-using TcpMock.Client.Commands;
-using TcpMock.Core;
+using HttpMock.Client.Commands;
+using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{

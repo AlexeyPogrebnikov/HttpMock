@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using HttpMock.Core;
 using NUnit.Framework;
-using TcpMock.Client;
-using TcpMock.Core;
 
-namespace Client.Tests
+namespace HttpMock.Client.Tests
 {
 	[TestFixture]
 	public class MockCollectionSynchronizerTests

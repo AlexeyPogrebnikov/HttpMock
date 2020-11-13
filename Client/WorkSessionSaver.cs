@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text.Json;
-using TcpMock.Core;
+using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	public class WorkSessionSaver
 	{
@@ -16,12 +16,12 @@ namespace TcpMock.Client
 
 		public void Save(WorkSession workSession)
 		{
-			string tcpMockPath = GetTcpMockPath();
+			string httpMockPath = GetHttpMockPath();
 
-			if (!Directory.Exists(tcpMockPath))
-				Directory.CreateDirectory(tcpMockPath);
+			if (!Directory.Exists(httpMockPath))
+				Directory.CreateDirectory(httpMockPath);
 
-			string workSessionFileName = GetWorkSessionFileName(tcpMockPath);
+			string workSessionFileName = GetWorkSessionFileName(httpMockPath);
 
 			string json = JsonSerializer.Serialize(workSession);
 
@@ -30,9 +30,9 @@ namespace TcpMock.Client
 
 		public WorkSession Load()
 		{
-			string tcpMockPath = GetTcpMockPath();
+			string httpMockPath = GetHttpMockPath();
 
-			string workSessionFileName = GetWorkSessionFileName(tcpMockPath);
+			string workSessionFileName = GetWorkSessionFileName(httpMockPath);
 
 			string json = File.ReadAllText(workSessionFileName);
 
@@ -45,18 +45,18 @@ namespace TcpMock.Client
 			return workSession;
 		}
 
-		private string GetTcpMockPath()
+		private string GetHttpMockPath()
 		{
 			string roamingPath = _environmentWrapper.GetRoamingPath();
 
-			string tcpMockPath = Path.Combine(roamingPath, "TcpMock");
+			string httpMockPath = Path.Combine(roamingPath, "HttpMock");
 
-			return tcpMockPath;
+			return httpMockPath;
 		}
 
-		private static string GetWorkSessionFileName(string tcpMockPath)
+		private static string GetWorkSessionFileName(string httpMockPath)
 		{
-			return Path.Combine(tcpMockPath, "user_session.json");
+			return Path.Combine(httpMockPath, "user_session.json");
 		}
 	}
 }

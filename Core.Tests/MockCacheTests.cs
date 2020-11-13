@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace TcpMock.Core.Tests
+namespace HttpMock.Core.Tests
 {
 	[TestFixture]
 	public class MockCacheTests

@@ -1,4 +1,4 @@
-﻿namespace TcpMock.Client
+﻿namespace HttpMock.Client
 {
 	public static class ConnectionSettingsCache
 	{

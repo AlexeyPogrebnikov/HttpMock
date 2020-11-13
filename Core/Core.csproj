@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>TcpMock.Core</AssemblyName>
-    <RootNamespace>TcpMock.Core</RootNamespace>
+    <AssemblyName>HttpMock.Core</AssemblyName>
+    <RootNamespace>HttpMock.Core</RootNamespace>
   </PropertyGroup>
 
 </Project>

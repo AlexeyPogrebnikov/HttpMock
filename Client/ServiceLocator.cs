@@ -1,8 +1,8 @@
 ﻿using System;
+using HttpMock.Core;
 using Microsoft.Extensions.DependencyInjection;
-using TcpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	public static class ServiceLocator
 	{

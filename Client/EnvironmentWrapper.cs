@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	internal class EnvironmentWrapper : IEnvironmentWrapper
 	{

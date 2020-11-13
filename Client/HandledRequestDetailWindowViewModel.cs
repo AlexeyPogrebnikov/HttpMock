@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TcpMock.Core;
+using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	public class HandledRequestDetailWindowViewModel : INotifyPropertyChanged
 	{

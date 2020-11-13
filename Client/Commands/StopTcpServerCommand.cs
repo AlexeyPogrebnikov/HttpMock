@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
-using TcpMock.Core;
+using HttpMock.Core;
 
-namespace TcpMock.Client.Commands
+namespace HttpMock.Client.Commands
 {
 	public class StopTcpServerCommand : ICommand
 	{

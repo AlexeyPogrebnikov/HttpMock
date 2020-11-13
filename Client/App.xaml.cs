@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Windows;
-using TcpMock.Core;
+using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	/// <summary>
 	/// Interaction logic for App.xaml

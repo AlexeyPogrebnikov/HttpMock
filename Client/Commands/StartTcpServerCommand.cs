@@ -2,9 +2,9 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TcpMock.Core;
+using HttpMock.Core;
 
-namespace TcpMock.Client.Commands
+namespace HttpMock.Client.Commands
 {
 	public class StartTcpServerCommand : ICommand
 	{

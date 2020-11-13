@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TcpMock.Core
+namespace HttpMock.Core
 {
 	public class MockCache : IMockCache
 	{

@@ -1,6 +1,6 @@
-﻿using TcpMock.Core;
+﻿using HttpMock.Core;
 
-namespace TcpMock.Client
+namespace HttpMock.Client
 {
 	public class WorkSession
 	{
