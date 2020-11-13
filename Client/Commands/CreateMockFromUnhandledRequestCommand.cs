@@ -13,7 +13,7 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var tcpInteraction = (TcpInteraction) parameter;
+			var httpInteraction = (HttpInteraction) parameter;
 
 			var window = new NewMockWindow();
 
@@ -21,8 +21,8 @@ namespace HttpMock.Client.Commands
 			dataContext.NewMock = new Mock
 			{
 				Uid = Guid.NewGuid(),
-				Method = tcpInteraction.Method,
-				Path = tcpInteraction.Path,
+				Method = httpInteraction.Method,
+				Path = httpInteraction.Path,
 				StatusCode = "200"
 			};
 

@@ -14,13 +14,13 @@ namespace HttpMock.Client
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		private Mock _selectedMock;
-		private readonly ITcpServer _tcpServer;
-		private readonly ITcpInteractionCache _tcpInteractionCache;
+		private readonly IHttpServer _httpServer;
+		private readonly IHttpInteractionCache _httpInteractionCache;
 		private readonly IMockCache _mockCache;
 
 		public MainWindowViewModel()
 		{
-			_tcpServer = ServiceLocator.Resolve<ITcpServer>();
+			_httpServer = ServiceLocator.Resolve<IHttpServer>();
 			_mockCache = ServiceLocator.Resolve<IMockCache>();
 			if (_mockCache != null)
 			{
@@ -32,17 +32,17 @@ namespace HttpMock.Client
 				Mocks = new ObservableCollection<Mock>();
 			}
 
-			_tcpInteractionCache = ServiceLocator.Resolve<ITcpInteractionCache>();
+			_httpInteractionCache = ServiceLocator.Resolve<IHttpInteractionCache>();
 
-			HandledRequests = new ObservableCollection<TcpInteraction>();
-			UnhandledRequests = new ObservableCollection<TcpInteraction>();
+			HandledRequests = new ObservableCollection<HttpInteraction>();
+			UnhandledRequests = new ObservableCollection<HttpInteraction>();
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			CreateNewMock = new CreateNewMockCommand();
-			StartTcpServer = new StartTcpServerCommand(_tcpServer);
-			StopTcpServer = new StopTcpServerCommand(_tcpServer);
-			StartTcpServerVisibility = Visibility.Visible;
-			StopTcpServerVisibility = Visibility.Hidden;
+			StartHttpServer = new StartHttpServerCommand(_httpServer);
+			StopHttpServer = new StopHttpServerCommand(_httpServer);
+			StartHttpServerVisibility = Visibility.Visible;
+			StopHttpServerVisibility = Visibility.Hidden;
 
 			RemoveMock = new RemoveMockCommand(_mockCache);
 			RemoveMock.MockCollectionChanged += RemoveMock_MockCollectionChanged;
@@ -63,30 +63,30 @@ namespace HttpMock.Client
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
-			if (_tcpServer != null)
+			if (_httpServer != null)
 			{
-				if (_tcpServer.IsStarted)
+				if (_httpServer.IsStarted)
 				{
-					StartTcpServerVisibility = Visibility.Collapsed;
-					StopTcpServerVisibility = Visibility.Visible;
+					StartHttpServerVisibility = Visibility.Collapsed;
+					StopHttpServerVisibility = Visibility.Visible;
 				}
 				else
 				{
-					StartTcpServerVisibility = Visibility.Visible;
-					StopTcpServerVisibility = Visibility.Collapsed;
+					StartHttpServerVisibility = Visibility.Visible;
+					StopHttpServerVisibility = Visibility.Collapsed;
 				}
 			}
 
-			OnPropertyChanged(nameof(StartTcpServerVisibility));
-			OnPropertyChanged(nameof(StopTcpServerVisibility));
+			OnPropertyChanged(nameof(StartHttpServerVisibility));
+			OnPropertyChanged(nameof(StopHttpServerVisibility));
 
 			UpdateMocks();
 
-			if (_tcpInteractionCache != null)
+			if (_httpInteractionCache != null)
 			{
-				IEnumerable<TcpInteraction> interactions = _tcpInteractionCache.GetAll();
+				IEnumerable<HttpInteraction> interactions = _httpInteractionCache.GetAll();
 
-				foreach (TcpInteraction interaction in interactions)
+				foreach (HttpInteraction interaction in interactions)
 				{
 					if (interaction.Handled)
 					{
@@ -114,19 +114,19 @@ namespace HttpMock.Client
 
 		public ObservableCollection<Mock> Mocks { get; }
 
-		public ObservableCollection<TcpInteraction> HandledRequests { get; }
+		public ObservableCollection<HttpInteraction> HandledRequests { get; }
 
-		public ObservableCollection<TcpInteraction> UnhandledRequests { get; }
+		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
 
-		public StartTcpServerCommand StartTcpServer { get; }
+		public StartHttpServerCommand StartHttpServer { get; }
 
-		public Visibility StartTcpServerVisibility { get; set; }
+		public Visibility StartHttpServerVisibility { get; set; }
 
-		public StopTcpServerCommand StopTcpServer { get; }
+		public StopHttpServerCommand StopHttpServer { get; }
 
-		public Visibility StopTcpServerVisibility { get; set; }
+		public Visibility StopHttpServerVisibility { get; set; }
 
 		public Mock SelectedMock
 		{

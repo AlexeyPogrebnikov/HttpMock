@@ -31,11 +31,11 @@ namespace HttpMock.Client
 		{
 			if (sender is ListViewItem item)
 			{
-				if (item.Content is TcpInteraction interaction)
+				if (item.Content is HttpInteraction interaction)
 				{
 					var window = new HandledRequestDetailWindow();
 					var viewModel = (HandledRequestDetailWindowViewModel) window.DataContext;
-					viewModel.TcpInteraction = interaction;
+					viewModel.HttpInteraction = interaction;
 					window.ShowInTaskbar = false;
 					window.Owner = this;
 					window.Show();
@@ -47,11 +47,11 @@ namespace HttpMock.Client
 		{
 			if (sender is ListViewItem item)
 			{
-				if (item.Content is TcpInteraction interaction)
+				if (item.Content is HttpInteraction interaction)
 				{
 					var window = new UnhandledRequestDetailWindow();
 					var viewModel = (UnhandledRequestDetailWindowViewModel) window.DataContext;
-					viewModel.TcpInteraction = interaction;
+					viewModel.HttpInteraction = interaction;
 					window.ShowInTaskbar = false;
 					window.Owner = this;
 					window.Show();

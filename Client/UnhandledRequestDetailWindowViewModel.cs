@@ -7,7 +7,7 @@ namespace HttpMock.Client
 {
 	public class UnhandledRequestDetailWindowViewModel : INotifyPropertyChanged
 	{
-		private TcpInteraction _tcpInteraction;
+		private HttpInteraction _httpInteraction;
 		public event PropertyChangedEventHandler PropertyChanged;
 		public CreateMockFromUnhandledRequestCommand CreateMock { get; }
 
@@ -16,13 +16,13 @@ namespace HttpMock.Client
 			CreateMock = new CreateMockFromUnhandledRequestCommand();
 		}
 
-		public TcpInteraction TcpInteraction
+		public HttpInteraction HttpInteraction
 		{
-			get => _tcpInteraction;
+			get => _httpInteraction;
 			set
 			{
-				_tcpInteraction = value;
-				OnPropertyChanged(nameof(TcpInteraction));
+				_httpInteraction = value;
+				OnPropertyChanged(nameof(HttpInteraction));
 				OnPropertyChanged(nameof(Title));
 			}
 		}
@@ -31,10 +31,10 @@ namespace HttpMock.Client
 		{
 			get
 			{
-				if (TcpInteraction == null)
+				if (HttpInteraction == null)
 					return null;
 
-				return $"Unhandled request at {TcpInteraction.Time}";
+				return $"Unhandled request at {HttpInteraction.Time}";
 			}
 		}
 

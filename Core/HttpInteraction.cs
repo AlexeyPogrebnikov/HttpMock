@@ -2,7 +2,7 @@
 
 namespace HttpMock.Core
 {
-	public class TcpInteraction
+	public class HttpInteraction
 	{
 		public Guid Uid { get; set; }
 

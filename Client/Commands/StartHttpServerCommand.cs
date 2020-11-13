@@ -6,13 +6,13 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class StartTcpServerCommand : ICommand
+	public class StartHttpServerCommand : ICommand
 	{
-		private readonly ITcpServer _tcpServer;
+		private readonly IHttpServer _httpServer;
 
-		public StartTcpServerCommand(ITcpServer tcpServer)
+		public StartHttpServerCommand(IHttpServer httpServer)
 		{
-			_tcpServer = tcpServer;
+			_httpServer = httpServer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -27,7 +27,7 @@ namespace HttpMock.Client.Commands
 			IPAddress address = IPAddress.Parse(connectionSettings.Host);
 			int port = connectionSettings.Port;
 
-			Task.Run(() => _tcpServer.Start(address, port));
+			Task.Run(() => _httpServer.Start(address, port));
 		}
 
 		public event EventHandler CanExecuteChanged;

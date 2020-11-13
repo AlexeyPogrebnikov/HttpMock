@@ -4,13 +4,13 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class StopTcpServerCommand : ICommand
+	public class StopHttpServerCommand : ICommand
 	{
-		private readonly ITcpServer _tcpServer;
+		private readonly IHttpServer _httpServer;
 
-		public StopTcpServerCommand(ITcpServer tcpServer)
+		public StopHttpServerCommand(IHttpServer httpServer)
 		{
-			_tcpServer = tcpServer;
+			_httpServer = httpServer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -20,7 +20,7 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			_tcpServer.Stop();
+			_httpServer.Stop();
 		}
 
 		public event EventHandler CanExecuteChanged;

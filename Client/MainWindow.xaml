@@ -21,9 +21,9 @@
         <Label Content="Port:" />
         <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" VerticalContentAlignment="Center"
                  HorizontalContentAlignment="Center" Margin="0, 0, 10, 0" />
-        <Button Content="Start" Command="{Binding StartTcpServer}" CommandParameter="{Binding ConnectionSettings}"
-                Visibility="{Binding StartTcpServerVisibility}" Padding="10, 0, 10, 0" />
-        <Button Content="Stop" Command="{Binding StopTcpServer}" Visibility="{Binding StopTcpServerVisibility}"
+        <Button Content="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}"
+                Visibility="{Binding StartHttpServerVisibility}" Padding="10, 0, 10, 0" />
+        <Button Content="Stop" Command="{Binding StopHttpServer}" Visibility="{Binding StopHttpServerVisibility}"
                 Padding="10, 0, 10, 0" />
       </StackPanel>
       <TabControl>

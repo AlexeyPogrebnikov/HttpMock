@@ -6,16 +6,16 @@ namespace HttpMock.Client
 {
 	public class HandledRequestDetailWindowViewModel : INotifyPropertyChanged
 	{
-		private TcpInteraction _tcpInteraction;
+		private HttpInteraction _httpInteraction;
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public TcpInteraction TcpInteraction
+		public HttpInteraction HttpInteraction
 		{
-			get => _tcpInteraction;
+			get => _httpInteraction;
 			set
 			{
-				_tcpInteraction = value;
-				OnPropertyChanged(nameof(TcpInteraction));
+				_httpInteraction = value;
+				OnPropertyChanged(nameof(HttpInteraction));
 				OnPropertyChanged(nameof(Title));
 			}
 		}
@@ -24,10 +24,10 @@ namespace HttpMock.Client
 		{
 			get
 			{
-				if (TcpInteraction == null)
+				if (HttpInteraction == null)
 					return null;
 
-				return $"Handled request at {TcpInteraction.Time}";
+				return $"Handled request at {HttpInteraction.Time}";
 			}
 		}
 

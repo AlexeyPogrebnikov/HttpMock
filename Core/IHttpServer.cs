@@ -2,7 +2,7 @@
 
 namespace HttpMock.Core
 {
-	public interface ITcpServer
+	public interface IHttpServer
 	{
 		bool IsStarted { get; }
 		void Start(IPAddress address, int port);

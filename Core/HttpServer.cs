@@ -6,10 +6,10 @@ using System.Text;
 
 namespace HttpMock.Core
 {
-	public class TcpServer : ITcpServer
+	public class HttpServer : IHttpServer
 	{
 		private readonly IMockCache _mockCache;
-		private readonly ITcpInteractionCache _tcpInteractionCache;
+		private readonly IHttpInteractionCache _httpInteractionCache;
 		public bool IsStarted => _server != null;
 
 		// ReSharper disable InconsistentNaming
@@ -18,10 +18,10 @@ namespace HttpMock.Core
 
 		private TcpListener _server;
 
-		public TcpServer(IMockCache mockCache, ITcpInteractionCache tcpInteractionCache)
+		public HttpServer(IMockCache mockCache, IHttpInteractionCache httpInteractionCache)
 		{
 			_mockCache = mockCache;
-			_tcpInteractionCache = tcpInteractionCache;
+			_httpInteractionCache = httpInteractionCache;
 		}
 
 		public void Start(IPAddress address, int port)
@@ -48,7 +48,7 @@ namespace HttpMock.Core
 					string content = Encoding.UTF8.GetString(buffer);
 					Request request = requestParser.Parse(content);
 
-					var tcpInteraction = new TcpInteraction
+					var httpInteraction = new HttpInteraction
 					{
 						Uid = Guid.NewGuid(),
 						Time = time,
@@ -57,10 +57,10 @@ namespace HttpMock.Core
 					};
 
 					Mock mock = _mockCache.GetAll()
-						.Where(m => m.Method == tcpInteraction.Method)
-						.FirstOrDefault(m => m.Path == tcpInteraction.Path);
+						.Where(m => m.Method == httpInteraction.Method)
+						.FirstOrDefault(m => m.Path == httpInteraction.Path);
 
-					tcpInteraction.Handled = mock != null;
+					httpInteraction.Handled = mock != null;
 
 					if (!IsStarted)
 						return;
@@ -69,7 +69,7 @@ namespace HttpMock.Core
 					if (mock != null)
 						statusCode = mock.StatusCode;
 
-					tcpInteraction.StatusCode = statusCode;
+					httpInteraction.StatusCode = statusCode;
 
 					var response = $"HTTP/1.1 {statusCode} OK{CRLF}";
 					response += $"Content-Length: {mock?.Content.Length}{CRLF}{CRLF}";
@@ -79,7 +79,7 @@ namespace HttpMock.Core
 
 					stream.Write(data, 0, data.Length);
 
-					_tcpInteractionCache.Add(tcpInteraction);
+					_httpInteractionCache.Add(httpInteraction);
 				}
 			}
 			catch
