@@ -12,7 +12,7 @@
   <Grid>
     <StackPanel>
       <ToolBar>
-        <Button Content="New..." />
+        <Button Content="New Mock..." Command="{Binding CreateNewMock}" />
       </ToolBar>
       <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 5">
         <Label Content="Host:" />

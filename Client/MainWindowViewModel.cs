@@ -38,6 +38,7 @@ namespace TcpMock.Client
 			UnhandledRequests = new ObservableCollection<TcpInteraction>();
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
+			CreateNewMock = new CreateNewMockCommand();
 			StartTcpServer = new StartTcpServerCommand(_tcpServer);
 			StopTcpServer = new StopTcpServerCommand(_tcpServer);
 			StartTcpServerVisibility = Visibility.Visible;
@@ -108,6 +109,8 @@ namespace TcpMock.Client
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+
+		public CreateNewMockCommand CreateNewMock { get; }
 
 		public ObservableCollection<Mock> Mocks { get; }
 
