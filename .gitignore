@@ -1,5 +1,5 @@
 *.user
-TcpMock.sln.DotSettings
+HttpMock.sln.DotSettings
 
 .vs/
 Client/bin/
