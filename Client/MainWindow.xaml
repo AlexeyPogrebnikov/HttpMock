@@ -11,6 +11,24 @@
   </Window.DataContext>
   <Grid>
     <StackPanel>
+      <Menu>
+        <MenuItem Header="File">
+          <MenuItem Header="Save as..." />
+          <MenuItem Header="Open..." />
+          <MenuItem Header="Exit" />
+        </MenuItem>
+        <MenuItem Header="Server">
+          <MenuItem Header="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}" />
+          <MenuItem Header="Stop" Command="{Binding StopHttpServer}" />
+        </MenuItem>
+        <MenuItem Header="Mocks">
+          <MenuItem Header="Add..." Command="{Binding CreateNewMock}" />
+          <MenuItem Header="Clear" />
+        </MenuItem>
+        <MenuItem Header="Help">
+          <MenuItem Header="About" />
+        </MenuItem>
+      </Menu>
       <ToolBar>
         <Button Content="New Mock..." Command="{Binding CreateNewMock}" />
       </ToolBar>
