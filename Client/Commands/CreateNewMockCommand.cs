@@ -13,9 +13,9 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			NewMockWindow window = new NewMockWindow();
-			var newMockWindowViewModel = (NewMockWindowViewModel)window.DataContext;
-			newMockWindowViewModel.NewMock = new Mock();
+			var window = new NewMockWindow();
+			var newMockWindowViewModel = (NewMockWindowViewModel) window.DataContext;
+			newMockWindowViewModel.NewMock = Mock.CreateNew();
 			window.Show();
 		}
 

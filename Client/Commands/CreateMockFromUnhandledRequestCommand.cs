@@ -18,13 +18,13 @@ namespace HttpMock.Client.Commands
 			var window = new NewMockWindow();
 
 			var dataContext = (NewMockWindowViewModel) window.DataContext;
-			dataContext.NewMock = new Mock
-			{
-				Uid = Guid.NewGuid(),
-				Method = httpInteraction.Method,
-				Path = httpInteraction.Path,
-				StatusCode = "200"
-			};
+
+			var mock = Mock.CreateNew();
+			mock.Method = httpInteraction.Method;
+			mock.Path = httpInteraction.Path;
+			mock.StatusCode = "200";
+
+			dataContext.NewMock = mock;
 
 			window.Show();
 		}

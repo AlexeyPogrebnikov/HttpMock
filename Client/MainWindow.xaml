@@ -73,6 +73,7 @@
               </ListView.ItemContainerStyle>
               <ListView.ContextMenu>
                 <ContextMenu>
+                  <MenuItem Header="Add..." Command="{Binding CreateNewMock}" />
                   <MenuItem Header="Remove"
                             Command="{Binding RemoveMock}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />

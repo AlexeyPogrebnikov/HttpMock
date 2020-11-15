@@ -4,6 +4,14 @@ namespace HttpMock.Core
 {
 	public class Mock
 	{
+		public static Mock CreateNew()
+		{
+			return new Mock
+			{
+				Uid = Guid.NewGuid()
+			};
+		}
+
 		public Guid Uid { get; set; }
 
 		public string Method { get; set; }

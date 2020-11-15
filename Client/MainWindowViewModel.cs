@@ -154,6 +154,11 @@ namespace HttpMock.Client
 				var synchronizer = new MockCollectionSynchronizer();
 				synchronizer.Synchronize(mocks, Mocks);
 			}
+
+			if (Mocks.All(mock => mock.Uid != SelectedMock?.Uid))
+			{
+				SelectedMock = null;
+			}
 		}
 	}
 }

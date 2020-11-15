@@ -29,7 +29,7 @@
         <TextBox Grid.Column="1" Grid.Row="1" Width="200" Text="{Binding NewMock.Path}" />
         <Label Grid.Column="0" Grid.Row="2" Content="Status code" />
         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NewMock.StatusCode}" />
-        <Label Grid.Column="0" Grid.Row="3" Content="Content"></Label>
+        <Label Grid.Column="0" Grid.Row="3" Content="Content" />
         <TextBox Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" AcceptsReturn="True"
                  Text="{Binding NewMock.Content}" />
       </Grid>
