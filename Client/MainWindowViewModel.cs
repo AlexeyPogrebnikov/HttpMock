@@ -38,6 +38,7 @@ namespace HttpMock.Client
 			UnhandledRequests = new ObservableCollection<HttpInteraction>();
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
+			Exit = new ExitCommand();
 			CreateNewMock = new CreateNewMockCommand();
 			StartHttpServer = new StartHttpServerCommand(_httpServer);
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
@@ -109,6 +110,8 @@ namespace HttpMock.Client
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+
+		public ExitCommand Exit { get; }
 
 		public CreateNewMockCommand CreateNewMock { get; }
 

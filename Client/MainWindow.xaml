@@ -15,7 +15,7 @@
         <MenuItem Header="File">
           <MenuItem Header="Save as..." />
           <MenuItem Header="Open..." />
-          <MenuItem Header="Exit" />
+          <MenuItem Header="Exit" Command="{Binding Exit}" />
         </MenuItem>
         <MenuItem Header="Server">
           <MenuItem Header="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}" />
