@@ -26,7 +26,7 @@
           <MenuItem Header="Clear" />
         </MenuItem>
         <MenuItem Header="Help">
-          <MenuItem Header="About" />
+          <MenuItem Header="About" Command="{Binding AboutProgram}" />
         </MenuItem>
       </Menu>
       <ToolBar>

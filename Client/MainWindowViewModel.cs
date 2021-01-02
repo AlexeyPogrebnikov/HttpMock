@@ -44,6 +44,7 @@ namespace HttpMock.Client
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
+			AboutProgram = new AboutProgramCommand();
 
 			RemoveMock = new RemoveMockCommand(_mockCache);
 			RemoveMock.MockCollectionChanged += RemoveMock_MockCollectionChanged;
@@ -130,6 +131,8 @@ namespace HttpMock.Client
 		public StopHttpServerCommand StopHttpServer { get; }
 
 		public Visibility StopHttpServerVisibility { get; set; }
+
+		public AboutProgramCommand AboutProgram { get; }
 
 		public Mock SelectedMock
 		{
