@@ -40,6 +40,7 @@ namespace HttpMock.Client
 
 			Exit = new ExitCommand();
 			CreateNewMock = new CreateNewMockCommand();
+			ClearMocks = new ClearMocksCommand(_mockCache);
 			StartHttpServer = new StartHttpServerCommand(_httpServer);
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
 			StartHttpServerVisibility = Visibility.Visible;
@@ -115,6 +116,8 @@ namespace HttpMock.Client
 		public ExitCommand Exit { get; }
 
 		public CreateNewMockCommand CreateNewMock { get; }
+
+		public ClearMocksCommand ClearMocks { get; }
 
 		public ObservableCollection<Mock> Mocks { get; }
 

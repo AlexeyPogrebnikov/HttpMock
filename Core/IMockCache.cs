@@ -8,5 +8,6 @@ namespace HttpMock.Core
 		IEnumerable<Mock> GetAll();
 		void Init(Mock[] mocks);
 		void Remove(Mock mock);
+		void Clear();
 	}
 }

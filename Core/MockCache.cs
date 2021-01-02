@@ -43,5 +43,13 @@ namespace HttpMock.Core
 				_mocks.Remove(mock);
 			}
 		}
+
+		public void Clear()
+		{
+			lock (_syncRoot)
+			{
+				_mocks.Clear();
+			}
+		}
 	}
 }
