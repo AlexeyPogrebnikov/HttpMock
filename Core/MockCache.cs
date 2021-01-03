@@ -14,6 +14,12 @@ namespace HttpMock.Core
 			if (mock == null)
 				throw new ArgumentNullException(nameof(mock));
 
+			if (string.IsNullOrEmpty(mock.Method))
+				throw new ArgumentException("Method of the mock is null or empty.");
+
+			if (string.IsNullOrEmpty(mock.StatusCode))
+				throw new ArgumentException("StatusCode of the mock is null or empty.");
+
 			lock (_syncRoot)
 			{
 				_mocks.Add(mock);

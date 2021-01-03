@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace HttpMock.Client
+namespace HttpMock.Client.Windows
 {
 	/// <summary>
 	/// Interaction logic for NewMockWindow.xaml

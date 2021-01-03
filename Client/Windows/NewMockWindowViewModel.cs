@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using HttpMock.Client.Commands;
 using HttpMock.Core;
 
-namespace HttpMock.Client
+namespace HttpMock.Client.Windows
 {
 	public class NewMockWindowViewModel : INotifyPropertyChanged
 	{
@@ -37,7 +37,12 @@ namespace HttpMock.Client
 
 		public IEnumerable<string> Methods
 		{
-			get { return new[] { "GET", "POST" }; }
+			get { return new[] { "GET", "POST", "PUT", "DELETE" }; }
+		}
+
+		public IEnumerable<string> StatusCodes
+		{
+			get { return new[] { "200", "400", "401", "403", "404", "500" }; }
 		}
 
 		public void SetCloseWindowAction(Action action)

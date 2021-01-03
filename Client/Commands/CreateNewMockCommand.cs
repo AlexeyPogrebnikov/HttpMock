@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using HttpMock.Client.Windows;
 using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
