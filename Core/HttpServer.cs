@@ -12,10 +12,6 @@ namespace HttpMock.Core
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		public bool IsStarted => _server != null;
 
-		// ReSharper disable InconsistentNaming
-		private const string CRLF = "\r\n";
-		// ReSharper restore InconsistentNaming
-
 		private TcpListener _server;
 
 		public HttpServer(IMockCache mockCache, IHttpInteractionCache httpInteractionCache)
@@ -71,11 +67,10 @@ namespace HttpMock.Core
 
 					httpInteraction.StatusCode = statusCode;
 
-					var response = $"HTTP/1.1 {statusCode} OK{CRLF}";
-					response += $"Content-Length: {mock?.Content.Length}{CRLF}{CRLF}";
-					response += mock?.Content + CRLF;
-
-					byte[] data = Encoding.UTF8.GetBytes(response);
+					var builder = new ResponseBuilder(Encoding.UTF8);
+					builder.SetStatusCode(statusCode);
+					builder.SetContent(mock?.Content);
+					byte[] data = builder.Build();
 
 					stream.Write(data, 0, data.Length);
 
