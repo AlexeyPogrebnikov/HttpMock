@@ -5,6 +5,6 @@ namespace HttpMock.Core
 	public interface IHttpInteractionCache
 	{
 		void Add(HttpInteraction httpInteraction);
-		IEnumerable<HttpInteraction> GetAll();
+		IEnumerable<HttpInteraction> PopAll();
 	}
 }

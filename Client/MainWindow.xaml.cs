@@ -26,37 +26,5 @@ namespace HttpMock.Client
 				}
 			}
 		}
-
-		private void HandledRequestsListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			if (sender is ListViewItem item)
-			{
-				if (item.Content is HttpInteraction interaction)
-				{
-					var window = new HandledRequestDetailWindow();
-					var viewModel = (HandledRequestDetailWindowViewModel) window.DataContext;
-					viewModel.HttpInteraction = interaction;
-					window.ShowInTaskbar = false;
-					window.Owner = this;
-					window.Show();
-				}
-			}
-		}
-
-		private void UnhandledRequestsListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			if (sender is ListViewItem item)
-			{
-				if (item.Content is HttpInteraction interaction)
-				{
-					var window = new UnhandledRequestDetailWindow();
-					var viewModel = (UnhandledRequestDetailWindowViewModel) window.DataContext;
-					viewModel.HttpInteraction = interaction;
-					window.ShowInTaskbar = false;
-					window.Owner = this;
-					window.Show();
-				}
-			}
-		}
 	}
 }

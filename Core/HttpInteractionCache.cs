@@ -16,11 +16,13 @@ namespace HttpMock.Core
 			}
 		}
 
-		public IEnumerable<HttpInteraction> GetAll()
+		public IEnumerable<HttpInteraction> PopAll()
 		{
 			lock (_syncRoot)
 			{
-				return _httpInteractions.ToArray();
+				HttpInteraction[] interactions = _httpInteractions.ToArray();
+				_httpInteractions.Clear();
+				return interactions;
 			}
 		}
 	}

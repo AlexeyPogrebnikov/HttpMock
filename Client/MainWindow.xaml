@@ -77,6 +77,7 @@
                   <MenuItem Header="Remove"
                             Command="{Binding RemoveMock}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                  <MenuItem Header="Clear" Command="{Binding ClearMocks}" />
                 </ContextMenu>
               </ListView.ContextMenu>
             </ListView>
@@ -114,11 +115,11 @@
                 <GridViewColumn DisplayMemberBinding="{Binding StatusCode}" />
               </GridView>
             </ListView.View>
-            <ListView.ItemContainerStyle>
-              <Style TargetType="ListViewItem">
-                <EventSetter Event="PreviewMouseDoubleClick" Handler="HandledRequestsListView_PreviewMouseDoubleClick" />
-              </Style>
-            </ListView.ItemContainerStyle>
+            <ListView.ContextMenu>
+              <ContextMenu>
+                <MenuItem Header="Clear" Command="{Binding ClearHandledRequests}"></MenuItem>
+              </ContextMenu>
+            </ListView.ContextMenu>
           </ListView>
         </TabItem>
         <TabItem Header="{Binding Path=UnhandledRequests.Count}" HeaderStringFormat="Unhandled Requests ({0})">
@@ -131,12 +132,12 @@
                 <GridViewColumn DisplayMemberBinding="{Binding StatusCode}" />
               </GridView>
             </ListView.View>
-            <ListView.ItemContainerStyle>
-              <Style TargetType="ListViewItem">
-                <EventSetter Event="PreviewMouseDoubleClick"
-                             Handler="UnhandledRequestsListView_PreviewMouseDoubleClick" />
-              </Style>
-            </ListView.ItemContainerStyle>
+            <ListView.ContextMenu>
+              <ContextMenu>
+                <MenuItem Header="Mock it..." Command="{Binding CreateNewMock}"></MenuItem>
+                <MenuItem Header="Clear" Command="{Binding ClearUnhandledRequests}"></MenuItem>
+              </ContextMenu>
+            </ListView.ContextMenu>
           </ListView>
         </TabItem>
       </TabControl>

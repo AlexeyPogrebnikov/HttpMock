@@ -11,7 +11,7 @@ using HttpMock.Core;
 
 namespace HttpMock.Client
 {
-	public class MainWindowViewModel : INotifyPropertyChanged
+	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
 		private Mock _selectedMock;
 		private readonly IHttpServer _httpServer;
@@ -35,7 +35,11 @@ namespace HttpMock.Client
 			_httpInteractionCache = ServiceLocator.Resolve<IHttpInteractionCache>();
 
 			HandledRequests = new ObservableCollection<HttpInteraction>();
+			ClearHandledRequests = new ClearHandledRequestsCommand(this);
+
 			UnhandledRequests = new ObservableCollection<HttpInteraction>();
+			ClearUnhandledRequests = new ClearUnhandledRequestsCommand(this);
+
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			Exit = new ExitCommand();
@@ -87,7 +91,7 @@ namespace HttpMock.Client
 
 			if (_httpInteractionCache != null)
 			{
-				IEnumerable<HttpInteraction> interactions = _httpInteractionCache.GetAll();
+				IEnumerable<HttpInteraction> interactions = _httpInteractionCache.PopAll();
 
 				foreach (HttpInteraction interaction in interactions)
 				{
@@ -123,7 +127,11 @@ namespace HttpMock.Client
 
 		public ObservableCollection<HttpInteraction> HandledRequests { get; }
 
+		public ClearHandledRequestsCommand ClearHandledRequests { get; }
+
 		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
+
+		public ClearUnhandledRequestsCommand ClearUnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
 
