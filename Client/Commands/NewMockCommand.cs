@@ -5,7 +5,7 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class CreateNewMockCommand : ICommand
+	public class NewMockCommand : ICommand
 	{
 		public bool CanExecute(object parameter)
 		{

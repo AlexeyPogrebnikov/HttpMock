@@ -22,7 +22,7 @@
           <MenuItem Header="Stop" Command="{Binding StopHttpServer}" />
         </MenuItem>
         <MenuItem Header="Mocks">
-          <MenuItem Header="Add..." Command="{Binding CreateNewMock}" />
+          <MenuItem Header="Add..." Command="{Binding NewMock}" />
           <MenuItem Header="Clear" Command="{Binding ClearMocks}" />
         </MenuItem>
         <MenuItem Header="Help">
@@ -30,7 +30,7 @@
         </MenuItem>
       </Menu>
       <ToolBar>
-        <Button Content="New Mock..." Command="{Binding CreateNewMock}" />
+        <Button Content="New Mock..." Command="{Binding NewMock}" />
       </ToolBar>
       <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 5">
         <Label Content="Host:" />
@@ -73,7 +73,7 @@
               </ListView.ItemContainerStyle>
               <ListView.ContextMenu>
                 <ContextMenu>
-                  <MenuItem Header="Add..." Command="{Binding CreateNewMock}" />
+                  <MenuItem Header="Add..." Command="{Binding NewMock}" />
                   <MenuItem Header="Remove"
                             Command="{Binding RemoveMock}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
@@ -134,7 +134,7 @@
             </ListView.View>
             <ListView.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Mock it..." Command="{Binding CreateNewMock}"></MenuItem>
+                <MenuItem Header="Mock it..." Command="{Binding NewMock}"></MenuItem>
                 <MenuItem Header="Clear" Command="{Binding ClearUnhandledRequests}"></MenuItem>
               </ContextMenu>
             </ListView.ContextMenu>

@@ -43,7 +43,7 @@ namespace HttpMock.Client
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			Exit = new ExitCommand();
-			CreateNewMock = new CreateNewMockCommand();
+			NewMock = new NewMockCommand();
 			ClearMocks = new ClearMocksCommand(_mockCache);
 			StartHttpServer = new StartHttpServerCommand(_httpServer);
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
@@ -119,7 +119,7 @@ namespace HttpMock.Client
 
 		public ExitCommand Exit { get; }
 
-		public CreateNewMockCommand CreateNewMock { get; }
+		public NewMockCommand NewMock { get; }
 
 		public ClearMocksCommand ClearMocks { get; }
 
