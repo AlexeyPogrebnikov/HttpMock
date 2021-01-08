@@ -28,6 +28,12 @@ namespace HttpMock.Client.Commands
 				return;
 			}
 
+			if (_mockCache.Contains(mock))
+			{
+				MessageBox.Show("Mock with same Method and Path already exists.");
+				return;
+			}
+
 			_mockCache.Add(mock);
 			CloseWindowAction();
 		}

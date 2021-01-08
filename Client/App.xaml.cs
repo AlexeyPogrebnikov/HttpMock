@@ -25,7 +25,7 @@ namespace HttpMock.Client
 			WorkSession workSession = _saver.Load();
 
 			ConnectionSettingsCache.Init(workSession.ConnectionSettings);
-			_mockCache.Init(workSession.Mocks);
+			_mockCache.AddRange(workSession.Mocks);
 		}
 
 		protected override void OnExit(ExitEventArgs e)
