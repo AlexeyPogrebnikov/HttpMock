@@ -3,14 +3,14 @@
 namespace HttpMock.Client.Windows
 {
 	/// <summary>
-	/// Interaction logic for NewMockWindow.xaml
+	/// Interaction logic for EditMockWindow.xaml
 	/// </summary>
-	public partial class NewMockWindow : Window
+	public partial class EditMockWindow : Window
 	{
-		public NewMockWindow()
+		public EditMockWindow()
 		{
 			InitializeComponent();
-			var dataContext = (NewMockWindowViewModel) DataContext;
+			var dataContext = (EditMockWindowViewModel) DataContext;
 			dataContext.SetCloseWindowAction(Close);
 		}
 

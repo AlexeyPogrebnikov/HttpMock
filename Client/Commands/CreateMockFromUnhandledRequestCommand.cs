@@ -25,7 +25,7 @@ namespace HttpMock.Client.Commands
 			mock.Path = httpInteraction.Path;
 			mock.StatusCode = "200";
 
-			dataContext.NewMock = mock;
+			dataContext.Mock = mock;
 
 			window.Show();
 		}

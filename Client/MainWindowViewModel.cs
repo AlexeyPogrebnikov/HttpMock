@@ -44,6 +44,7 @@ namespace HttpMock.Client
 
 			Exit = new ExitCommand();
 			NewMock = new NewMockCommand();
+			EditMock = new EditMockCommand();
 			ClearMocks = new ClearMocksCommand(_mockCache);
 			StartHttpServer = new StartHttpServerCommand(_httpServer);
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
@@ -121,6 +122,8 @@ namespace HttpMock.Client
 
 		public NewMockCommand NewMock { get; }
 
+		public EditMockCommand EditMock { get; }
+
 		public ClearMocksCommand ClearMocks { get; }
 
 		public ObservableCollection<Mock> Mocks { get; }
@@ -156,11 +159,6 @@ namespace HttpMock.Client
 		}
 
 		public RemoveMockCommand RemoveMock { get; }
-
-		public IEnumerable<string> Methods
-		{
-			get { return new[] { "GET", "POST" }; }
-		}
 
 		private void UpdateMocks()
 		{

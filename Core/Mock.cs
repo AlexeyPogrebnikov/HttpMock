@@ -16,10 +16,22 @@ namespace HttpMock.Core
 
 		public string Method { get; set; }
 
-		public string Path { get; set; }
-
 		public string StatusCode { get; set; }
 
+		public string Path { get; set; }
+
 		public string Content { get; set; }
+
+		public Mock Clone()
+		{
+			return new Mock
+			{
+				Uid = Uid,
+				Method = Method,
+				StatusCode = StatusCode,
+				Path = Path,
+				Content = Content
+			};
+		}
 	}
 }

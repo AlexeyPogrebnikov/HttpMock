@@ -5,7 +5,7 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class NewMockCommand : ICommand
+	public class EditMockCommand : ICommand
 	{
 		public bool CanExecute(object parameter)
 		{
@@ -14,9 +14,11 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var window = new NewMockWindow();
-			var newMockWindowViewModel = (NewMockWindowViewModel) window.DataContext;
-			newMockWindowViewModel.Mock = Mock.CreateNew();
+			var window = new EditMockWindow();
+			var newMockWindowViewModel = (EditMockWindowViewModel) window.DataContext;
+			var mock = (Mock) parameter;
+			newMockWindowViewModel.SetInitialMock(mock);
+			newMockWindowViewModel.Mock = mock.Clone();
 			window.Show();
 		}
 

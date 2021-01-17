@@ -7,22 +7,25 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Windows
 {
-	public class NewMockWindowViewModel : INotifyPropertyChanged
+	public class EditMockWindowViewModel : INotifyPropertyChanged
 	{
 		private Mock _mock;
 		public event PropertyChangedEventHandler PropertyChanged;
-		public CreateMockCommand CreateMock { get; }
+		public SaveMockCommand SaveMock { get; }
 
-		public NewMockWindowViewModel()
+		public EditMockWindowViewModel()
 		{
-			var mockCache = ServiceLocator.Resolve<IMockCache>();
-			CreateMock = new CreateMockCommand(mockCache);
+			SaveMock = new SaveMockCommand();
 		}
 
-		[NotifyPropertyChangedInvocator]
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		public void SetInitialMock(Mock mock)
+		{
+			SaveMock.InitialMock = mock;
 		}
 
 		public Mock Mock
@@ -41,7 +44,7 @@ namespace HttpMock.Client.Windows
 
 		public void SetCloseWindowAction(Action action)
 		{
-			CreateMock.CloseWindowAction = action;
+			SaveMock.CloseWindowAction = action;
 		}
 	}
 }
