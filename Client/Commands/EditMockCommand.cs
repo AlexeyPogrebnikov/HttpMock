@@ -7,6 +7,13 @@ namespace HttpMock.Client.Commands
 {
 	public class EditMockCommand : ICommand
 	{
+		private readonly IMainWindowViewModel _mainWindowViewModel;
+
+		public EditMockCommand(IMainWindowViewModel mainWindowViewModel)
+		{
+			_mainWindowViewModel = mainWindowViewModel;
+		}
+
 		public bool CanExecute(object parameter)
 		{
 			return true;
@@ -16,6 +23,7 @@ namespace HttpMock.Client.Commands
 		{
 			var window = new EditMockWindow();
 			var newMockWindowViewModel = (EditMockWindowViewModel) window.DataContext;
+			newMockWindowViewModel.SetMainWindowViewModel(_mainWindowViewModel);
 			var mock = (Mock) parameter;
 			newMockWindowViewModel.SetInitialMock(mock);
 			newMockWindowViewModel.Mock = mock.Clone();

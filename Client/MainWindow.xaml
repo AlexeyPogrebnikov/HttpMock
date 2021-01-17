@@ -46,7 +46,7 @@
       </StackPanel>
       <TabControl>
         <TabItem Header="Mocks">
-          <ListView ItemsSource="{Binding Mocks}">
+          <ListView ItemsSource="{Binding Mocks}" Name="MocksListView">
             <ListView.View>
               <GridView>
                 <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />

@@ -17,6 +17,7 @@ namespace HttpMock.Client
 		private readonly IHttpServer _httpServer;
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		private readonly IMockCache _mockCache;
+		private Action _refreshMocksListViewAction;
 
 		public MainWindowViewModel()
 		{
@@ -44,7 +45,7 @@ namespace HttpMock.Client
 
 			Exit = new ExitCommand();
 			NewMock = new NewMockCommand();
-			EditMock = new EditMockCommand();
+			EditMock = new EditMockCommand(this);
 			ClearMocks = new ClearMocksCommand(_mockCache);
 			StartHttpServer = new StartHttpServerCommand(_httpServer);
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
@@ -133,6 +134,11 @@ namespace HttpMock.Client
 		public ClearHandledRequestsCommand ClearHandledRequests { get; }
 
 		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
+		
+		public void RefreshMocksListView()
+		{
+			_refreshMocksListViewAction();
+		}
 
 		public ClearUnhandledRequestsCommand ClearUnhandledRequests { get; }
 
@@ -174,6 +180,11 @@ namespace HttpMock.Client
 			{
 				SelectedMock = null;
 			}
+		}
+
+		public void SetRefreshMocksListViewAction(Action action)
+		{
+			_refreshMocksListViewAction = action;
 		}
 	}
 }

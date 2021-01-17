@@ -19,6 +19,7 @@ namespace HttpMock.Client.Commands
 			InitialMock.Path = changedMock.Path;
 			InitialMock.Content = changedMock.Content;
 			CloseWindowAction();
+			MainWindowViewModel.RefreshMocksListView();
 		}
 
 		public Action CloseWindowAction { get; set; }
@@ -26,5 +27,7 @@ namespace HttpMock.Client.Commands
 		public event EventHandler CanExecuteChanged;
 
 		public Mock InitialMock { get; set; }
+
+		public IMainWindowViewModel MainWindowViewModel { get; set; }
 	}
 }

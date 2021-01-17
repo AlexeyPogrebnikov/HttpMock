@@ -46,5 +46,10 @@ namespace HttpMock.Client.Windows
 		{
 			SaveMock.CloseWindowAction = action;
 		}
+
+		public void SetMainWindowViewModel(IMainWindowViewModel mainWindowViewModel)
+		{
+			SaveMock.MainWindowViewModel = mainWindowViewModel;
+		}
 	}
 }

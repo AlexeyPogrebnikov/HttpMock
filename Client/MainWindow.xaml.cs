@@ -13,6 +13,8 @@ namespace HttpMock.Client
 		public MainWindow()
 		{
 			InitializeComponent();
+			var dataContext = (MainWindowViewModel)DataContext;
+			dataContext.SetRefreshMocksListViewAction(RefreshMocksListView);
 		}
 
 		private void MockListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -25,6 +27,11 @@ namespace HttpMock.Client
 					dataContext.SelectedMock = mock;
 				}
 			}
+		}
+
+		private void RefreshMocksListView()
+		{
+			MocksListView.Items.Refresh();
 		}
 	}
 }
