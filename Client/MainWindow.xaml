@@ -101,7 +101,8 @@
             </ListView.View>
             <ListView.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Mock it..." Command="{Binding NewMock}" />
+                <MenuItem Header="Mock it..." Command="{Binding NewMock}"
+                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                 <MenuItem Header="Clear" Command="{Binding ClearUnhandledRequests}" />
               </ContextMenu>
             </ListView.ContextMenu>
