@@ -13,5 +13,7 @@ namespace HttpMock.Client
 		{
 			get { return new[] { "200", "400", "401", "403", "404", "500" }; }
 		}
+
+		public const int MaxMocksCountInFreeVersion = 3;
 	}
 }
