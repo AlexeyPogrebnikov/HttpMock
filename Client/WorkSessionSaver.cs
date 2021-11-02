@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using HttpMock.Core;
@@ -32,14 +33,23 @@ namespace HttpMock.Client
 		{
 			string httpMockPath = GetHttpMockPath();
 
+			if (!Directory.Exists(httpMockPath))
+				Directory.CreateDirectory(httpMockPath);
+
 			string workSessionFileName = GetWorkSessionFileName(httpMockPath);
+
+			if (!File.Exists(workSessionFileName))
+				return new WorkSession
+				{
+					Mocks = Array.Empty<Mock>()
+				};
 
 			string json = File.ReadAllText(workSessionFileName);
 
 			var workSession = JsonSerializer.Deserialize<WorkSession>(json);
 
 			workSession.Mocks = workSession.Mocks == null
-				? new Mock[0]
+				? Array.Empty<Mock>()
 				: workSession.Mocks.Where(mock => mock != null).ToArray();
 
 			return workSession;

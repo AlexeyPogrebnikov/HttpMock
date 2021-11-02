@@ -22,16 +22,18 @@ namespace HttpMock.Client.Tests
 
 			var saver = new WorkSessionSaver(environmentWrapper.Object);
 
-			var workSession = new WorkSession();
-			workSession.Mocks = new[]
+			var workSession = new WorkSession
 			{
-				new Mock
+				Mocks = new[]
 				{
-					Method = "GET",
-					Path = "/foo",
-					StatusCode = "200"
-				},
-				null
+					new Mock
+					{
+						Method = "GET",
+						Path = "/foo",
+						StatusCode = "200"
+					},
+					null
+				}
 			};
 
 			saver.Save(workSession);
@@ -55,12 +57,32 @@ namespace HttpMock.Client.Tests
 
 			var saver = new WorkSessionSaver(environmentWrapper.Object);
 
-			var workSession = new WorkSession();
-			workSession.Mocks = null;
+			var workSession = new WorkSession
+			{
+				Mocks = null
+			};
 
 			saver.Save(workSession);
 			WorkSession loadedWorkSession = saver.Load();
 			Assert.AreEqual(0, loadedWorkSession.Mocks.Length);
+		}
+
+		[Test]
+		public void Load_httpMockPath_does_not_exist()
+		{
+			var environmentWrapper = new Mock<IEnvironmentWrapper>();
+
+			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+			Directory.CreateDirectory(testPath);
+
+			environmentWrapper
+				.Setup(environment => environment.GetRoamingPath())
+				.Returns(testPath);
+
+			var saver = new WorkSessionSaver(environmentWrapper.Object);
+			WorkSession loadedWorkSession = saver.Load();
+
+			Assert.IsEmpty(loadedWorkSession.Mocks);
 		}
 	}
 }
