@@ -25,7 +25,7 @@ namespace HttpMock.Client.Commands
 			var connectionSettings = (ConnectionSettings) parameter;
 
 			IPAddress address = IPAddress.Parse(connectionSettings.Host);
-			int port = connectionSettings.Port;
+			int port = connectionSettings.Port.GetValueOrDefault();
 
 			Task.Run(() => _httpServer.Start(address, port));
 		}

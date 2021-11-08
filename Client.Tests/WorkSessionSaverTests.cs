@@ -10,7 +10,7 @@ namespace HttpMock.Client.Tests
 	public class WorkSessionSaverTests
 	{
 		[Test]
-		public void Load_skip_null_mocks()
+		public void Save_Load()
 		{
 			var environmentWrapper = new Mock<IEnvironmentWrapper>();
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -38,37 +38,15 @@ namespace HttpMock.Client.Tests
 
 			saver.Save(workSession);
 			WorkSession loadedWorkSession = saver.Load();
-			Assert.AreEqual(1, loadedWorkSession.Mocks.Length);
+			Assert.AreEqual(2, loadedWorkSession.Mocks.Length);
 			Assert.AreEqual("GET", loadedWorkSession.Mocks[0].Method);
 			Assert.AreEqual("/foo", loadedWorkSession.Mocks[0].Path);
 			Assert.AreEqual("200", loadedWorkSession.Mocks[0].StatusCode);
+			Assert.IsNull(loadedWorkSession.Mocks[1]);
 		}
 
 		[Test]
-		public void Load_mocks_is_null()
-		{
-			var environmentWrapper = new Mock<IEnvironmentWrapper>();
-			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-			Directory.CreateDirectory(testPath);
-
-			environmentWrapper
-				.Setup(environment => environment.GetRoamingPath())
-				.Returns(testPath);
-
-			var saver = new WorkSessionSaver(environmentWrapper.Object);
-
-			var workSession = new WorkSession
-			{
-				Mocks = null
-			};
-
-			saver.Save(workSession);
-			WorkSession loadedWorkSession = saver.Load();
-			Assert.AreEqual(0, loadedWorkSession.Mocks.Length);
-		}
-
-		[Test]
-		public void Load_httpMockPath_does_not_exist()
+		public void Load_return_null_if_httpMockPath_does_not_exist()
 		{
 			var environmentWrapper = new Mock<IEnvironmentWrapper>();
 
@@ -82,7 +60,7 @@ namespace HttpMock.Client.Tests
 			var saver = new WorkSessionSaver(environmentWrapper.Object);
 			WorkSession loadedWorkSession = saver.Load();
 
-			Assert.IsEmpty(loadedWorkSession.Mocks);
+			Assert.IsNull(loadedWorkSession);
 		}
 	}
 }

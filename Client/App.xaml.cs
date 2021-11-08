@@ -9,7 +9,7 @@ namespace HttpMock.Client
 	/// </summary>
 	public partial class App : Application
 	{
-		private readonly WorkSessionSaver _saver = new WorkSessionSaver(new EnvironmentWrapper());
+		private readonly EnvironmentWrapper _environmentWrapper = new EnvironmentWrapper();
 		private readonly IMockCache _mockCache;
 
 		public App()
@@ -22,7 +22,8 @@ namespace HttpMock.Client
 		{
 			base.OnStartup(e);
 
-			WorkSession workSession = _saver.Load();
+			var workSession = new WorkSession();
+			workSession.Load(_environmentWrapper);
 
 			ConnectionSettingsCache.Init(workSession.ConnectionSettings);
 			_mockCache.AddRange(workSession.Mocks);
@@ -38,7 +39,7 @@ namespace HttpMock.Client
 				Mocks = _mockCache.GetAll().ToArray()
 			};
 
-			_saver.Save(workSession);
+			workSession.Save(_environmentWrapper);
 		}
 	}
 }
