@@ -45,7 +45,7 @@ namespace HttpMock.Client.Tests
 				ConnectionSettings = new ConnectionSettings
 				{
 					Host = "127.0.0.1",
-					Port = 80
+					Port = "80"
 				},
 				Mocks = new[]
 				{
@@ -63,7 +63,7 @@ namespace HttpMock.Client.Tests
 			loadedWorkSession.Load(environmentWrapper.Object);
 
 			Assert.AreEqual("127.0.0.1", loadedWorkSession.ConnectionSettings.Host);
-			Assert.AreEqual(80, loadedWorkSession.ConnectionSettings.Port);
+			Assert.AreEqual("80", loadedWorkSession.ConnectionSettings.Port);
 			Assert.AreEqual(1, loadedWorkSession.Mocks.Length);
 			Assert.AreEqual("/", loadedWorkSession.Mocks[0].Path);
 			Assert.AreEqual("GET", loadedWorkSession.Mocks[0].Method);

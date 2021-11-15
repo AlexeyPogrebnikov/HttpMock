@@ -47,7 +47,7 @@ namespace HttpMock.Client
 			NewMock = new NewMockCommand();
 			EditMock = new EditMockCommand(this);
 			ClearMocks = new ClearMocksCommand(_mockCache);
-			StartHttpServer = new StartHttpServerCommand(_httpServer);
+			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;

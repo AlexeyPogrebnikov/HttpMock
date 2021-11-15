@@ -9,10 +9,12 @@ namespace HttpMock.Client.Commands
 	public class StartHttpServerCommand : ICommand
 	{
 		private readonly IHttpServer _httpServer;
+		private readonly IMessageViewer _messageViewer;
 
-		public StartHttpServerCommand(IHttpServer httpServer)
+		public StartHttpServerCommand(IHttpServer httpServer, IMessageViewer messageViewer)
 		{
 			_httpServer = httpServer;
+			_messageViewer = messageViewer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -24,12 +26,61 @@ namespace HttpMock.Client.Commands
 		{
 			var connectionSettings = (ConnectionSettings) parameter;
 
-			IPAddress address = IPAddress.Parse(connectionSettings.Host);
-			int port = connectionSettings.Port.GetValueOrDefault();
+			if (!TryParseIpAddress(connectionSettings, out IPAddress address))
+				return;
 
-			Task.Run(() => _httpServer.Start(address, port));
+			if (!TryParsePort(connectionSettings, out int? port))
+				return;
+
+			Task.Run(() => _httpServer.Start(address, port.GetValueOrDefault()));
 		}
 
 		public event EventHandler CanExecuteChanged;
+
+		private bool TryParseIpAddress(ConnectionSettings connectionSettings, out IPAddress address)
+		{
+			address = null;
+
+			string host = connectionSettings.Host;
+			if (string.IsNullOrWhiteSpace(host))
+			{
+				_messageViewer.View("Warning!", "Please enter a host.");
+				return false;
+			}
+
+			try
+			{
+				address = IPAddress.Parse(host);
+				return true;
+			}
+			catch
+			{
+				_messageViewer.View("Warning!", $"The host '{host}' is invalid.");
+				return false;
+			}
+		}
+
+		private bool TryParsePort(ConnectionSettings connectionSettings, out int? port)
+		{
+			port = null;
+
+			string portAsStr = connectionSettings.Port;
+			if (string.IsNullOrWhiteSpace(portAsStr))
+			{
+				_messageViewer.View("Warning!", "Please enter a port.");
+				return false;
+			}
+
+			try
+			{
+				port = int.Parse(portAsStr);
+				return true;
+			}
+			catch
+			{
+				_messageViewer.View("Warning!", $"The port '{portAsStr}' is invalid.");
+				return false;
+			}
+		}
 	}
 }
