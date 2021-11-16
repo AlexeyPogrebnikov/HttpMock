@@ -10,7 +10,6 @@ namespace HttpMock.Core
 	{
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		private readonly IMockCache _mockCache;
-
 		private TcpListener _server;
 
 		public HttpServer(IMockCache mockCache, IHttpInteractionCache httpInteractionCache)
@@ -19,21 +18,32 @@ namespace HttpMock.Core
 			_httpInteractionCache = httpInteractionCache;
 		}
 
-		public bool IsStarted => _server != null;
+		private TcpListener Server
+		{
+			get => _server;
+			set
+			{
+				_server = value;
+				StatusChanged?.Invoke(this, EventArgs.Empty);
+			}
+		}
+
+		public event EventHandler StatusChanged;
+		public bool IsStarted => Server != null;
 
 		public void Start(IPAddress address, int port)
 		{
-			_server = null;
+			Server = null;
 			var requestParser = new RequestParser();
 			try
 			{
-				_server = new TcpListener(address, port);
+				Server = new TcpListener(address, port);
 
-				_server.Start();
+				Server.Start();
 
 				while (true)
 				{
-					using TcpClient client = _server.AcceptTcpClient();
+					using TcpClient client = Server.AcceptTcpClient();
 					using NetworkStream stream = client.GetStream();
 
 					if (!IsStarted)
@@ -99,7 +109,7 @@ namespace HttpMock.Core
 		{
 			try
 			{
-				_server?.Stop();
+				Server?.Stop();
 			}
 			catch
 			{
@@ -107,7 +117,7 @@ namespace HttpMock.Core
 			}
 			finally
 			{
-				_server = null;
+				Server = null;
 			}
 		}
 	}

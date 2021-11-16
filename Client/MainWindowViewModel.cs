@@ -63,6 +63,7 @@ namespace HttpMock.Client
 
 			dispatcherTimer.Tick += DispatcherTimer_Tick;
 			dispatcherTimer.Start();
+			_httpServer.StatusChanged += HttpServer_StatusChanged;
 		}
 
 		private void RemoveMock_MockCollectionChanged(object sender, EventArgs e)
@@ -134,7 +135,7 @@ namespace HttpMock.Client
 		public ClearHandledRequestsCommand ClearHandledRequests { get; }
 
 		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
-		
+
 		public void RefreshMocksListView()
 		{
 			_refreshMocksListViewAction();
@@ -143,6 +144,8 @@ namespace HttpMock.Client
 		public ClearUnhandledRequestsCommand ClearUnhandledRequests { get; }
 
 		public ConnectionSettings ConnectionSettings { get; }
+
+		public bool IsEnabledEditConnectionSettings => !_httpServer.IsStarted;
 
 		public StartHttpServerCommand StartHttpServer { get; }
 
@@ -185,6 +188,11 @@ namespace HttpMock.Client
 		public void SetRefreshMocksListViewAction(Action action)
 		{
 			_refreshMocksListViewAction = action;
+		}
+
+		private void HttpServer_StatusChanged(object sender, EventArgs e)
+		{
+			OnPropertyChanged(nameof(IsEnabledEditConnectionSettings));
 		}
 	}
 }
