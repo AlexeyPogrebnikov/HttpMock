@@ -8,10 +8,8 @@ namespace HttpMock.Core
 {
 	public class HttpServer : IHttpServer
 	{
-		private readonly IMockCache _mockCache;
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		public bool IsStarted => _server != null;
-
+		private readonly IMockCache _mockCache;
 		private TcpListener _server;
 
 		public HttpServer(IMockCache mockCache, IHttpInteractionCache httpInteractionCache)
@@ -20,19 +18,32 @@ namespace HttpMock.Core
 			_httpInteractionCache = httpInteractionCache;
 		}
 
+		private TcpListener Server
+		{
+			get => _server;
+			set
+			{
+				_server = value;
+				StatusChanged?.Invoke(this, EventArgs.Empty);
+			}
+		}
+
+		public event EventHandler StatusChanged;
+		public bool IsStarted => Server != null;
+
 		public void Start(IPAddress address, int port)
 		{
-			_server = null;
+			Server = null;
 			var requestParser = new RequestParser();
 			try
 			{
-				_server = new TcpListener(address, port);
+				Server = new TcpListener(address, port);
 
-				_server.Start();
+				Server.Start();
 
 				while (true)
 				{
-					using TcpClient client = _server.AcceptTcpClient();
+					using TcpClient client = Server.AcceptTcpClient();
 					using NetworkStream stream = client.GetStream();
 
 					if (!IsStarted)
@@ -77,10 +88,17 @@ namespace HttpMock.Core
 					_httpInteractionCache.Add(httpInteraction);
 				}
 			}
-			catch
+			catch (SocketException e)
 			{
+				if (e.SocketErrorCode != SocketError.Interrupted)
+					throw;
 				//TODO log error
 			}
+			/*catch (Exception)
+			{
+				//TODO log error
+				throw;
+			}*/
 			finally
 			{
 				Stop();
@@ -91,7 +109,7 @@ namespace HttpMock.Core
 		{
 			try
 			{
-				_server?.Stop();
+				Server?.Stop();
 			}
 			catch
 			{
@@ -99,7 +117,7 @@ namespace HttpMock.Core
 			}
 			finally
 			{
-				_server = null;
+				Server = null;
 			}
 		}
 	}

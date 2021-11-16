@@ -13,7 +13,7 @@ namespace HttpMock.Client.Windows
 		}
 
 		//TODO takes version from assembly
-		public string Version => "0.1";
+		public string Version => "0.2";
 
 		public string Author => "Alexey Pogrebnikov";
 	}
