@@ -8,9 +8,8 @@ namespace HttpMock.Core
 {
 	public class HttpServer : IHttpServer
 	{
-		private readonly IMockCache _mockCache;
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		public bool IsStarted => _server != null;
+		private readonly IMockCache _mockCache;
 
 		private TcpListener _server;
 
@@ -19,6 +18,8 @@ namespace HttpMock.Core
 			_mockCache = mockCache;
 			_httpInteractionCache = httpInteractionCache;
 		}
+
+		public bool IsStarted => _server != null;
 
 		public void Start(IPAddress address, int port)
 		{
@@ -77,10 +78,17 @@ namespace HttpMock.Core
 					_httpInteractionCache.Add(httpInteraction);
 				}
 			}
-			catch
+			catch (SocketException e)
 			{
+				if (e.SocketErrorCode != SocketError.Interrupted)
+					throw;
 				//TODO log error
 			}
+			/*catch (Exception)
+			{
+				//TODO log error
+				throw;
+			}*/
 			finally
 			{
 				Stop();

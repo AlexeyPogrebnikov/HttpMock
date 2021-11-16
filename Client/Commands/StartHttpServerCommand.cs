@@ -22,7 +22,7 @@ namespace HttpMock.Client.Commands
 			return true;
 		}
 
-		public void Execute(object parameter)
+		public async void Execute(object parameter)
 		{
 			var connectionSettings = (ConnectionSettings) parameter;
 
@@ -32,7 +32,18 @@ namespace HttpMock.Client.Commands
 			if (!TryParsePort(connectionSettings, out int? port))
 				return;
 
-			Task.Run(() => _httpServer.Start(address, port.GetValueOrDefault()));
+			await Task.Run(() =>
+			{
+				try
+				{
+					_httpServer.Start(address, port.GetValueOrDefault());
+				}
+				catch
+				{
+					_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
+					//TODO log error
+				}
+			});
 		}
 
 		public event EventHandler CanExecuteChanged;
