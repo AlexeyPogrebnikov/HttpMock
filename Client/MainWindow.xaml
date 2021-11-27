@@ -13,7 +13,7 @@
     <StackPanel>
       <Menu>
         <MenuItem Header="File">
-          <MenuItem Header="Save as..." Visibility="Collapsed" />
+          <MenuItem Header="Save as..." Command="{Binding SaveAs }" />
           <MenuItem Header="Open..." Visibility="Collapsed" />
           <MenuItem Header="Exit" Command="{Binding Exit}" />
         </MenuItem>

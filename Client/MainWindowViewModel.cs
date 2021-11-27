@@ -43,6 +43,7 @@ namespace HttpMock.Client
 
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
+			SaveAs = new SaveAsCommand(_mockCache);
 			Exit = new ExitCommand();
 			NewMock = new NewMockCommand();
 			EditMock = new EditMockCommand(this);
@@ -119,6 +120,8 @@ namespace HttpMock.Client
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+
+		public SaveAsCommand SaveAs { get; }
 
 		public ExitCommand Exit { get; }
 
