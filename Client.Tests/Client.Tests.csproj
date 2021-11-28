@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <None Remove="expected_server_project_file_content.json" />
+    <None Remove="server_project_file_content.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="expected_server_project_file_content.json" />
+    <EmbeddedResource Include="server_project_file_content.json" />
   </ItemGroup>
 
   <ItemGroup>

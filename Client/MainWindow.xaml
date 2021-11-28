@@ -14,7 +14,7 @@
       <Menu>
         <MenuItem Header="File">
           <MenuItem Header="Save as..." Command="{Binding SaveAs }" />
-          <MenuItem Header="Open..." Visibility="Collapsed" />
+          <MenuItem Header="Open..." Command="{Binding Open }" />
           <MenuItem Header="Exit" Command="{Binding Exit}" />
         </MenuItem>
         <MenuItem Header="Server">
