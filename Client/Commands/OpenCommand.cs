@@ -7,11 +7,15 @@ namespace HttpMock.Client.Commands
 {
 	public class OpenCommand : ICommand
 	{
+		private readonly IHttpServer _httpServer;
+		private readonly IMessageViewer _messageViewer;
 		private readonly IMockCache _mockCache;
 
-		public OpenCommand(IMockCache mockCache)
+		public OpenCommand(IMockCache mockCache, IHttpServer httpServer, IMessageViewer messageViewer)
 		{
 			_mockCache = mockCache;
+			_httpServer = httpServer;
+			_messageViewer = messageViewer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -21,6 +25,12 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
+			if (_httpServer.IsStarted)
+			{
+				_messageViewer.View("Can't open a file", "Please stop the server before open a file.");
+				return;
+			}
+
 			var dialog = new OpenFileDialog
 			{
 				DefaultExt = ".json",

@@ -44,7 +44,7 @@ namespace HttpMock.Client
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
 			SaveAs = new SaveAsCommand(_mockCache);
-			Open = new OpenCommand(_mockCache);
+			Open = new OpenCommand(_mockCache, _httpServer, new MessageViewer());
 			Exit = new ExitCommand();
 			NewMock = new NewMockCommand();
 			EditMock = new EditMockCommand(this);
