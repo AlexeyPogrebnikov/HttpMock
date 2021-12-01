@@ -1,0 +1,12 @@
+{
+  "Host": "127.0.0.1",
+  "Port": "443",
+  "Mocks": [
+    {
+      "Method": "GET",
+      "StatusCode": null,
+      "Path": "/",
+      "Content": null
+    }
+  ]
+}

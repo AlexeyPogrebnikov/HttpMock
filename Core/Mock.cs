@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace HttpMock.Core
 {
@@ -12,6 +13,7 @@ namespace HttpMock.Core
 			};
 		}
 
+		[JsonIgnore]
 		public Guid Uid { get; set; }
 
 		public string Method { get; set; }
