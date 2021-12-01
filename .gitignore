@@ -6,6 +6,8 @@ Client/bin/
 Client/obj/
 Client.Tests/bin/
 Client.Tests/obj/
+ConsoleClient/bin/
+ConsoleClient/obj/
 Core/bin/
 Core/obj/
 Core.Tests/bin/
