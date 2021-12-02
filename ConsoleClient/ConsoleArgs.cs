@@ -1,4 +1,6 @@
-﻿namespace HttpMock.ConsoleClient
+﻿using HttpMock.Core;
+
+namespace HttpMock.ConsoleClient
 {
 	public class ConsoleArgs
 	{
@@ -10,6 +12,15 @@
 			{
 				ServerProjectFileName = args[0]
 			};
+		}
+
+		public ServerProject CreateServerProject()
+		{
+			var serverProject = new ServerProject();
+
+			serverProject.Load(ServerProjectFileName);
+
+			return serverProject;
 		}
 	}
 }
