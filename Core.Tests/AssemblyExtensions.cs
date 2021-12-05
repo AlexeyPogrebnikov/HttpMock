@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace HttpMock.Client.Tests
+namespace HttpMock.Core.Tests
 {
 	internal static class AssemblyExtensions
 	{

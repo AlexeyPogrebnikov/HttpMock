@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using HttpMock.Core;
 using NUnit.Framework;
 
-namespace HttpMock.Client.Tests
+namespace HttpMock.Core.Tests
 {
 	[TestFixture]
 	public class ServerProjectTests
@@ -33,7 +32,7 @@ namespace HttpMock.Client.Tests
 			project.Save(fileName);
 
 			string expectedContent = GetType().Assembly
-				.GetEmbeddedResourceTextContent("HttpMock.Client.Tests.server_project_file_content.json");
+				.GetEmbeddedResourceTextContent("HttpMock.Core.Tests.server_project_file_content.json");
 			Assert.AreEqual(expectedContent, File.ReadAllText(fileName));
 		}
 
@@ -44,7 +43,7 @@ namespace HttpMock.Client.Tests
 			Directory.CreateDirectory(testPath);
 
 			string json = GetType().Assembly
-				.GetEmbeddedResourceTextContent("HttpMock.Client.Tests.server_project_file_content.json");
+				.GetEmbeddedResourceTextContent("HttpMock.Core.Tests.server_project_file_content.json");
 
 			string fileName = Path.Combine(testPath, "project.json");
 
