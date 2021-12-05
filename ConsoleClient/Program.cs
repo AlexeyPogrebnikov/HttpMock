@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using HttpMock.Core;
 
 namespace HttpMock.ConsoleClient
@@ -7,6 +8,8 @@ namespace HttpMock.ConsoleClient
 	{
 		private static void Main(string[] args)
 		{
+			Console.WriteLine($"Version: {VersionHelper.GetCurrentAppVersion()}");
+
 			ConsoleArgs consoleArgs = ConsoleArgs.Parse(args);
 
 			/*if (!consoleArgs.Validate())

@@ -5,6 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>HttpMock.ConsoleClient</AssemblyName>
     <RootNamespace>HttpMock.ConsoleClient</RootNamespace>
+	<Version>0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
