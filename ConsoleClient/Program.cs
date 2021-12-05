@@ -17,7 +17,7 @@ namespace HttpMock.ConsoleClient
 			var mockCache = new MockCache();
 			mockCache.AddRange(serverProject.Mocks);
 
-			IHttpServer httpServer = new HttpServer(mockCache, new HttpInteractionCache());
+			IHttpServer httpServer = new HttpServer(mockCache, new HttpInteractionCacheLogger());
 
 			IPAddress address = IPAddress.Parse(serverProject.Host);
 			int port = int.Parse(serverProject.Port);
