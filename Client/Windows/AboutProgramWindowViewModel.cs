@@ -1,20 +1,14 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using HttpMock.Core;
 
 namespace HttpMock.Client.Windows
 {
 	public class AboutProgramWindowViewModel : INotifyPropertyChanged
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		//TODO takes version from assembly
-		public string Version => "0.2";
+		public string Version => VersionHelper.GetCurrentAppVersion();
 
 		public string Author => "Alexey Pogrebnikov";
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

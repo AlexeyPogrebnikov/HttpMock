@@ -43,6 +43,8 @@ namespace HttpMock.Client
 
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
+			SaveAs = new SaveAsCommand(_mockCache);
+			Open = new OpenCommand(_mockCache, _httpServer, new MessageViewer());
 			Exit = new ExitCommand();
 			NewMock = new NewMockCommand();
 			EditMock = new EditMockCommand(this);
@@ -64,6 +66,12 @@ namespace HttpMock.Client
 			dispatcherTimer.Tick += DispatcherTimer_Tick;
 			dispatcherTimer.Start();
 			_httpServer.StatusChanged += HttpServer_StatusChanged;
+			Open.ServerProjectOpened += Open_ServerProjectOpened;
+		}
+
+		private void Open_ServerProjectOpened(object sender, EventArgs e)
+		{
+			OnPropertyChanged(nameof(ConnectionSettings));
 		}
 
 		private void RemoveMock_MockCollectionChanged(object sender, EventArgs e)
@@ -119,6 +127,10 @@ namespace HttpMock.Client
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+
+		public SaveAsCommand SaveAs { get; }
+
+		public OpenCommand Open { get; }
 
 		public ExitCommand Exit { get; }
 

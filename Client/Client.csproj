@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>HttpMock.Client</AssemblyName>
     <RootNamespace>HttpMock.Client</RootNamespace>
+	<Version>0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

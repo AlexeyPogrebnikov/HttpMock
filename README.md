@@ -1,10 +1,12 @@
-# HttpMock: a simple GUI static HTTP server
+# HttpMock: a static HTTP server
 
-`HttpMock` is a simple, zero-configuration GUI static HTTP server for mock HTTP requests. `HttpMock` written in C#.
+`HttpMock` is a GUI static HTTP server for mock HTTP requests. `HttpMock.ConsoleClient` is a console static HTTP server for integration testing and mock microservices.
 
 ## Installation
 
 Unzip file HttpMock.zip in appropriate directory.
+`HttpMock.ConsoleClient` can runs on Linux or Windows machines.
+`HttpMock` can runs on Windows machines only.
 
 ## License
 
