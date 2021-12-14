@@ -10,7 +10,7 @@ namespace HttpMock.ConsoleClient
 		{
 			Console.WriteLine($"Version: {VersionHelper.GetCurrentAppVersion()}");
 
-			ConsoleArgs consoleArgs = ConsoleArgs.Parse(args);
+			ConsoleArgs consoleArgs = new(args);
 
 			/*if (!consoleArgs.Validate())
 				return;*/
