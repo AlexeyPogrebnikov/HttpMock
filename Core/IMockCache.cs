@@ -4,8 +4,8 @@ namespace HttpMock.Core
 {
 	public interface IMockCache
 	{
+		void Init(Mock[] mocks);
 		void Add(Mock mock);
-		void AddRange(Mock[] mocks);
 		void Remove(Mock mock);
 		void Clear();
 		IEnumerable<Mock> GetAll();

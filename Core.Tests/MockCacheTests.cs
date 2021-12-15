@@ -39,11 +39,28 @@ namespace HttpMock.Core.Tests
 		}
 
 		[Test]
-		public void AddRange_throw_ArgumentNullException_if_mock_is_null()
+		public void Init_clear_previous_mocks()
+		{
+			var mockCache = new MockCache();
+			
+			mockCache.Add(new Mock() { Method = "GET", StatusCode = "200", Path = "/" });
+			
+			var mocks = new Mock[] { 
+				new Mock() { Method = "GET", StatusCode = "200", Path = "/clients" },
+				new Mock() { Method = "GET", StatusCode = "200", Path = "/orders" }
+			};
+
+			mockCache.Init(mocks);
+
+			Assert.AreEqual(2, mockCache.GetAll().Count());
+		}
+
+		[Test]
+		public void Init_throw_ArgumentNullException_if_mock_is_null()
 		{
 			var mockCache = new MockCache();
 			var mocks = new Mock[] { null };
-			Assert.Throws<ArgumentNullException>(() => mockCache.AddRange(mocks));
+			Assert.Throws<ArgumentNullException>(() => mockCache.Init(mocks));
 		}
 
 		[Test]

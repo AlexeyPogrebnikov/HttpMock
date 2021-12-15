@@ -7,7 +7,16 @@ namespace HttpMock.Core
 {
 	public class MockCache : IMockCache
 	{
-		private List<Mock> _mocks = new List<Mock>();
+		private List<Mock> _mocks = new();
+
+		public void Init(Mock[] mocks)
+		{
+			foreach (Mock mock in mocks)
+				CheckMock(mock);
+
+			List<Mock> newMocks = mocks.ToList();
+			Interlocked.Exchange(ref _mocks, newMocks);
+		}
 
 		public void Add(Mock mock)
 		{
@@ -15,16 +24,6 @@ namespace HttpMock.Core
 
 			List<Mock> newMocks = _mocks.ToList();
 			newMocks.Add(mock);
-			Interlocked.Exchange(ref _mocks, newMocks);
-		}
-
-		public void AddRange(Mock[] mocks)
-		{
-			foreach (Mock mock in mocks)
-				CheckMock(mock);
-
-			List<Mock> newMocks = _mocks.ToList();
-			newMocks.AddRange(mocks);
 			Interlocked.Exchange(ref _mocks, newMocks);
 		}
 

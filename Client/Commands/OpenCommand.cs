@@ -47,8 +47,7 @@ namespace HttpMock.Client.Commands
 				connectionSettings.Host = project.Host;
 				connectionSettings.Port = project.Port;
 
-				_mockCache.Clear();
-				_mockCache.AddRange(project.Mocks);
+				_mockCache.Init(project.Mocks);
 				ServerProjectOpened?.Invoke(this, EventArgs.Empty);
 			}
 		}
