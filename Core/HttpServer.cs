@@ -34,7 +34,6 @@ namespace HttpMock.Core
 		public void Start(IPAddress address, int port)
 		{
 			Server = null;
-			var requestParser = new RequestParser();
 			try
 			{
 				Server = new TcpListener(address, port);
@@ -53,7 +52,7 @@ namespace HttpMock.Core
 					var buffer = new byte[1024];
 					stream.Read(buffer, 0, 1024);
 					string content = Encoding.UTF8.GetString(buffer);
-					Request request = requestParser.Parse(content);
+					Request request = Request.Parse(content);
 
 					var httpInteraction = new HttpInteraction
 					{
