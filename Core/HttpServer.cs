@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -49,9 +50,7 @@ namespace HttpMock.Core
 						return;
 
 					TimeSpan time = DateTime.Now.TimeOfDay;
-					var buffer = new byte[1024];
-					stream.Read(buffer, 0, 1024);
-					string content = Encoding.UTF8.GetString(buffer);
+					string content = GetRequestContent(stream);
 					Request request = Request.Parse(content);
 
 					var httpInteraction = new HttpInteraction
@@ -118,6 +117,20 @@ namespace HttpMock.Core
 			{
 				Server = null;
 			}
+		}
+
+		private static string GetRequestContent(NetworkStream networkStream)
+		{
+			byte[] data = new byte[1024];
+			using MemoryStream memoryStream = new();
+
+			do
+			{
+				networkStream.Read(data);
+				memoryStream.Write(data);
+			} while (networkStream.DataAvailable);
+
+			return Encoding.Default.GetString(memoryStream.ToArray());
 		}
 	}
 }
