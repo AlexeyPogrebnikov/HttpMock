@@ -16,7 +16,7 @@ namespace HttpMock.Core.Tests
 				Port = "443",
 				Mocks = new[]
 				{
-					new Mock
+					new MockResponse
 					{
 						Method = "GET",
 						Path = "/"

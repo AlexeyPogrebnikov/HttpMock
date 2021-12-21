@@ -8,7 +8,7 @@ namespace HttpMock.Client
 	{
 		public ConnectionSettings ConnectionSettings { get; set; }
 
-		public Mock[] Mocks { get; set; }
+		public MockResponse[] Mocks { get; set; }
 
 		public void Save(IEnvironmentWrapper environmentWrapper)
 		{
@@ -28,7 +28,7 @@ namespace HttpMock.Client
 
 			ConnectionSettings ??= new ConnectionSettings();
 
-			Mocks ??= Array.Empty<Mock>();
+			Mocks ??= Array.Empty<MockResponse>();
 		}
 	}
 }

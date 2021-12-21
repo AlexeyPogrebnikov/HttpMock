@@ -2,7 +2,7 @@
 using System.IO;
 using Moq;
 using NUnit.Framework;
-using Mock = HttpMock.Core.Mock;
+using HttpMock.Core;
 
 namespace HttpMock.Client.Tests
 {
@@ -49,7 +49,7 @@ namespace HttpMock.Client.Tests
 				},
 				Mocks = new[]
 				{
-					new Mock
+					new MockResponse
 					{
 						Path = "/",
 						Method = "GET"
@@ -84,7 +84,7 @@ namespace HttpMock.Client.Tests
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = null,
-				Mocks = new Mock[]
+				Mocks = new MockResponse[]
 				{
 					null
 				}

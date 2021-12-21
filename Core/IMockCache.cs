@@ -4,11 +4,11 @@ namespace HttpMock.Core
 {
 	public interface IMockCache
 	{
-		void Init(Mock[] mocks);
-		void Add(Mock mock);
-		void Remove(Mock mock);
+		void Init(MockResponse[] mocks);
+		void Add(MockResponse mock);
+		void Remove(MockResponse mock);
 		void Clear();
-		IEnumerable<Mock> GetAll();
-		bool Contains(Mock mock);
+		IEnumerable<MockResponse> GetAll();
+		bool Contains(MockResponse mock);
 	}
 }

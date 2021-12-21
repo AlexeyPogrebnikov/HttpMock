@@ -21,7 +21,7 @@ namespace HttpMock.Client
 		{
 			if (sender is ListViewItem item)
 			{
-				if (item.Content is Mock mock)
+				if (item.Content is MockResponse mock)
 				{
 					var dataContext = (MainWindowViewModel) DataContext;
 					dataContext.SelectedMock = mock;

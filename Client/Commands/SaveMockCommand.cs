@@ -13,7 +13,7 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var changedMock = (Mock) parameter;
+			var changedMock = (MockResponse) parameter;
 			InitialMock.Method = changedMock.Method;
 			InitialMock.StatusCode = changedMock.StatusCode;
 			InitialMock.Path = changedMock.Path;
@@ -26,7 +26,7 @@ namespace HttpMock.Client.Commands
 
 		public event EventHandler CanExecuteChanged;
 
-		public Mock InitialMock { get; set; }
+		public MockResponse InitialMock { get; set; }
 
 		public IMainWindowViewModel MainWindowViewModel { get; set; }
 	}

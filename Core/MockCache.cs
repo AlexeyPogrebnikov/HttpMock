@@ -7,49 +7,49 @@ namespace HttpMock.Core
 {
 	public class MockCache : IMockCache
 	{
-		private List<Mock> _mocks = new();
+		private List<MockResponse> _mocks = new();
 
-		public void Init(Mock[] mocks)
+		public void Init(MockResponse[] mocks)
 		{
-			foreach (Mock mock in mocks)
+			foreach (MockResponse mock in mocks)
 				CheckMock(mock);
 
-			List<Mock> newMocks = mocks.ToList();
+			List<MockResponse> newMocks = mocks.ToList();
 			Interlocked.Exchange(ref _mocks, newMocks);
 		}
 
-		public void Add(Mock mock)
+		public void Add(MockResponse mock)
 		{
 			CheckMock(mock);
 
-			List<Mock> newMocks = _mocks.ToList();
+			List<MockResponse> newMocks = _mocks.ToList();
 			newMocks.Add(mock);
 			Interlocked.Exchange(ref _mocks, newMocks);
 		}
 
-		public void Remove(Mock mock)
+		public void Remove(MockResponse mock)
 		{
-			List<Mock> newMocks = _mocks.ToList();
+			List<MockResponse> newMocks = _mocks.ToList();
 			newMocks.Remove(mock);
 			Interlocked.Exchange(ref _mocks, newMocks);
 		}
 
 		public void Clear()
 		{
-			Interlocked.Exchange(ref _mocks, new List<Mock>());
+			Interlocked.Exchange(ref _mocks, new List<MockResponse>());
 		}
 
-		public IEnumerable<Mock> GetAll()
+		public IEnumerable<MockResponse> GetAll()
 		{
 			return _mocks;
 		}
 
-		public bool Contains(Mock mock)
+		public bool Contains(MockResponse mock)
 		{
 			return _mocks.Any(m => m.Method == mock.Method && m.Path == mock.Path);
 		}
 
-		private void CheckMock(Mock mock)
+		private void CheckMock(MockResponse mock)
 		{
 			if (mock == null)
 				throw new ArgumentNullException(nameof(mock));

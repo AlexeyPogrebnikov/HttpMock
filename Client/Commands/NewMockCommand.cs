@@ -16,7 +16,7 @@ namespace HttpMock.Client.Commands
 		{
 			var window = new NewMockWindow();
 			var newMockWindowViewModel = (NewMockWindowViewModel) window.DataContext;
-			var mock = Mock.CreateNew();
+			var mock = MockResponse.CreateNew();
 			mock.StatusCode = "200";
 
 			if (parameter is HttpInteraction httpInteraction)

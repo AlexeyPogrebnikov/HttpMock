@@ -22,7 +22,7 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var mock = (Mock) parameter;
+			var mock = (MockResponse) parameter;
 			_mockCache.Remove(mock);
 			MockCollectionChanged?.Invoke(this, EventArgs.Empty);
 		}

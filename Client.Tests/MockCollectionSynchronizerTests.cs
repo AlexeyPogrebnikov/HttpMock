@@ -19,17 +19,17 @@ namespace HttpMock.Client.Tests
 		[Test]
 		public void Synchronize_add_mock_to_target()
 		{
-			var mock = new Mock
+			var mock = new MockResponse
 			{
 				Uid = new Guid("20037054-3CC0-4457-9686-2B8A8C8B5814")
 			};
 
-			IList<Mock> source = new[]
+			IList<MockResponse> source = new[]
 			{
 				mock
 			};
 
-			IList<Mock> target = new List<Mock>();
+			IList<MockResponse> target = new List<MockResponse>();
 
 			_synchronizer.Synchronize(source, target);
 
@@ -42,17 +42,17 @@ namespace HttpMock.Client.Tests
 		{
 			var uid = new Guid("261B98BB-6BC7-4809-96E4-194A14EE36C6");
 
-			IList<Mock> source = new List<Mock>
+			IList<MockResponse> source = new List<MockResponse>
 			{
-				new Mock
+				new MockResponse
 				{
 					Uid = uid
 				}
 			};
 
-			IList<Mock> target = new List<Mock>
+			IList<MockResponse> target = new List<MockResponse>
 			{
-				new Mock
+				new MockResponse
 				{
 					Uid = uid
 				}
@@ -66,11 +66,11 @@ namespace HttpMock.Client.Tests
 		[Test]
 		public void Synchronize_remove_mock_from_target_if_its_does_not_exist_in_source()
 		{
-			IList<Mock> source = new List<Mock>();
+			IList<MockResponse> source = new List<MockResponse>();
 
-			IList<Mock> target = new List<Mock>
+			IList<MockResponse> target = new List<MockResponse>
 			{
-				new Mock()
+				new MockResponse()
 			};
 
 			_synchronizer.Synchronize(source, target);

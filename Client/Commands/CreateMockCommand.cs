@@ -21,7 +21,7 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var mock = (Mock) parameter;
+			var mock = (MockResponse) parameter;
 			if (string.IsNullOrWhiteSpace(mock.Method) || string.IsNullOrWhiteSpace(mock.StatusCode))
 			{
 				MessageBox.Show("Please fill required (*) fields.");

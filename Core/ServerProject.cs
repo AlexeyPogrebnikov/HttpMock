@@ -10,7 +10,7 @@ namespace HttpMock.Core
 
 		public string Port { get; set; }
 
-		public Mock[] Mocks { get; set; }
+		public MockResponse[] Mocks { get; set; }
 
 		public void Save(string fileName)
 		{
@@ -33,7 +33,7 @@ namespace HttpMock.Core
 			Port = project.Port;
 			Mocks = project.Mocks;
 
-			foreach (Mock mock in Mocks)
+			foreach (MockResponse mock in Mocks)
 				mock.Uid = Guid.NewGuid();
 		}
 	}

@@ -20,7 +20,7 @@ namespace HttpMock.Core.Tests
 		public void Request_short_path()
 		{
 			MockCache mockCache = new();
-			mockCache.Add(new Mock()
+			mockCache.Add(new MockResponse()
 			{
 				Method = "GET",
 				Path = "/language",
@@ -44,7 +44,7 @@ namespace HttpMock.Core.Tests
 		{
 			MockCache mockCache = new();
 			string path = "/goo" + new string('0', 1994) + "le";
-			mockCache.Add(new Mock()
+			mockCache.Add(new MockResponse()
 			{
 				Method = "GET",
 				Path = path,

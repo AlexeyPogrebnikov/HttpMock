@@ -9,7 +9,7 @@ namespace HttpMock.Client.Windows
 {
 	public class NewMockWindowViewModel : INotifyPropertyChanged
 	{
-		private Mock _mock;
+		private MockResponse _mock;
 		public event PropertyChangedEventHandler PropertyChanged;
 		public CreateMockCommand CreateMock { get; }
 
@@ -25,7 +25,7 @@ namespace HttpMock.Client.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public Mock Mock
+		public MockResponse Mock
 		{
 			get => _mock;
 			set
