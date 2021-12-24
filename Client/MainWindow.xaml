@@ -30,7 +30,7 @@
         </MenuItem>
       </Menu>
       <ToolBar>
-        <Button Content="New Mock..." Command="{Binding NewMock}" />
+        <Button Content="New Route..." Command="{Binding NewRoute}" />
       </ToolBar>
       <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 5">
         <Label Content="Host:" />
@@ -45,7 +45,7 @@
                 Padding="10, 0, 10, 0" />
       </StackPanel>
       <TabControl>
-        <TabItem Header="Mocks">
+        <TabItem Header="Routes">
           <ListView ItemsSource="{Binding Mocks}" Name="MocksListView">
             <ListView.View>
               <GridView>

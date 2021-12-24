@@ -16,9 +16,9 @@ namespace HttpMock.Client.Commands
 		{
 			var httpInteraction = (HttpInteraction) parameter;
 
-			var window = new NewMockWindow();
+			var window = new NewRouteWindow();
 
-			var dataContext = (NewMockWindowViewModel) window.DataContext;
+			var dataContext = (NewRouteWindowViewModel) window.DataContext;
 
 			var mock = MockResponse.CreateNew();
 			mock.Method = httpInteraction.Method;

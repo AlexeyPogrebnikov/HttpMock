@@ -46,7 +46,7 @@ namespace HttpMock.Client
 			SaveAs = new SaveAsCommand(_mockCache);
 			Open = new OpenCommand(_mockCache, _httpServer, new MessageViewer());
 			Exit = new ExitCommand();
-			NewMock = new NewMockCommand();
+			NewRoute = new NewRouteCommand();
 			EditMock = new EditMockCommand(this);
 			ClearMocks = new ClearMocksCommand(_mockCache);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
@@ -134,7 +134,7 @@ namespace HttpMock.Client
 
 		public ExitCommand Exit { get; }
 
-		public NewMockCommand NewMock { get; }
+		public NewRouteCommand NewRoute { get; }
 
 		public EditMockCommand EditMock { get; }
 

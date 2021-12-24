@@ -5,11 +5,11 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class CreateMockCommand : ICommand
+	public class CreateRouteCommand : ICommand
 	{
 		private readonly IMockCache _mockCache;
 
-		public CreateMockCommand(IMockCache mockCache)
+		public CreateRouteCommand(IMockCache mockCache)
 		{
 			_mockCache = mockCache;
 		}
@@ -22,7 +22,7 @@ namespace HttpMock.Client.Commands
 		public void Execute(object parameter)
 		{
 			var mock = (MockResponse) parameter;
-			if (string.IsNullOrWhiteSpace(mock.Method) || string.IsNullOrWhiteSpace(mock.StatusCode))
+			if (string.IsNullOrWhiteSpace(mock.Method) || string.IsNullOrWhiteSpace(mock.Path) || string.IsNullOrWhiteSpace(mock.StatusCode))
 			{
 				MessageBox.Show("Please fill required (*) fields.");
 				return;
@@ -30,7 +30,7 @@ namespace HttpMock.Client.Commands
 
 			if (_mockCache.Contains(mock))
 			{
-				MessageBox.Show("Mock with same Method and Path already exists.");
+				MessageBox.Show("A route with same Method and Path already exists.");
 				return;
 			}
 
