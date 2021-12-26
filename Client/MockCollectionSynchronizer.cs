@@ -6,33 +6,33 @@ namespace HttpMock.Client
 {
 	public class MockCollectionSynchronizer
 	{
-		public void Synchronize(IList<MockResponse> source, IList<MockResponse> target)
+		public void Synchronize(IList<Route> source, IList<Route> target)
 		{
 			AddToTarget(source, target);
 
 			RemoveFromTarget(source, target);
 		}
 
-		private static void AddToTarget(IEnumerable<MockResponse> source, ICollection<MockResponse> target)
+		private static void AddToTarget(IEnumerable<Route> source, ICollection<Route> target)
 		{
-			foreach (MockResponse mock in source)
+			foreach (Route mock in source)
 			{
 				if (target.All(m => m.Uid != mock.Uid))
 					target.Add(mock);
 			}
 		}
 
-		private static void RemoveFromTarget(IList<MockResponse> source, ICollection<MockResponse> target)
+		private static void RemoveFromTarget(IList<Route> source, ICollection<Route> target)
 		{
-			var buffer = new List<MockResponse>();
+			var buffer = new List<Route>();
 
-			foreach (MockResponse mock in target)
+			foreach (Route mock in target)
 			{
 				if (source.All(m => m.Uid != mock.Uid))
 					buffer.Add(mock);
 			}
 
-			foreach (MockResponse mock in buffer)
+			foreach (Route mock in buffer)
 				target.Remove(mock);
 		}
 	}

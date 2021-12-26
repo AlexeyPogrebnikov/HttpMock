@@ -49,7 +49,7 @@ namespace HttpMock.Client.Tests
 				},
 				Mocks = new[]
 				{
-					new MockResponse
+					new Route
 					{
 						Path = "/",
 						Method = "GET"
@@ -84,7 +84,7 @@ namespace HttpMock.Client.Tests
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = null,
-				Mocks = new MockResponse[]
+				Mocks = new Route[]
 				{
 					null
 				}

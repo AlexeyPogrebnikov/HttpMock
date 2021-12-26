@@ -2,7 +2,7 @@
 using System.IO;
 using Moq;
 using NUnit.Framework;
-using Mock = HttpMock.Core.MockResponse;
+using Mock = HttpMock.Core.Route;
 
 namespace HttpMock.Client.Tests
 {

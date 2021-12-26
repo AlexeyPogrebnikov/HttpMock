@@ -61,7 +61,7 @@ namespace HttpMock.Core
 						Path = request.Path
 					};
 
-					MockResponse mock = _mockCache.GetAll()
+					Route mock = _mockCache.GetAll()
 						.Where(m => m.Method == httpInteraction.Method)
 						.FirstOrDefault(m => m.Path == httpInteraction.Path);
 

@@ -18,7 +18,7 @@ namespace HttpMock.Core.Tests
 		public void Add_throw_ArgumentException_if_Method_is_null()
 		{
 			var mockCache = new MockCache();
-			var mock = new MockResponse { Method = null };
+			var mock = new Route { Method = null };
 
 			var exception = Assert.Throws<ArgumentException>(() => mockCache.Add(mock));
 			Assert.AreEqual("Method of the route is null or empty.", exception.Message);
@@ -28,7 +28,7 @@ namespace HttpMock.Core.Tests
 		public void Add_throw_ArgumentException_if_StatusCode_is_empty()
 		{
 			var mockCache = new MockCache();
-			var mock = new MockResponse
+			var mock = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -47,7 +47,7 @@ namespace HttpMock.Core.Tests
 		{
 			MockCache mockCache = new();
 
-			mockCache.Add(new MockResponse
+			mockCache.Add(new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -57,8 +57,8 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			var mocks = new MockResponse[] {
-				new MockResponse() 
+			var mocks = new Route[] {
+				new Route() 
 				{ 
 					Method = "GET",
 					Path = "/clients",
@@ -67,7 +67,7 @@ namespace HttpMock.Core.Tests
 						StatusCode = "200"
 					}					
 				},
-				new MockResponse()
+				new Route()
 				{
 					Method = "GET",
 					Path = "/orders",
@@ -87,7 +87,7 @@ namespace HttpMock.Core.Tests
 		public void Init_throw_ArgumentNullException_if_mock_is_null()
 		{
 			var mockCache = new MockCache();
-			var mocks = new MockResponse[] { null };
+			var mocks = new Route[] { null };
 			Assert.Throws<ArgumentNullException>(() => mockCache.Init(mocks));
 		}
 
@@ -95,7 +95,7 @@ namespace HttpMock.Core.Tests
 		public void GetAll_return_all_added_mocks()
 		{
 			var mockCache = new MockCache();
-			var mock = new MockResponse 
+			var mock = new Route 
 			{ 
 				Method = "GET", 
 				Path = "/",
@@ -106,7 +106,7 @@ namespace HttpMock.Core.Tests
 			};
 			mockCache.Add(mock);
 
-			MockResponse[] mocks = mockCache.GetAll().ToArray();
+			Route[] mocks = mockCache.GetAll().ToArray();
 
 			Assert.AreEqual(1, mocks.Length);
 			Assert.AreSame(mock, mocks[0]);
@@ -116,7 +116,7 @@ namespace HttpMock.Core.Tests
 		public void Add_throw_InvalidOperationException_if_mock_with_same_Method_and_Path_already_exists()
 		{
 			var mockCache = new MockCache();
-			var firstMock = new MockResponse
+			var firstMock = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -128,7 +128,7 @@ namespace HttpMock.Core.Tests
 
 			mockCache.Add(firstMock);
 
-			var secondMock = new MockResponse
+			var secondMock = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -146,7 +146,7 @@ namespace HttpMock.Core.Tests
 		public void Add_not_throw_exception_if_Paths_are_not_same()
 		{
 			var mockCache = new MockCache();
-			var firstMock = new MockResponse
+			var firstMock = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -158,7 +158,7 @@ namespace HttpMock.Core.Tests
 
 			mockCache.Add(firstMock);
 
-			var secondMock = new MockResponse
+			var secondMock = new Route
 			{
 				Method = "GET",
 				Path = "/s",

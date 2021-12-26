@@ -9,7 +9,7 @@ namespace HttpMock.Client.Windows
 {
 	public class EditMockWindowViewModel : INotifyPropertyChanged
 	{
-		private MockResponse _mock;
+		private Route _mock;
 		public event PropertyChangedEventHandler PropertyChanged;
 		public SaveMockCommand SaveMock { get; }
 
@@ -23,12 +23,12 @@ namespace HttpMock.Client.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public void SetInitialMock(MockResponse mock)
+		public void SetInitialMock(Route mock)
 		{
 			SaveMock.InitialMock = mock;
 		}
 
-		public MockResponse Mock
+		public Route Mock
 		{
 			get => _mock;
 			set

@@ -20,7 +20,7 @@ namespace HttpMock.Client.Commands
 
 			var dataContext = (NewRouteWindowViewModel) window.DataContext;
 
-			var mock = MockResponse.CreateNew();
+			var mock = Route.CreateNew();
 			mock.Method = httpInteraction.Method;
 			mock.Path = httpInteraction.Path;
 			mock.Response.StatusCode = "200";

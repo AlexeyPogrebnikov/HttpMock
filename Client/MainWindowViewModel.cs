@@ -13,7 +13,7 @@ namespace HttpMock.Client
 {
 	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
-		private MockResponse _selectedMock;
+		private Route _selectedMock;
 		private readonly IHttpServer _httpServer;
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		private readonly IMockCache _mockCache;
@@ -25,12 +25,12 @@ namespace HttpMock.Client
 			_mockCache = ServiceLocator.Resolve<IMockCache>();
 			if (_mockCache != null)
 			{
-				IEnumerable<MockResponse> mocks = _mockCache.GetAll();
-				Mocks = new ObservableCollection<MockResponse>(mocks);
+				IEnumerable<Route> mocks = _mockCache.GetAll();
+				Mocks = new ObservableCollection<Route>(mocks);
 			}
 			else
 			{
-				Mocks = new ObservableCollection<MockResponse>();
+				Mocks = new ObservableCollection<Route>();
 			}
 
 			_httpInteractionCache = ServiceLocator.Resolve<IHttpInteractionCache>();
@@ -140,7 +140,7 @@ namespace HttpMock.Client
 
 		public ClearMocksCommand ClearMocks { get; }
 
-		public ObservableCollection<MockResponse> Mocks { get; }
+		public ObservableCollection<Route> Mocks { get; }
 
 		public ObservableCollection<HttpInteraction> HandledRequests { get; }
 
@@ -169,7 +169,7 @@ namespace HttpMock.Client
 
 		public AboutProgramCommand AboutProgram { get; }
 
-		public MockResponse SelectedMock
+		public Route SelectedMock
 		{
 			get => _selectedMock;
 			set
@@ -185,7 +185,7 @@ namespace HttpMock.Client
 		{
 			if (_mockCache != null)
 			{
-				MockResponse[] mocks = _mockCache.GetAll().ToArray();
+				Route[] mocks = _mockCache.GetAll().ToArray();
 
 				var synchronizer = new MockCollectionSynchronizer();
 				synchronizer.Synchronize(mocks, Mocks);

@@ -24,7 +24,7 @@ namespace HttpMock.Client.Commands
 			var window = new EditMockWindow();
 			var newMockWindowViewModel = (EditMockWindowViewModel) window.DataContext;
 			newMockWindowViewModel.SetMainWindowViewModel(_mainWindowViewModel);
-			var mock = (MockResponse) parameter;
+			var mock = (Route) parameter;
 			newMockWindowViewModel.SetInitialMock(mock);
 			newMockWindowViewModel.Mock = mock.Clone();
 			window.Show();
