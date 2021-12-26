@@ -23,7 +23,7 @@ namespace HttpMock.Client.Commands
 			var mock = MockResponse.CreateNew();
 			mock.Method = httpInteraction.Method;
 			mock.Path = httpInteraction.Path;
-			mock.StatusCode = "200";
+			mock.Response.StatusCode = "200";
 
 			dataContext.Mock = mock;
 

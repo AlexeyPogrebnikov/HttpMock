@@ -24,8 +24,11 @@ namespace HttpMock.Core.Tests
 			{
 				Method = "GET",
 				Path = "/language",
-				StatusCode = "200",
-				Content = "C#"
+				Response = new Response
+				{
+					StatusCode = "200",
+					Content = "C#"
+				}
 			});
 
 			_server = new(mockCache, new HttpInteractionCache());
@@ -48,8 +51,11 @@ namespace HttpMock.Core.Tests
 			{
 				Method = "GET",
 				Path = path,
-				StatusCode = "200",
-				Content = "google"
+				Response = new Response
+				{
+					StatusCode = "200",
+					Content = "google"
+				}
 			});
 
 			_server = new(mockCache, new HttpInteractionCache());

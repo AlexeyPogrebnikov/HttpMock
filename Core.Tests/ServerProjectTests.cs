@@ -19,7 +19,8 @@ namespace HttpMock.Core.Tests
 					new MockResponse
 					{
 						Method = "GET",
-						Path = "/"
+						Path = "/",
+						Response = new Response()
 					}
 				}
 			};

@@ -20,7 +20,7 @@
       <TextBlock Text="Status code" Margin="10, 5, 0, 0" />
       <TextBlock Text="*" Foreground="Red" Margin="2, 5, 5, 0" />
       <ComboBox ItemsSource="{Binding StatusCodes}"
-                SelectedValue="{Binding Mock.StatusCode}" Width="50" Height="21" />
+                SelectedValue="{Binding Mock.Response.StatusCode}" Width="50" Height="21" />
     </StackPanel>
     <DockPanel Height="30" DockPanel.Dock="Top">
       <TextBlock Text="Path" Margin="10, 6, 0, 0" />
@@ -35,7 +35,7 @@
     <DockPanel DockPanel.Dock="Top">
       <ScrollViewer Margin="10, 0, 10, 0">
         <TextBox TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 Text="{Binding Mock.Content}" />
+                 Text="{Binding Mock.Response.Content}" />
       </ScrollViewer>
     </DockPanel>
   </DockPanel>

@@ -55,13 +55,16 @@ namespace HttpMock.Core
 				throw new ArgumentNullException(nameof(mock));
 
 			if (string.IsNullOrEmpty(mock.Method))
-				throw new ArgumentException("Method of the mock is null or empty.");
+				throw new ArgumentException("Method of the route is null or empty.");
 
-			if (string.IsNullOrEmpty(mock.StatusCode))
-				throw new ArgumentException("StatusCode of the mock is null or empty.");
+			if (string.IsNullOrEmpty(mock.Path))
+				throw new ArgumentException("Path of the route is null or empty.");
+
+			if (string.IsNullOrEmpty(mock.Response.StatusCode))
+				throw new ArgumentException("StatusCode of the response is null or empty.");
 
 			if (Contains(mock))
-				throw new InvalidOperationException("Mock with same Method and Path already exists.");
+				throw new InvalidOperationException("Route with same Method and Path already exists.");
 		}
 	}
 }

@@ -50,8 +50,8 @@
             <ListView.View>
               <GridView>
                 <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding StatusCode}" />
                 <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
               </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>

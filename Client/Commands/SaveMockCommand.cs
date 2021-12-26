@@ -15,9 +15,9 @@ namespace HttpMock.Client.Commands
 		{
 			var changedMock = (MockResponse) parameter;
 			InitialMock.Method = changedMock.Method;
-			InitialMock.StatusCode = changedMock.StatusCode;
 			InitialMock.Path = changedMock.Path;
-			InitialMock.Content = changedMock.Content;
+			InitialMock.Response.StatusCode = changedMock.Response.StatusCode;
+			InitialMock.Response.Content = changedMock.Response.Content;
 			CloseWindowAction();
 			MainWindowViewModel.RefreshMocksListView();
 		}

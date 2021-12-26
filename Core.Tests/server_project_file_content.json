@@ -4,9 +4,11 @@
   "Mocks": [
     {
       "Method": "GET",
-      "StatusCode": null,
       "Path": "/",
-      "Content": null
+      "Response": {
+        "StatusCode": null,
+        "Content": null
+      }
     }
   ]
 }

@@ -30,7 +30,10 @@ namespace HttpMock.Client.Tests
 					{
 						Method = "GET",
 						Path = "/foo",
-						StatusCode = "200"
+						Response = new Core.Response
+						{
+							StatusCode = "200"
+						}
 					},
 					null
 				}
@@ -41,7 +44,7 @@ namespace HttpMock.Client.Tests
 			Assert.AreEqual(2, loadedWorkSession.Mocks.Length);
 			Assert.AreEqual("GET", loadedWorkSession.Mocks[0].Method);
 			Assert.AreEqual("/foo", loadedWorkSession.Mocks[0].Path);
-			Assert.AreEqual("200", loadedWorkSession.Mocks[0].StatusCode);
+			Assert.AreEqual("200", loadedWorkSession.Mocks[0].Response.StatusCode);
 			Assert.IsNull(loadedWorkSession.Mocks[1]);
 		}
 

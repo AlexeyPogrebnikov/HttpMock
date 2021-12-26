@@ -9,7 +9,8 @@ namespace HttpMock.Core
 		{
 			return new MockResponse
 			{
-				Uid = Guid.NewGuid()
+				Uid = Guid.NewGuid(),
+				Response = new Response()
 			};
 		}
 
@@ -18,11 +19,9 @@ namespace HttpMock.Core
 
 		public string Method { get; set; }
 
-		public string StatusCode { get; set; }
-
 		public string Path { get; set; }
 
-		public string Content { get; set; }
+		public Response Response { get; set; }
 
 		public MockResponse Clone()
 		{
@@ -30,9 +29,8 @@ namespace HttpMock.Core
 			{
 				Uid = Uid,
 				Method = Method,
-				StatusCode = StatusCode,
 				Path = Path,
-				Content = Content
+				Response = Response.Clone()
 			};
 		}
 	}

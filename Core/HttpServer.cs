@@ -72,13 +72,13 @@ namespace HttpMock.Core
 
 					var statusCode = "404";
 					if (mock != null)
-						statusCode = mock.StatusCode;
+						statusCode = mock.Response.StatusCode;
 
 					httpInteraction.StatusCode = statusCode;
 
 					var builder = new ResponseBuilder(Encoding.UTF8);
 					builder.SetStatusCode(statusCode);
-					builder.SetContent(mock?.Content);
+					builder.SetContent(mock?.Response.Content);
 					byte[] data = builder.Build();
 
 					stream.Write(data, 0, data.Length);
