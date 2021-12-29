@@ -10,12 +10,12 @@ namespace HttpMock.Client
 	public partial class App : Application
 	{
 		private readonly EnvironmentWrapper _environmentWrapper = new EnvironmentWrapper();
-		private readonly IMockCache _mockCache;
+		private readonly IHttpServer _httpServer;
 
 		public App()
 		{
 			ServiceLocator.Init();
-			_mockCache = ServiceLocator.Resolve<IMockCache>();
+			_httpServer = ServiceLocator.Resolve<IHttpServer>();
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
@@ -26,7 +26,7 @@ namespace HttpMock.Client
 			workSession.Load(_environmentWrapper);
 
 			ConnectionSettingsCache.Init(workSession.ConnectionSettings);
-			_mockCache.Init(workSession.Mocks);
+			_httpServer.Routes.Init(workSession.Mocks);
 		}
 
 		protected override void OnExit(ExitEventArgs e)
@@ -36,7 +36,7 @@ namespace HttpMock.Client
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = ConnectionSettingsCache.ConnectionSettings,
-				Mocks = _mockCache.GetAll().ToArray()
+				Mocks = _httpServer.Routes.GetAll().ToArray()
 			};
 
 			workSession.Save(_environmentWrapper);

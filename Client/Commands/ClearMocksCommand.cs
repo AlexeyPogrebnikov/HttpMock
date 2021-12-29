@@ -7,11 +7,11 @@ namespace HttpMock.Client.Commands
 {
 	public class ClearMocksCommand : ICommand
 	{
-		private readonly IMockCache _mockCache;
+		private readonly IHttpServer _httpServer;
 
-		public ClearMocksCommand(IMockCache mockCache)
+		public ClearMocksCommand(IHttpServer httpServer)
 		{
-			_mockCache = mockCache;
+			_httpServer = httpServer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -21,9 +21,9 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			if (MessageBox.Show("Are you sure you want to clear the mock list?", "Clear mock list", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+			if (MessageBox.Show("Are you sure you want to clear the route list?", "Clear routes", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 			{
-				_mockCache.Clear();
+				_httpServer.Routes.Clear();
 			}
 		}
 

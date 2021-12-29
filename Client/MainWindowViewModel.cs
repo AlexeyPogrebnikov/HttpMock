@@ -16,16 +16,14 @@ namespace HttpMock.Client
 		private Route _selectedMock;
 		private readonly IHttpServer _httpServer;
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		private readonly IMockCache _mockCache;
 		private Action _refreshMocksListViewAction;
 
 		public MainWindowViewModel()
 		{
 			_httpServer = ServiceLocator.Resolve<IHttpServer>();
-			_mockCache = ServiceLocator.Resolve<IMockCache>();
-			if (_mockCache != null)
+			if (_httpServer != null)
 			{
-				IEnumerable<Route> mocks = _mockCache.GetAll();
+				IEnumerable<Route> mocks = _httpServer.Routes.GetAll();
 				Mocks = new ObservableCollection<Route>(mocks);
 			}
 			else
@@ -43,19 +41,19 @@ namespace HttpMock.Client
 
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
-			SaveAs = new SaveAsCommand(_mockCache);
-			Open = new OpenCommand(_mockCache, _httpServer, new MessageViewer());
+			SaveAs = new SaveAsCommand(_httpServer);
+			Open = new OpenCommand(_httpServer, new MessageViewer());
 			Exit = new ExitCommand();
 			NewRoute = new NewRouteCommand();
 			EditMock = new EditMockCommand(this);
-			ClearMocks = new ClearMocksCommand(_mockCache);
+			ClearMocks = new ClearMocksCommand(_httpServer);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
 
-			RemoveMock = new RemoveMockCommand(_mockCache);
+			RemoveMock = new RemoveMockCommand(_httpServer);
 			RemoveMock.MockCollectionChanged += RemoveMock_MockCollectionChanged;
 
 			var dispatcherTimer = new DispatcherTimer
@@ -183,9 +181,9 @@ namespace HttpMock.Client
 
 		private void UpdateMocks()
 		{
-			if (_mockCache != null)
+			if (_httpServer != null)
 			{
-				Route[] mocks = _mockCache.GetAll().ToArray();
+				Route[] mocks = _httpServer.Routes.GetAll().ToArray();
 
 				var synchronizer = new MockCollectionSynchronizer();
 				synchronizer.Synchronize(mocks, Mocks);

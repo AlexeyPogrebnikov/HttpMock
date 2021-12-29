@@ -6,13 +6,13 @@ namespace HttpMock.Client.Commands
 {
 	public class RemoveMockCommand : ICommand
 	{
-		private readonly IMockCache _mockCache;
+		private readonly IHttpServer _httpServer;
 
 		public event EventHandler MockCollectionChanged;
 
-		public RemoveMockCommand(IMockCache mockCache)
+		public RemoveMockCommand(IHttpServer httpServer)
 		{
-			_mockCache = mockCache;
+			_httpServer = httpServer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -23,7 +23,7 @@ namespace HttpMock.Client.Commands
 		public void Execute(object parameter)
 		{
 			var mock = (Route) parameter;
-			_mockCache.Remove(mock);
+			_httpServer.Routes.Remove(mock);
 			MockCollectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 

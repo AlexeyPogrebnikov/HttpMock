@@ -33,7 +33,6 @@ namespace HttpMock.Client
 
 		private static void ConfigureServices(IServiceCollection services)
 		{
-			services.AddSingleton<IMockCache, MockCache>();
 			services.AddSingleton<IHttpServer, HttpServer>();
 			services.AddSingleton<IHttpInteractionCache, HttpInteractionCache>();
 		}

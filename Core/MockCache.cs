@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace HttpMock.Core
 {
-	public class MockCache : IMockCache
+	public class MockCache
 	{
 		private List<Route> _mocks = new();
 

@@ -7,11 +7,11 @@ namespace HttpMock.Client.Commands
 {
 	public class CreateRouteCommand : ICommand
 	{
-		private readonly IMockCache _mockCache;
+		private readonly IHttpServer _httpServer;
 
-		public CreateRouteCommand(IMockCache mockCache)
+		public CreateRouteCommand(IHttpServer httpServer)
 		{
-			_mockCache = mockCache;
+			_httpServer = httpServer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -28,13 +28,13 @@ namespace HttpMock.Client.Commands
 				return;
 			}
 
-			if (_mockCache.Contains(mock))
+			if (_httpServer.Routes.Contains(mock))
 			{
 				MessageBox.Show("A route with same Method and Path already exists.");
 				return;
 			}
 
-			_mockCache.Add(mock);
+			_httpServer.Routes.Add(mock);
 			CloseWindowAction();
 		}
 

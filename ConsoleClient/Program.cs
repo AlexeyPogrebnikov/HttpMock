@@ -11,9 +11,8 @@ namespace HttpMock.ConsoleClient
 
 			ConsoleArgs consoleArgs = new(args);
 
-			MockCache mockCache = new();
-			IHttpServer httpServer = new HttpServer(mockCache, new HttpInteractionCacheLogger());
-			ConsoleServerProject project = new(consoleArgs, httpServer, mockCache);
+			HttpServer httpServer = new(new HttpInteractionCacheLogger());
+			ConsoleServerProject project = new(consoleArgs, httpServer);
 
 			project.StartServer();
 		}

@@ -15,8 +15,8 @@ namespace HttpMock.Client.Windows
 
 		public NewRouteWindowViewModel()
 		{
-			var mockCache = ServiceLocator.Resolve<IMockCache>();
-			CreateRoute = new CreateRouteCommand(mockCache);
+			var httpServer = ServiceLocator.Resolve<IHttpServer>();
+			CreateRoute = new CreateRouteCommand(httpServer);
 		}
 
 		[NotifyPropertyChangedInvocator]
