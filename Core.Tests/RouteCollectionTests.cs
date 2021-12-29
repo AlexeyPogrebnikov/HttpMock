@@ -5,30 +5,30 @@ using NUnit.Framework;
 namespace HttpMock.Core.Tests
 {
 	[TestFixture]
-	public class MockCacheTests
+	public class RouteCollectionTests
 	{
 		[Test]
-		public void Add_throw_ArgumentNullException_if_mock_is_null()
+		public void Add_throw_ArgumentNullException_if_route_is_null()
 		{
-			var mockCache = new MockCache();
-			Assert.Throws<ArgumentNullException>(() => mockCache.Add(null));
+			var routes = new RouteCollection();
+			Assert.Throws<ArgumentNullException>(() => routes.Add(null));
 		}
 
 		[Test]
 		public void Add_throw_ArgumentException_if_Method_is_null()
 		{
-			var mockCache = new MockCache();
-			var mock = new Route { Method = null };
+			var routes = new RouteCollection();
+			var route = new Route { Method = null };
 
-			var exception = Assert.Throws<ArgumentException>(() => mockCache.Add(mock));
+			var exception = Assert.Throws<ArgumentException>(() => routes.Add(route));
 			Assert.AreEqual("Method of the route is null or empty.", exception.Message);
 		}
 
 		[Test]
 		public void Add_throw_ArgumentException_if_StatusCode_is_empty()
 		{
-			var mockCache = new MockCache();
-			var mock = new Route
+			var routes = new RouteCollection();
+			var route = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -38,16 +38,16 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			var exception = Assert.Throws<ArgumentException>(() => mockCache.Add(mock));
+			var exception = Assert.Throws<ArgumentException>(() => routes.Add(route));
 			Assert.AreEqual("StatusCode of the response is null or empty.", exception.Message);
 		}
 
 		[Test]
-		public void Init_clear_previous_mocks()
+		public void Init_clear_previous_routes()
 		{
-			MockCache mockCache = new();
+			RouteCollection routeCollection = new();
 
-			mockCache.Add(new Route
+			routeCollection.Add(new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -57,7 +57,7 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			var mocks = new Route[] {
+			var routes = new Route[] {
 				new Route() 
 				{ 
 					Method = "GET",
@@ -78,24 +78,24 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			mockCache.Init(mocks);
+			routeCollection.Init(routes);
 
-			Assert.AreEqual(2, mockCache.GetAll().Count());
+			Assert.AreEqual(2, routeCollection.GetAll().Count());
 		}
 
 		[Test]
-		public void Init_throw_ArgumentNullException_if_mock_is_null()
+		public void Init_throw_ArgumentNullException_if_route_is_null()
 		{
-			var mockCache = new MockCache();
-			var mocks = new Route[] { null };
-			Assert.Throws<ArgumentNullException>(() => mockCache.Init(mocks));
+			var routeCollection = new RouteCollection();
+			var routes = new Route[] { null };
+			Assert.Throws<ArgumentNullException>(() => routeCollection.Init(routes));
 		}
 
 		[Test]
-		public void GetAll_return_all_added_mocks()
+		public void GetAll_return_all_added_routes()
 		{
-			var mockCache = new MockCache();
-			var mock = new Route 
+			var routeCollection = new RouteCollection();
+			var route = new Route 
 			{ 
 				Method = "GET", 
 				Path = "/",
@@ -104,19 +104,19 @@ namespace HttpMock.Core.Tests
 					StatusCode = "200"
 				}
 			};
-			mockCache.Add(mock);
+			routeCollection.Add(route);
 
-			Route[] mocks = mockCache.GetAll().ToArray();
+			Route[] routes = routeCollection.GetAll().ToArray();
 
-			Assert.AreEqual(1, mocks.Length);
-			Assert.AreSame(mock, mocks[0]);
+			Assert.AreEqual(1, routes.Length);
+			Assert.AreSame(route, routes[0]);
 		}
 
 		[Test]
-		public void Add_throw_InvalidOperationException_if_mock_with_same_Method_and_Path_already_exists()
+		public void Add_throw_InvalidOperationException_if_route_with_same_Method_and_Path_already_exists()
 		{
-			var mockCache = new MockCache();
-			var firstMock = new Route
+			var routeCollection = new RouteCollection();
+			var firstRoute = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -126,9 +126,9 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			mockCache.Add(firstMock);
+			routeCollection.Add(firstRoute);
 
-			var secondMock = new Route
+			var secondRoute = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -138,15 +138,15 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			var exception = Assert.Throws<InvalidOperationException>(() => mockCache.Add(secondMock));
+			var exception = Assert.Throws<InvalidOperationException>(() => routeCollection.Add(secondRoute));
 			Assert.AreEqual("Route with same Method and Path already exists.", exception.Message);
 		}
 
 		[Test]
 		public void Add_not_throw_exception_if_Paths_are_not_same()
 		{
-			var mockCache = new MockCache();
-			var firstMock = new Route
+			var routeCollection = new RouteCollection();
+			var firstRoute = new Route
 			{
 				Method = "GET",
 				Path = "/",
@@ -156,9 +156,9 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			mockCache.Add(firstMock);
+			routeCollection.Add(firstRoute);
 
-			var secondMock = new Route
+			var secondRoute = new Route
 			{
 				Method = "GET",
 				Path = "/s",
@@ -168,7 +168,7 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			mockCache.Add(secondMock);
+			routeCollection.Add(secondRoute);
 		}
 	}
 }

@@ -10,13 +10,13 @@ namespace HttpMock.Core
 	public class HttpServer : IHttpServer
 	{
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		public MockCache Routes { get; }
+		public RouteCollection Routes { get; }
 		private TcpListener _server;
 
 		public HttpServer(IHttpInteractionCache httpInteractionCache)
 		{
 			_httpInteractionCache = httpInteractionCache;
-			Routes = new MockCache();
+			Routes = new RouteCollection();
 		}
 
 		private TcpListener Server

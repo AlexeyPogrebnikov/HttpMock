@@ -8,7 +8,7 @@ namespace HttpMock.Core
 		event EventHandler StatusChanged;
 		
 		bool IsStarted { get; }
-		MockCache Routes { get; }
+		RouteCollection Routes { get; }
 
 		void Start(IPAddress address, int port);
 		void Stop();

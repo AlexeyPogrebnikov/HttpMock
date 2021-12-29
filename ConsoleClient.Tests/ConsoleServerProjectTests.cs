@@ -17,7 +17,7 @@ namespace HttpMock.ConsoleClient.Tests
 		{
 			_httpServer = new();
 
-			_httpServer.SetupGet(server => server.Routes).Returns(new MockCache());
+			_httpServer.SetupGet(server => server.Routes).Returns(new RouteCollection());
 		}
 
 		[Test]
