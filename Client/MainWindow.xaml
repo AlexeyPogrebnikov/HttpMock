@@ -21,8 +21,8 @@
           <MenuItem Header="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}" />
           <MenuItem Header="Stop" Command="{Binding StopHttpServer}" />
         </MenuItem>
-        <MenuItem Header="Mocks">
-          <MenuItem Header="Add..." Command="{Binding NewMock}" />
+        <MenuItem Header="Routes">
+          <MenuItem Header="Add..." Command="{Binding NewRoute}" />
           <MenuItem Header="Clear" Command="{Binding ClearMocks}" />
         </MenuItem>
         <MenuItem Header="Help">
@@ -46,7 +46,7 @@
       </StackPanel>
       <TabControl>
         <TabItem Header="Routes">
-          <ListView ItemsSource="{Binding Mocks}" Name="MocksListView">
+          <ListView ItemsSource="{Binding Routes}" Name="MocksListView">
             <ListView.View>
               <GridView>
                 <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
@@ -101,7 +101,7 @@
             </ListView.View>
             <ListView.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Mock it..." Command="{Binding NewMock}"
+                <MenuItem Header="Mock it..." Command="{Binding NewRoute}"
                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                 <MenuItem Header="Clear" Command="{Binding ClearUnhandledRequests}" />
               </ContextMenu>

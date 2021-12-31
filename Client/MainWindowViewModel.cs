@@ -13,7 +13,7 @@ namespace HttpMock.Client
 {
 	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
-		private Route _selectedMock;
+		private Route _selectedRoute;
 		private readonly IHttpServer _httpServer;
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		private Action _refreshMocksListViewAction;
@@ -24,11 +24,11 @@ namespace HttpMock.Client
 			if (_httpServer != null)
 			{
 				IEnumerable<Route> mocks = _httpServer.Routes.GetAll();
-				Mocks = new ObservableCollection<Route>(mocks);
+				Routes = new ObservableCollection<Route>(mocks);
 			}
 			else
 			{
-				Mocks = new ObservableCollection<Route>();
+				Routes = new ObservableCollection<Route>();
 			}
 
 			_httpInteractionCache = ServiceLocator.Resolve<IHttpInteractionCache>();
@@ -138,7 +138,7 @@ namespace HttpMock.Client
 
 		public ClearMocksCommand ClearMocks { get; }
 
-		public ObservableCollection<Route> Mocks { get; }
+		public ObservableCollection<Route> Routes { get; }
 
 		public ObservableCollection<HttpInteraction> HandledRequests { get; }
 
@@ -167,13 +167,13 @@ namespace HttpMock.Client
 
 		public AboutProgramCommand AboutProgram { get; }
 
-		public Route SelectedMock
+		public Route SelectedRoute
 		{
-			get => _selectedMock;
+			get => _selectedRoute;
 			set
 			{
-				_selectedMock = value;
-				OnPropertyChanged(nameof(SelectedMock));
+				_selectedRoute = value;
+				OnPropertyChanged(nameof(SelectedRoute));
 			}
 		}
 
@@ -183,15 +183,15 @@ namespace HttpMock.Client
 		{
 			if (_httpServer != null)
 			{
-				Route[] mocks = _httpServer.Routes.GetAll().ToArray();
+				Route[] routes = _httpServer.Routes.GetAll().ToArray();
 
-				var synchronizer = new MockCollectionSynchronizer();
-				synchronizer.Synchronize(mocks, Mocks);
+				RouteCollectionSynchronizer synchronizer = new();
+				synchronizer.Synchronize(routes, Routes);
 			}
 
-			if (Mocks.All(mock => mock.Uid != SelectedMock?.Uid))
+			if (Routes.All(mock => mock.Uid != SelectedRoute?.Uid))
 			{
-				SelectedMock = null;
+				SelectedRoute = null;
 			}
 		}
 
