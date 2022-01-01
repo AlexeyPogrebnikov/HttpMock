@@ -10,13 +10,13 @@ namespace HttpMock.Core
 	public class HttpServer : IHttpServer
 	{
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		private readonly IMockCache _mockCache;
+		public RouteCollection Routes { get; }
 		private TcpListener _server;
 
-		public HttpServer(IMockCache mockCache, IHttpInteractionCache httpInteractionCache)
+		public HttpServer(IHttpInteractionCache httpInteractionCache)
 		{
-			_mockCache = mockCache;
 			_httpInteractionCache = httpInteractionCache;
+			Routes = new RouteCollection();
 		}
 
 		private TcpListener Server
@@ -61,7 +61,7 @@ namespace HttpMock.Core
 						Path = request.Path
 					};
 
-					MockResponse mock = _mockCache.GetAll()
+					Route mock = Routes.GetAll()
 						.Where(m => m.Method == httpInteraction.Method)
 						.FirstOrDefault(m => m.Path == httpInteraction.Path);
 
@@ -72,13 +72,13 @@ namespace HttpMock.Core
 
 					var statusCode = "404";
 					if (mock != null)
-						statusCode = mock.StatusCode;
+						statusCode = mock.Response.StatusCode;
 
 					httpInteraction.StatusCode = statusCode;
 
 					var builder = new ResponseBuilder(Encoding.UTF8);
 					builder.SetStatusCode(statusCode);
-					builder.SetContent(mock?.Content);
+					builder.SetContent(mock?.Response.Content);
 					byte[] data = builder.Build();
 
 					stream.Write(data, 0, data.Length);

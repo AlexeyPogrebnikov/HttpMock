@@ -10,6 +10,16 @@ namespace HttpMock.ConsoleClient.Tests
 	[TestFixture]
 	class ConsoleServerProjectTests
 	{
+		Mock<IHttpServer> _httpServer;
+
+		[SetUp]
+		public void SetUp()
+		{
+			_httpServer = new();
+
+			_httpServer.SetupGet(server => server.Routes).Returns(new RouteCollection());
+		}
+
 		[Test]
 		public void StartServer_start_server_with_parameters_from_serverProject_if_path_is_specified()
 		{
@@ -17,7 +27,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Mocks = Array.Empty<Core.MockResponse>()
+				Routes = Array.Empty<Core.Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -28,14 +38,12 @@ namespace HttpMock.ConsoleClient.Tests
 
 			string[] args = new[] { fileName };
 			ConsoleArgs consoleArgs = new(args);
-			Mock<IHttpServer> httpServer = new();
-			IMockCache mockCache = new MockCache();
 
-			ConsoleServerProject project = new(consoleArgs, httpServer.Object, mockCache);
+			ConsoleServerProject project = new(consoleArgs, _httpServer.Object);
 
 			project.StartServer();
 
-			httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "127.0.0.1"), It.Is<int>(port => port == 80)));
+			_httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "127.0.0.1"), It.Is<int>(port => port == 80)));
 		}
 
 		[Test]
@@ -43,14 +51,12 @@ namespace HttpMock.ConsoleClient.Tests
 		{
 			string[] args = new[] { "-host", "192.88.99.1", "-port", "443" };
 			ConsoleArgs consoleArgs = new(args);
-			Mock<IHttpServer> httpServer = new();
-			IMockCache mockCache = new MockCache();
 
-			ConsoleServerProject project = new(consoleArgs, httpServer.Object, mockCache);
+			ConsoleServerProject project = new(consoleArgs, _httpServer.Object);
 
 			project.StartServer();
 
-			httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "192.88.99.1"), It.Is<int>(port => port == 443)));
+			_httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "192.88.99.1"), It.Is<int>(port => port == 443)));
 		}
 
 		[Test]
@@ -60,7 +66,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Mocks = Array.Empty<Core.MockResponse>()
+				Routes = Array.Empty<Core.Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -71,14 +77,12 @@ namespace HttpMock.ConsoleClient.Tests
 
 			string[] args = new[] { fileName, "-host", "192.168.1.100" };
 			ConsoleArgs consoleArgs = new(args);
-			Mock<IHttpServer> httpServer = new();
-			IMockCache mockCache = new MockCache();
 
-			ConsoleServerProject project = new(consoleArgs, httpServer.Object, mockCache);
+			ConsoleServerProject project = new(consoleArgs, _httpServer.Object);
 
 			project.StartServer();
 
-			httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "192.168.1.100"), It.Is<int>(port => port == 80)));
+			_httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "192.168.1.100"), It.Is<int>(port => port == 80)));
 		}
 
 		[Test]
@@ -88,7 +92,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Mocks = Array.Empty<Core.MockResponse>()
+				Routes = Array.Empty<Core.Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -99,14 +103,12 @@ namespace HttpMock.ConsoleClient.Tests
 
 			string[] args = new[] { fileName, "-port", "22" };
 			ConsoleArgs consoleArgs = new(args);
-			Mock<IHttpServer> httpServer = new();
-			IMockCache mockCache = new MockCache();
 
-			ConsoleServerProject project = new(consoleArgs, httpServer.Object, mockCache);
+			ConsoleServerProject project = new(consoleArgs, _httpServer.Object);
 
 			project.StartServer();
 
-			httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "127.0.0.1"), It.Is<int>(port => port == 22)));
+			_httpServer.Verify(server => server.Start(It.Is<IPAddress>(ip => ip.ToString() == "127.0.0.1"), It.Is<int>(port => port == 22)));
 		}
 	}
 }

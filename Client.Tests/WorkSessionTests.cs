@@ -10,7 +10,7 @@ namespace HttpMock.Client.Tests
 	public class WorkSessionTests
 	{
 		[Test]
-		public void Load_Mocks_empty_if_json_file_does_not_exist()
+		public void Load_Routes_empty_if_json_file_does_not_exist()
 		{
 			var environmentWrapper = new Mock<IEnvironmentWrapper>();
 
@@ -24,7 +24,7 @@ namespace HttpMock.Client.Tests
 			var workSession = new WorkSession();
 			workSession.Load(environmentWrapper.Object);
 
-			Assert.IsEmpty(workSession.Mocks);
+			Assert.IsEmpty(workSession.Routes);
 			Assert.NotNull(workSession.ConnectionSettings);
 		}
 
@@ -47,9 +47,9 @@ namespace HttpMock.Client.Tests
 					Host = "127.0.0.1",
 					Port = "80"
 				},
-				Mocks = new[]
+				Routes = new[]
 				{
-					new MockResponse
+					new Route
 					{
 						Path = "/",
 						Method = "GET"
@@ -64,9 +64,9 @@ namespace HttpMock.Client.Tests
 
 			Assert.AreEqual("127.0.0.1", loadedWorkSession.ConnectionSettings.Host);
 			Assert.AreEqual("80", loadedWorkSession.ConnectionSettings.Port);
-			Assert.AreEqual(1, loadedWorkSession.Mocks.Length);
-			Assert.AreEqual("/", loadedWorkSession.Mocks[0].Path);
-			Assert.AreEqual("GET", loadedWorkSession.Mocks[0].Method);
+			Assert.AreEqual(1, loadedWorkSession.Routes.Length);
+			Assert.AreEqual("/", loadedWorkSession.Routes[0].Path);
+			Assert.AreEqual("GET", loadedWorkSession.Routes[0].Method);
 		}
 
 		[Test]
@@ -84,7 +84,7 @@ namespace HttpMock.Client.Tests
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = null,
-				Mocks = new MockResponse[]
+				Routes = new Route[]
 				{
 					null
 				}
@@ -96,11 +96,11 @@ namespace HttpMock.Client.Tests
 			loadedWorkSession.Load(environmentWrapper.Object);
 
 			Assert.NotNull(loadedWorkSession.ConnectionSettings);
-			Assert.IsEmpty(loadedWorkSession.Mocks);
+			Assert.IsEmpty(loadedWorkSession.Routes);
 		}
 
 		[Test]
-		public void Load_if_Mocks_is_null()
+		public void Load_if_Routes_is_null()
 		{
 			var environmentWrapper = new Mock<IEnvironmentWrapper>();
 
@@ -113,7 +113,7 @@ namespace HttpMock.Client.Tests
 
 			var workSession = new WorkSession
 			{
-				Mocks = null
+				Routes = null
 			};
 
 			workSession.Save(environmentWrapper.Object);
@@ -121,7 +121,7 @@ namespace HttpMock.Client.Tests
 			var loadedWorkSession = new WorkSession();
 			loadedWorkSession.Load(environmentWrapper.Object);
 
-			Assert.IsEmpty(loadedWorkSession.Mocks);
+			Assert.IsEmpty(loadedWorkSession.Routes);
 		}
 	}
 }

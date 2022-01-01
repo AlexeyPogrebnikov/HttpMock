@@ -9,11 +9,9 @@ namespace HttpMock.Client.Commands
 	{
 		private readonly IHttpServer _httpServer;
 		private readonly IMessageViewer _messageViewer;
-		private readonly IMockCache _mockCache;
 
-		public OpenCommand(IMockCache mockCache, IHttpServer httpServer, IMessageViewer messageViewer)
+		public OpenCommand(IHttpServer httpServer, IMessageViewer messageViewer)
 		{
-			_mockCache = mockCache;
 			_httpServer = httpServer;
 			_messageViewer = messageViewer;
 		}
@@ -47,7 +45,7 @@ namespace HttpMock.Client.Commands
 				connectionSettings.Host = project.Host;
 				connectionSettings.Port = project.Port;
 
-				_mockCache.Init(project.Mocks);
+				_httpServer.Routes.Init(project.Routes);
 				ServerProjectOpened?.Invoke(this, EventArgs.Empty);
 			}
 		}

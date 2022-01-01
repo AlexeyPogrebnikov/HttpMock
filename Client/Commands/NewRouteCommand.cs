@@ -5,7 +5,7 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class NewMockCommand : ICommand
+	public class NewRouteCommand : ICommand
 	{
 		public bool CanExecute(object parameter)
 		{
@@ -14,18 +14,18 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var window = new NewMockWindow();
-			var newMockWindowViewModel = (NewMockWindowViewModel) window.DataContext;
-			var mock = MockResponse.CreateNew();
-			mock.StatusCode = "200";
+			NewRouteWindow window = new();
+			var newRouteWindowViewModel = (NewRouteWindowViewModel) window.DataContext;
+			var route = Route.CreateNew();
+			route.Response.StatusCode = "200";
 
 			if (parameter is HttpInteraction httpInteraction)
 			{
-				mock.Method = httpInteraction.Method;
-				mock.Path = httpInteraction.Path;
+				route.Method = httpInteraction.Method;
+				route.Path = httpInteraction.Path;
 			}
 
-			newMockWindowViewModel.Mock = mock;
+			newRouteWindowViewModel.Route = route;
 			window.Show();
 		}
 

@@ -14,24 +14,24 @@ namespace HttpMock.Client
 		{
 			InitializeComponent();
 			var dataContext = (MainWindowViewModel)DataContext;
-			dataContext.SetRefreshMocksListViewAction(RefreshMocksListView);
+			dataContext.SetRefreshRoutesListViewAction(RefreshRoutesListView);
 		}
 
-		private void MockListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void RouteListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (sender is ListViewItem item)
 			{
-				if (item.Content is MockResponse mock)
+				if (item.Content is Route route)
 				{
 					var dataContext = (MainWindowViewModel) DataContext;
-					dataContext.SelectedMock = mock;
+					dataContext.SelectedRoute = route;
 				}
 			}
 		}
 
-		private void RefreshMocksListView()
+		private void RefreshRoutesListView()
 		{
-			MocksListView.Items.Refresh();
+			RoutesListView.Items.Refresh();
 		}
 	}
 }

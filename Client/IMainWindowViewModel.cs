@@ -7,6 +7,6 @@ namespace HttpMock.Client
 	{
 		ObservableCollection<HttpInteraction> HandledRequests { get; }
 		ObservableCollection<HttpInteraction> UnhandledRequests { get; }
-		void RefreshMocksListView();
+		void RefreshRouteListView();
 	}
 }

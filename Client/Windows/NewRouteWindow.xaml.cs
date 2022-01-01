@@ -2,15 +2,12 @@
 
 namespace HttpMock.Client.Windows
 {
-	/// <summary>
-	/// Interaction logic for NewMockWindow.xaml
-	/// </summary>
-	public partial class NewMockWindow : Window
+	public partial class NewRouteWindow : Window
 	{
-		public NewMockWindow()
+		public NewRouteWindow()
 		{
 			InitializeComponent();
-			var dataContext = (NewMockWindowViewModel) DataContext;
+			var dataContext = (NewRouteWindowViewModel) DataContext;
 			dataContext.SetCloseWindowAction(Close);
 		}
 

@@ -10,7 +10,7 @@ namespace HttpMock.ConsoleClient
 		private readonly IPAddress host;
 		private readonly int port;
 
-		public ConsoleServerProject(ConsoleArgs consoleArgs, IHttpServer httpServer, IMockCache mockCache)
+		public ConsoleServerProject(ConsoleArgs consoleArgs, IHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 
@@ -19,7 +19,7 @@ namespace HttpMock.ConsoleClient
 				_serverProject = new ServerProject();
 				_serverProject.Load(consoleArgs.ServerProjectFileName);
 				
-				mockCache.Init(_serverProject.Mocks);
+				httpServer.Routes.Init(_serverProject.Routes);
 
 				host = IPAddress.Parse(_serverProject.Host);
 				port = int.Parse(_serverProject.Port);

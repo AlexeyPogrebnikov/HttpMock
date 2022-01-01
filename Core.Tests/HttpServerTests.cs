@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 namespace HttpMock.Core.Tests
 {
 	[TestFixture]
-	class HttpServerTests
+	public class HttpServerTests
 	{
 		HttpServer _server;
+
+		[SetUp]
+		public void SetUp()
+		{
+			_server = new(new HttpInteractionCache());
+		}
 
 		[TearDown]
 		public void TearDown()
@@ -19,16 +25,16 @@ namespace HttpMock.Core.Tests
 		[Test, Timeout(5000)]
 		public void Request_short_path()
 		{
-			MockCache mockCache = new();
-			mockCache.Add(new MockResponse()
+			_server.Routes.Add(new Route()
 			{
 				Method = "GET",
 				Path = "/language",
-				StatusCode = "200",
-				Content = "C#"
+				Response = new Response
+				{
+					StatusCode = "200",
+					Content = "C#"
+				}
 			});
-
-			_server = new(mockCache, new HttpInteractionCache());
 
 			Task.Run(() => _server.Start(System.Net.IPAddress.Parse("127.0.0.1"), 80));
 
@@ -42,17 +48,17 @@ namespace HttpMock.Core.Tests
 		[Test, Timeout(5000)]
 		public void Request_path_has_2000_symbols()
 		{
-			MockCache mockCache = new();
 			string path = "/goo" + new string('0', 1994) + "le";
-			mockCache.Add(new MockResponse()
+			_server.Routes.Add(new Route()
 			{
 				Method = "GET",
 				Path = path,
-				StatusCode = "200",
-				Content = "google"
+				Response = new Response
+				{
+					StatusCode = "200",
+					Content = "google"
+				}
 			});
-
-			_server = new(mockCache, new HttpInteractionCache());
 
 			Task.Run(() => _server.Start(System.Net.IPAddress.Parse("127.0.0.1"), 80));
 			WaitReadyServer();
