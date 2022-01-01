@@ -26,7 +26,7 @@ namespace HttpMock.Client
 			workSession.Load(_environmentWrapper);
 
 			ConnectionSettingsCache.Init(workSession.ConnectionSettings);
-			_httpServer.Routes.Init(workSession.Mocks);
+			_httpServer.Routes.Init(workSession.Routes);
 		}
 
 		protected override void OnExit(ExitEventArgs e)
@@ -36,7 +36,7 @@ namespace HttpMock.Client
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = ConnectionSettingsCache.ConnectionSettings,
-				Mocks = _httpServer.Routes.GetAll().ToArray()
+				Routes = _httpServer.Routes.GetAll().ToArray()
 			};
 
 			workSession.Save(_environmentWrapper);

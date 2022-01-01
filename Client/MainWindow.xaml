@@ -46,7 +46,7 @@
       </StackPanel>
       <TabControl>
         <TabItem Header="Routes">
-          <ListView ItemsSource="{Binding Routes}" Name="MocksListView">
+          <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
             <ListView.View>
               <GridView>
                 <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
@@ -56,13 +56,13 @@
             </ListView.View>
             <ListView.ItemContainerStyle>
               <Style TargetType="ListViewItem">
-                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="MockListView_PreviewMouseLeftButtonDown" />
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="RouteListView_PreviewMouseLeftButtonDown" />
               </Style>
             </ListView.ItemContainerStyle>
             <ListView.ContextMenu>
               <ContextMenu>
                 <MenuItem Header="Add..." Command="{Binding NewRoute}" />
-                <MenuItem Header="Edit..." Command="{Binding EditMock}"
+                <MenuItem Header="Edit..." Command="{Binding EditRoute}"
                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                 <MenuItem Header="Remove"
                           Command="{Binding RemoveRoute}"

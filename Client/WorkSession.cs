@@ -8,7 +8,7 @@ namespace HttpMock.Client
 	{
 		public ConnectionSettings ConnectionSettings { get; set; }
 
-		public Route[] Mocks { get; set; }
+		public Route[] Routes { get; set; }
 
 		public void Save(IEnvironmentWrapper environmentWrapper)
 		{
@@ -23,12 +23,12 @@ namespace HttpMock.Client
 			if (loadedWorkSession != null)
 			{
 				ConnectionSettings = loadedWorkSession.ConnectionSettings;
-				Mocks = loadedWorkSession.Mocks?.Where(mock => mock != null).ToArray();
+				Routes = loadedWorkSession.Routes?.Where(mock => mock != null).ToArray();
 			}
 
 			ConnectionSettings ??= new ConnectionSettings();
 
-			Mocks ??= Array.Empty<Route>();
+			Routes ??= Array.Empty<Route>();
 		}
 	}
 }

@@ -7,15 +7,15 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Windows
 {
-	public class EditMockWindowViewModel : INotifyPropertyChanged
+	public class EditRouteWindowViewModel : INotifyPropertyChanged
 	{
-		private Route _mock;
+		private Route _route;
 		public event PropertyChangedEventHandler PropertyChanged;
-		public SaveRouteCommand SaveMock { get; }
+		public SaveRouteCommand SaveRoute { get; }
 
-		public EditMockWindowViewModel()
+		public EditRouteWindowViewModel()
 		{
-			SaveMock = new SaveRouteCommand();
+			SaveRoute = new SaveRouteCommand();
 		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -23,17 +23,17 @@ namespace HttpMock.Client.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public void SetInitialMock(Route mock)
+		public void SetInitialRoute(Route route)
 		{
-			SaveMock.InitialRoute = mock;
+			SaveRoute.InitialRoute = route;
 		}
 
 		public Route Route
 		{
-			get => _mock;
+			get => _route;
 			set
 			{
-				_mock = value;
+				_route = value;
 				OnPropertyChanged(nameof(Route));
 			}
 		}
@@ -44,12 +44,12 @@ namespace HttpMock.Client.Windows
 
 		public void SetCloseWindowAction(Action action)
 		{
-			SaveMock.CloseWindowAction = action;
+			SaveRoute.CloseWindowAction = action;
 		}
 
 		public void SetMainWindowViewModel(IMainWindowViewModel mainWindowViewModel)
 		{
-			SaveMock.MainWindowViewModel = mainWindowViewModel;
+			SaveRoute.MainWindowViewModel = mainWindowViewModel;
 		}
 	}
 }

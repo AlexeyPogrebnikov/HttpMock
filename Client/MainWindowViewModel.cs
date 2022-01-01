@@ -16,15 +16,15 @@ namespace HttpMock.Client
 		private Route _selectedRoute;
 		private readonly IHttpServer _httpServer;
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		private Action _refreshMocksListViewAction;
+		private Action _refreshRoutesListViewAction;
 
 		public MainWindowViewModel()
 		{
 			_httpServer = ServiceLocator.Resolve<IHttpServer>();
 			if (_httpServer != null)
 			{
-				IEnumerable<Route> mocks = _httpServer.Routes.GetAll();
-				Routes = new ObservableCollection<Route>(mocks);
+				IEnumerable<Route> routes = _httpServer.Routes.GetAll();
+				Routes = new ObservableCollection<Route>(routes);
 			}
 			else
 			{
@@ -45,7 +45,7 @@ namespace HttpMock.Client
 			Open = new OpenCommand(_httpServer, new MessageViewer());
 			Exit = new ExitCommand();
 			NewRoute = new NewRouteCommand();
-			EditMock = new EditRouteCommand(this);
+			EditRoute = new EditRouteCommand(this);
 			ClearRoutes = new ClearRoutesCommand(_httpServer);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
@@ -54,7 +54,7 @@ namespace HttpMock.Client
 			AboutProgram = new AboutProgramCommand();
 
 			RemoveRoute = new RemoveRouteCommand(_httpServer);
-			RemoveRoute.RouteCollectionChanged += RemoveMock_MockCollectionChanged;
+			RemoveRoute.RouteCollectionChanged += RemoveRoute_RouteCollectionChanged;
 
 			var dispatcherTimer = new DispatcherTimer
 			{
@@ -72,9 +72,9 @@ namespace HttpMock.Client
 			OnPropertyChanged(nameof(ConnectionSettings));
 		}
 
-		private void RemoveMock_MockCollectionChanged(object sender, EventArgs e)
+		private void RemoveRoute_RouteCollectionChanged(object sender, EventArgs e)
 		{
-			UpdateMocks();
+			UpdateRoutes();
 		}
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -96,7 +96,7 @@ namespace HttpMock.Client
 			OnPropertyChanged(nameof(StartHttpServerVisibility));
 			OnPropertyChanged(nameof(StopHttpServerVisibility));
 
-			UpdateMocks();
+			UpdateRoutes();
 
 			if (_httpInteractionCache != null)
 			{
@@ -134,7 +134,7 @@ namespace HttpMock.Client
 
 		public NewRouteCommand NewRoute { get; }
 
-		public EditRouteCommand EditMock { get; }
+		public EditRouteCommand EditRoute { get; }
 
 		public ClearRoutesCommand ClearRoutes { get; }
 
@@ -148,7 +148,7 @@ namespace HttpMock.Client
 
 		public void RefreshRouteListView()
 		{
-			_refreshMocksListViewAction();
+			_refreshRoutesListViewAction();
 		}
 
 		public ClearUnhandledRequestsCommand ClearUnhandledRequests { get; }
@@ -179,7 +179,7 @@ namespace HttpMock.Client
 
 		public RemoveRouteCommand RemoveRoute { get; }
 
-		private void UpdateMocks()
+		private void UpdateRoutes()
 		{
 			if (_httpServer != null)
 			{
@@ -189,15 +189,15 @@ namespace HttpMock.Client
 				synchronizer.Synchronize(routes, Routes);
 			}
 
-			if (Routes.All(mock => mock.Uid != SelectedRoute?.Uid))
+			if (Routes.All(route => route.Uid != SelectedRoute?.Uid))
 			{
 				SelectedRoute = null;
 			}
 		}
 
-		public void SetRefreshMocksListViewAction(Action action)
+		public void SetRefreshRoutesListViewAction(Action action)
 		{
-			_refreshMocksListViewAction = action;
+			_refreshRoutesListViewAction = action;
 		}
 
 		private void HttpServer_StatusChanged(object sender, EventArgs e)

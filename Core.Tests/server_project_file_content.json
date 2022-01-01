@@ -1,7 +1,7 @@
 {
   "Host": "127.0.0.1",
   "Port": "443",
-  "Mocks": [
+  "Routes": [
     {
       "Method": "GET",
       "Path": "/",

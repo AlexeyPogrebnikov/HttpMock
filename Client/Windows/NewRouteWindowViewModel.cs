@@ -9,7 +9,7 @@ namespace HttpMock.Client.Windows
 {
 	public class NewRouteWindowViewModel : INotifyPropertyChanged
 	{
-		private Route _mock;
+		private Route _route;
 		public event PropertyChangedEventHandler PropertyChanged;
 		public CreateRouteCommand CreateRoute { get; }
 
@@ -27,10 +27,10 @@ namespace HttpMock.Client.Windows
 
 		public Route Route
 		{
-			get => _mock;
+			get => _route;
 			set
 			{
-				_mock = value;
+				_route = value;
 				OnPropertyChanged(nameof(Route));
 			}
 		}
