@@ -25,13 +25,13 @@ namespace HttpMock.Client.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public Route Mock
+		public Route Route
 		{
 			get => _mock;
 			set
 			{
 				_mock = value;
-				OnPropertyChanged(nameof(Mock));
+				OnPropertyChanged(nameof(Route));
 			}
 		}
 

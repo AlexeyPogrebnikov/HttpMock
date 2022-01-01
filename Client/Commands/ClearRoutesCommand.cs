@@ -5,11 +5,11 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class ClearMocksCommand : ICommand
+	public class ClearRoutesCommand : ICommand
 	{
 		private readonly IHttpServer _httpServer;
 
-		public ClearMocksCommand(IHttpServer httpServer)
+		public ClearRoutesCommand(IHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 		}

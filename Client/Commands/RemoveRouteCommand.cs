@@ -4,13 +4,13 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class RemoveMockCommand : ICommand
+	public class RemoveRouteCommand : ICommand
 	{
 		private readonly IHttpServer _httpServer;
 
-		public event EventHandler MockCollectionChanged;
+		public event EventHandler RouteCollectionChanged;
 
-		public RemoveMockCommand(IHttpServer httpServer)
+		public RemoveRouteCommand(IHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 		}
@@ -22,9 +22,9 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var mock = (Route) parameter;
-			_httpServer.Routes.Remove(mock);
-			MockCollectionChanged?.Invoke(this, EventArgs.Empty);
+			var route = (Route) parameter;
+			_httpServer.Routes.Remove(route);
+			RouteCollectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public event EventHandler CanExecuteChanged;

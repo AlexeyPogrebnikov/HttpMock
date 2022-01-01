@@ -45,7 +45,7 @@ namespace HttpMock.Client.Commands
 				connectionSettings.Host = project.Host;
 				connectionSettings.Port = project.Port;
 
-				_httpServer.Routes.Init(project.Mocks);
+				_httpServer.Routes.Init(project.Routes);
 				ServerProjectOpened?.Invoke(this, EventArgs.Empty);
 			}
 		}

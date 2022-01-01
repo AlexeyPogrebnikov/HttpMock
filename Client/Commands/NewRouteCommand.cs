@@ -15,17 +15,17 @@ namespace HttpMock.Client.Commands
 		public void Execute(object parameter)
 		{
 			NewRouteWindow window = new();
-			var newMockWindowViewModel = (NewRouteWindowViewModel) window.DataContext;
-			var mock = Route.CreateNew();
-			mock.Response.StatusCode = "200";
+			var newRouteWindowViewModel = (NewRouteWindowViewModel) window.DataContext;
+			var route = Route.CreateNew();
+			route.Response.StatusCode = "200";
 
 			if (parameter is HttpInteraction httpInteraction)
 			{
-				mock.Method = httpInteraction.Method;
-				mock.Path = httpInteraction.Path;
+				route.Method = httpInteraction.Method;
+				route.Path = httpInteraction.Path;
 			}
 
-			newMockWindowViewModel.Mock = mock;
+			newRouteWindowViewModel.Route = route;
 			window.Show();
 		}
 

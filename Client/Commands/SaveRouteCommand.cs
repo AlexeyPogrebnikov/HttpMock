@@ -4,7 +4,7 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class SaveMockCommand : ICommand
+	public class SaveRouteCommand : ICommand
 	{
 		public bool CanExecute(object parameter)
 		{
@@ -13,20 +13,20 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var changedMock = (Route) parameter;
-			InitialMock.Method = changedMock.Method;
-			InitialMock.Path = changedMock.Path;
-			InitialMock.Response.StatusCode = changedMock.Response.StatusCode;
-			InitialMock.Response.Content = changedMock.Response.Content;
+			var changedRoute = (Route) parameter;
+			InitialRoute.Method = changedRoute.Method;
+			InitialRoute.Path = changedRoute.Path;
+			InitialRoute.Response.StatusCode = changedRoute.Response.StatusCode;
+			InitialRoute.Response.Content = changedRoute.Response.Content;
 			CloseWindowAction();
-			MainWindowViewModel.RefreshMocksListView();
+			MainWindowViewModel.RefreshRouteListView();
 		}
 
 		public Action CloseWindowAction { get; set; }
 
 		public event EventHandler CanExecuteChanged;
 
-		public Route InitialMock { get; set; }
+		public Route InitialRoute { get; set; }
 
 		public IMainWindowViewModel MainWindowViewModel { get; set; }
 	}

@@ -11,11 +11,11 @@ namespace HttpMock.Client.Windows
 	{
 		private Route _mock;
 		public event PropertyChangedEventHandler PropertyChanged;
-		public SaveMockCommand SaveMock { get; }
+		public SaveRouteCommand SaveMock { get; }
 
 		public EditMockWindowViewModel()
 		{
-			SaveMock = new SaveMockCommand();
+			SaveMock = new SaveRouteCommand();
 		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -25,16 +25,16 @@ namespace HttpMock.Client.Windows
 
 		public void SetInitialMock(Route mock)
 		{
-			SaveMock.InitialMock = mock;
+			SaveMock.InitialRoute = mock;
 		}
 
-		public Route Mock
+		public Route Route
 		{
 			get => _mock;
 			set
 			{
 				_mock = value;
-				OnPropertyChanged(nameof(Mock));
+				OnPropertyChanged(nameof(Route));
 			}
 		}
 

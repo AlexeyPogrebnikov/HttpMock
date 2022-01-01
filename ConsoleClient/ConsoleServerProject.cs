@@ -19,7 +19,7 @@ namespace HttpMock.ConsoleClient
 				_serverProject = new ServerProject();
 				_serverProject.Load(consoleArgs.ServerProjectFileName);
 				
-				httpServer.Routes.Init(_serverProject.Mocks);
+				httpServer.Routes.Init(_serverProject.Routes);
 
 				host = IPAddress.Parse(_serverProject.Host);
 				port = int.Parse(_serverProject.Port);

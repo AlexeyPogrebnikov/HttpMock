@@ -45,16 +45,16 @@ namespace HttpMock.Client
 			Open = new OpenCommand(_httpServer, new MessageViewer());
 			Exit = new ExitCommand();
 			NewRoute = new NewRouteCommand();
-			EditMock = new EditMockCommand(this);
-			ClearMocks = new ClearMocksCommand(_httpServer);
+			EditMock = new EditRouteCommand(this);
+			ClearRoutes = new ClearRoutesCommand(_httpServer);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
 
-			RemoveMock = new RemoveMockCommand(_httpServer);
-			RemoveMock.MockCollectionChanged += RemoveMock_MockCollectionChanged;
+			RemoveRoute = new RemoveRouteCommand(_httpServer);
+			RemoveRoute.RouteCollectionChanged += RemoveMock_MockCollectionChanged;
 
 			var dispatcherTimer = new DispatcherTimer
 			{
@@ -134,9 +134,9 @@ namespace HttpMock.Client
 
 		public NewRouteCommand NewRoute { get; }
 
-		public EditMockCommand EditMock { get; }
+		public EditRouteCommand EditMock { get; }
 
-		public ClearMocksCommand ClearMocks { get; }
+		public ClearRoutesCommand ClearRoutes { get; }
 
 		public ObservableCollection<Route> Routes { get; }
 
@@ -146,7 +146,7 @@ namespace HttpMock.Client
 
 		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
 
-		public void RefreshMocksListView()
+		public void RefreshRouteListView()
 		{
 			_refreshMocksListViewAction();
 		}
@@ -177,7 +177,7 @@ namespace HttpMock.Client
 			}
 		}
 
-		public RemoveMockCommand RemoveMock { get; }
+		public RemoveRouteCommand RemoveRoute { get; }
 
 		private void UpdateMocks()
 		{

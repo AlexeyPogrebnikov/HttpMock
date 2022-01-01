@@ -23,7 +23,7 @@
         </MenuItem>
         <MenuItem Header="Routes">
           <MenuItem Header="Add..." Command="{Binding NewRoute}" />
-          <MenuItem Header="Clear" Command="{Binding ClearMocks}" />
+          <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
         </MenuItem>
         <MenuItem Header="Help">
           <MenuItem Header="About" Command="{Binding AboutProgram}" />
@@ -61,13 +61,13 @@
             </ListView.ItemContainerStyle>
             <ListView.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Add..." Command="{Binding NewMock}" />
+                <MenuItem Header="Add..." Command="{Binding NewRoute}" />
                 <MenuItem Header="Edit..." Command="{Binding EditMock}"
                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                 <MenuItem Header="Remove"
-                          Command="{Binding RemoveMock}"
+                          Command="{Binding RemoveRoute}"
                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                <MenuItem Header="Clear" Command="{Binding ClearMocks}" />
+                <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
               </ContextMenu>
             </ListView.ContextMenu>
           </ListView>

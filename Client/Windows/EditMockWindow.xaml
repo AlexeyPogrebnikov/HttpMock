@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:windows="clr-namespace:HttpMock.Client.Windows"
         mc:Ignorable="d"
-        Title="Edit Mock" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Edit Route" Height="450" Width="800" WindowStartupLocation="CenterScreen">
   <Window.DataContext>
     <windows:EditMockWindowViewModel />
   </Window.DataContext>
@@ -14,28 +14,28 @@
       <TextBlock Text="Method" Margin="10, 5, 0, 0" />
       <TextBlock Text="*" Foreground="Red" Margin="2, 5, 5, 0" />
       <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Methods}"
-                SelectedValue="{Binding Mock.Method}" Width="75" Height="21" />
+                SelectedValue="{Binding Route.Method}" Width="75" Height="21" />
     </StackPanel>
     <StackPanel Orientation="Horizontal" Height="30" DockPanel.Dock="Top">
       <TextBlock Text="Status code" Margin="10, 5, 0, 0" />
       <TextBlock Text="*" Foreground="Red" Margin="2, 5, 5, 0" />
       <ComboBox ItemsSource="{Binding StatusCodes}"
-                SelectedValue="{Binding Mock.Response.StatusCode}" Width="50" Height="21" />
+                SelectedValue="{Binding Route.Response.StatusCode}" Width="50" Height="21" />
     </StackPanel>
     <DockPanel Height="30" DockPanel.Dock="Top">
       <TextBlock Text="Path" Margin="10, 6, 0, 0" />
-      <TextBox Text="{Binding Mock.Path}" HorizontalAlignment="Stretch" Height="21" Margin="5, 0, 10, 0" />
+      <TextBox Text="{Binding Route.Path}" HorizontalAlignment="Stretch" Height="21" Margin="5, 0, 10, 0" />
     </DockPanel>
     <TextBlock Text="Content" DockPanel.Dock="Top" Height="20" Margin="10, 5, 0, 0" />
     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 10, 0, 10">
-      <Button Content="Save" Margin="0, 0, 10, 0" Command="{Binding SaveMock}"
-              CommandParameter="{Binding Mock}" Padding="10, 5, 10, 5" />
+      <Button Content="Save" Margin="0, 0, 10, 0" Command="{Binding SaveRoute}"
+              CommandParameter="{Binding Route}" Padding="10, 5, 10, 5" />
       <Button Content="Cancel" Margin="0, 0, 10, 0" Padding="10, 5, 10, 5" Click="CancelButton_Click" />
     </StackPanel>
     <DockPanel DockPanel.Dock="Top">
       <ScrollViewer Margin="10, 0, 10, 0">
         <TextBox TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 Text="{Binding Mock.Response.Content}" />
+                 Text="{Binding Route.Response.Content}" />
       </ScrollViewer>
     </DockPanel>
   </DockPanel>

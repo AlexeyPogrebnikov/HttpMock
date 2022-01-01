@@ -27,7 +27,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Mocks = Array.Empty<Core.Route>()
+				Routes = Array.Empty<Core.Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -66,7 +66,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Mocks = Array.Empty<Core.Route>()
+				Routes = Array.Empty<Core.Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -92,7 +92,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Mocks = Array.Empty<Core.Route>()
+				Routes = Array.Empty<Core.Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());

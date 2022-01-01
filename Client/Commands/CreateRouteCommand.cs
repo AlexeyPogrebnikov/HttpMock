@@ -21,20 +21,20 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var mock = (Route) parameter;
-			if (string.IsNullOrWhiteSpace(mock.Method) || string.IsNullOrWhiteSpace(mock.Path) || string.IsNullOrWhiteSpace(mock.Response.StatusCode))
+			var route = (Route) parameter;
+			if (string.IsNullOrWhiteSpace(route.Method) || string.IsNullOrWhiteSpace(route.Path) || string.IsNullOrWhiteSpace(route.Response.StatusCode))
 			{
 				MessageBox.Show("Please fill required (*) fields.");
 				return;
 			}
 
-			if (_httpServer.Routes.Contains(mock))
+			if (_httpServer.Routes.Contains(route))
 			{
 				MessageBox.Show("A route with same Method and Path already exists.");
 				return;
 			}
 
-			_httpServer.Routes.Add(mock);
+			_httpServer.Routes.Add(route);
 			CloseWindowAction();
 		}
 
