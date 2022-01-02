@@ -23,7 +23,7 @@ namespace HttpMock.Client
 			_httpServer = ServiceLocator.Resolve<IHttpServer>();
 			if (_httpServer != null)
 			{
-				IEnumerable<Route> routes = _httpServer.Routes.GetAll();
+				IEnumerable<Route> routes = _httpServer.Routes.ToArray();
 				Routes = new ObservableCollection<Route>(routes);
 			}
 			else
@@ -183,7 +183,7 @@ namespace HttpMock.Client
 		{
 			if (_httpServer != null)
 			{
-				Route[] routes = _httpServer.Routes.GetAll().ToArray();
+				Route[] routes = _httpServer.Routes.ToArray();
 
 				RouteCollectionSynchronizer synchronizer = new();
 				synchronizer.Synchronize(routes, Routes);

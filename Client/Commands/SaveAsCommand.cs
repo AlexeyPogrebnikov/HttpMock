@@ -37,7 +37,7 @@ namespace HttpMock.Client.Commands
 				{
 					Host = connectionSettings.Host,
 					Port = connectionSettings.Port,
-					Routes = _httpServer.Routes.GetAll().ToArray()
+					Routes = _httpServer.Routes.ToArray()
 				};
 
 				project.Save(dialog.FileName);

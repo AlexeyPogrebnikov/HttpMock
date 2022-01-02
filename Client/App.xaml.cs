@@ -36,7 +36,7 @@ namespace HttpMock.Client
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = ConnectionSettingsCache.ConnectionSettings,
-				Routes = _httpServer.Routes.GetAll().ToArray()
+				Routes = _httpServer.Routes.ToArray()
 			};
 
 			workSession.Save(_environmentWrapper);

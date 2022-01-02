@@ -80,7 +80,7 @@ namespace HttpMock.Core.Tests
 
 			routeCollection.Init(routes);
 
-			Assert.AreEqual(2, routeCollection.GetAll().Count());
+			Assert.AreEqual(2, routeCollection.ToArray().Count());
 		}
 
 		[Test]
@@ -106,40 +106,10 @@ namespace HttpMock.Core.Tests
 			};
 			routeCollection.Add(route);
 
-			Route[] routes = routeCollection.GetAll().ToArray();
+			Route[] routes = routeCollection.ToArray();
 
 			Assert.AreEqual(1, routes.Length);
 			Assert.AreSame(route, routes[0]);
-		}
-
-		[Test]
-		public void Add_throw_InvalidOperationException_if_route_with_same_Method_and_Path_already_exists()
-		{
-			var routeCollection = new RouteCollection();
-			var firstRoute = new Route
-			{
-				Method = "GET",
-				Path = "/",
-				Response = new Response
-				{
-					StatusCode = "200"
-				}
-			};
-
-			routeCollection.Add(firstRoute);
-
-			var secondRoute = new Route
-			{
-				Method = "GET",
-				Path = "/",
-				Response = new Response
-				{
-					StatusCode = "500"
-				}
-			};
-
-			var exception = Assert.Throws<InvalidOperationException>(() => routeCollection.Add(secondRoute));
-			Assert.AreEqual("Route with same Method and Path already exists.", exception.Message);
 		}
 
 		[Test]

@@ -1,55 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace HttpMock.Core
 {
 	public class RouteCollection
 	{
 		private List<Route> _routes = new();
+		private readonly object _syncRoot = new();
 
 		public void Init(Route[] routes)
 		{
-			foreach (Route route in routes)
-				CheckRoute(route);
+			lock (_syncRoot)
+			{
+				foreach (Route route in routes)
+					CheckRoute(route);
 
-			List<Route> newRoutes = routes.ToList();
-			Interlocked.Exchange(ref _routes, newRoutes);
+				_routes = new(routes);
+			}
 		}
 
 		public void Add(Route route)
 		{
-			CheckRoute(route);
-
-			List<Route> newRoutes = _routes.ToList();
-			newRoutes.Add(route);
-			Interlocked.Exchange(ref _routes, newRoutes);
+			lock (_syncRoot)
+			{
+				CheckRoute(route);
+				_routes.Add(route);
+			}
 		}
 
 		public void Remove(Route route)
 		{
-			List<Route> newRoutes = _routes.ToList();
-			newRoutes.Remove(route);
-			Interlocked.Exchange(ref _routes, newRoutes);
+			lock (_syncRoot)
+			{
+				_routes.Remove(route);
+			}
 		}
 
 		public void Clear()
 		{
-			Interlocked.Exchange(ref _routes, new List<Route>());
+			lock (_syncRoot)
+			{
+				_routes.Clear();
+			}
 		}
 
-		public IEnumerable<Route> GetAll()
+		public Route[] ToArray()
 		{
-			return _routes;
+			lock (_syncRoot)
+			{
+				return _routes.ToArray();
+			}
+		}
+
+		public IEnumerable<Route> Find(string method, string path)
+		{
+			lock (_syncRoot)
+			{
+				return DoFind(method, path).ToArray();
+			}
 		}
 
 		public bool Contains(Route route)
 		{
-			return _routes.Any(m => m.Method == route.Method && m.Path == route.Path);
+			lock (_syncRoot)
+			{
+				return DoFind(route.Method, route.Path).Any();
+			}
 		}
 
-		private void CheckRoute(Route route)
+		private IEnumerable<Route> DoFind(string method, string path)
+		{
+			return _routes.Where(m => m.Method == method && m.Path == path);
+		}
+
+		private static void CheckRoute(Route route)
 		{
 			if (route == null)
 				throw new ArgumentNullException(nameof(route));
@@ -62,9 +87,6 @@ namespace HttpMock.Core
 
 			if (string.IsNullOrEmpty(route.Response.StatusCode))
 				throw new ArgumentException("StatusCode of the response is null or empty.");
-
-			if (Contains(route))
-				throw new InvalidOperationException("Route with same Method and Path already exists.");
 		}
 	}
 }
