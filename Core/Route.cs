@@ -3,13 +3,14 @@ using System.Text.Json.Serialization;
 
 namespace HttpMock.Core
 {
-	public class Mock
+	public class Route
 	{
-		public static Mock CreateNew()
+		public static Route CreateNew()
 		{
-			return new Mock
+			return new Route
 			{
-				Uid = Guid.NewGuid()
+				Uid = Guid.NewGuid(),
+				Response = new Response()
 			};
 		}
 
@@ -18,21 +19,18 @@ namespace HttpMock.Core
 
 		public string Method { get; set; }
 
-		public string StatusCode { get; set; }
-
 		public string Path { get; set; }
 
-		public string Content { get; set; }
+		public Response Response { get; set; }
 
-		public Mock Clone()
+		public Route Clone()
 		{
-			return new Mock
+			return new Route
 			{
 				Uid = Uid,
 				Method = Method,
-				StatusCode = StatusCode,
 				Path = Path,
-				Content = Content
+				Response = Response.Clone()
 			};
 		}
 	}

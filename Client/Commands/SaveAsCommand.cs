@@ -8,11 +8,11 @@ namespace HttpMock.Client.Commands
 {
 	public class SaveAsCommand : ICommand
 	{
-		private readonly IMockCache _mockCache;
+		private readonly IHttpServer _httpServer;
 
-		public SaveAsCommand(IMockCache mockCache)
+		public SaveAsCommand(IHttpServer httpServer)
 		{
-			_mockCache = mockCache;
+			_httpServer = httpServer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -37,7 +37,7 @@ namespace HttpMock.Client.Commands
 				{
 					Host = connectionSettings.Host,
 					Port = connectionSettings.Port,
-					Mocks = _mockCache.GetAll().ToArray()
+					Routes = _httpServer.Routes.ToArray()
 				};
 
 				project.Save(dialog.FileName);

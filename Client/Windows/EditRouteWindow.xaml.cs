@@ -5,12 +5,12 @@ namespace HttpMock.Client.Windows
 	/// <summary>
 	/// Interaction logic for EditMockWindow.xaml
 	/// </summary>
-	public partial class EditMockWindow : Window
+	public partial class EditRouteWindow : Window
 	{
-		public EditMockWindow()
+		public EditRouteWindow()
 		{
 			InitializeComponent();
-			var dataContext = (EditMockWindowViewModel) DataContext;
+			var dataContext = (EditRouteWindowViewModel) DataContext;
 			dataContext.SetCloseWindowAction(Close);
 		}
 

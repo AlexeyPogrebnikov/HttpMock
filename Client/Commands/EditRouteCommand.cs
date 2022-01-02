@@ -5,11 +5,11 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Commands
 {
-	public class EditMockCommand : ICommand
+	public class EditRouteCommand : ICommand
 	{
 		private readonly IMainWindowViewModel _mainWindowViewModel;
 
-		public EditMockCommand(IMainWindowViewModel mainWindowViewModel)
+		public EditRouteCommand(IMainWindowViewModel mainWindowViewModel)
 		{
 			_mainWindowViewModel = mainWindowViewModel;
 		}
@@ -21,12 +21,12 @@ namespace HttpMock.Client.Commands
 
 		public void Execute(object parameter)
 		{
-			var window = new EditMockWindow();
-			var newMockWindowViewModel = (EditMockWindowViewModel) window.DataContext;
-			newMockWindowViewModel.SetMainWindowViewModel(_mainWindowViewModel);
-			var mock = (Mock) parameter;
-			newMockWindowViewModel.SetInitialMock(mock);
-			newMockWindowViewModel.Mock = mock.Clone();
+			var window = new EditRouteWindow();
+			var newRouteWindowViewModel = (EditRouteWindowViewModel) window.DataContext;
+			newRouteWindowViewModel.SetMainWindowViewModel(_mainWindowViewModel);
+			var route = (Route) parameter;
+			newRouteWindowViewModel.SetInitialRoute(route);
+			newRouteWindowViewModel.Route = route.Clone();
 			window.Show();
 		}
 

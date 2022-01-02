@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using HttpMock.Core;
 
 namespace HttpMock.ConsoleClient
@@ -10,21 +9,12 @@ namespace HttpMock.ConsoleClient
 		{
 			Console.WriteLine($"Version: {VersionHelper.GetCurrentAppVersion()}");
 
-			ConsoleArgs consoleArgs = ConsoleArgs.Parse(args);
+			ConsoleArgs consoleArgs = new(args);
 
-			/*if (!consoleArgs.Validate())
-				return;*/
+			HttpServer httpServer = new(new HttpInteractionCacheLogger());
+			ConsoleServerProject project = new(consoleArgs, httpServer);
 
-			ServerProject serverProject = consoleArgs.CreateServerProject();
-
-			var mockCache = new MockCache();
-			mockCache.AddRange(serverProject.Mocks);
-
-			IHttpServer httpServer = new HttpServer(mockCache, new HttpInteractionCacheLogger());
-
-			IPAddress address = IPAddress.Parse(serverProject.Host);
-			int port = int.Parse(serverProject.Port);
-			httpServer.Start(address, port);
+			project.StartServer();
 		}
 	}
 }

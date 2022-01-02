@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -9,13 +10,13 @@ namespace HttpMock.Core
 	public class HttpServer : IHttpServer
 	{
 		private readonly IHttpInteractionCache _httpInteractionCache;
-		private readonly IMockCache _mockCache;
+		public RouteCollection Routes { get; }
 		private TcpListener _server;
 
-		public HttpServer(IMockCache mockCache, IHttpInteractionCache httpInteractionCache)
+		public HttpServer(IHttpInteractionCache httpInteractionCache)
 		{
-			_mockCache = mockCache;
 			_httpInteractionCache = httpInteractionCache;
+			Routes = new RouteCollection();
 		}
 
 		private TcpListener Server
@@ -34,7 +35,6 @@ namespace HttpMock.Core
 		public void Start(IPAddress address, int port)
 		{
 			Server = null;
-			var requestParser = new RequestParser();
 			try
 			{
 				Server = new TcpListener(address, port);
@@ -50,10 +50,8 @@ namespace HttpMock.Core
 						return;
 
 					TimeSpan time = DateTime.Now.TimeOfDay;
-					var buffer = new byte[1024];
-					stream.Read(buffer, 0, 1024);
-					string content = Encoding.UTF8.GetString(buffer);
-					Request request = requestParser.Parse(content);
+					string content = GetRequestContent(stream);
+					Request request = Request.Parse(content);
 
 					var httpInteraction = new HttpInteraction
 					{
@@ -63,9 +61,7 @@ namespace HttpMock.Core
 						Path = request.Path
 					};
 
-					Mock mock = _mockCache.GetAll()
-						.Where(m => m.Method == httpInteraction.Method)
-						.FirstOrDefault(m => m.Path == httpInteraction.Path);
+					Route mock = Routes.Find(httpInteraction.Method, httpInteraction.Path).FirstOrDefault();
 
 					httpInteraction.Handled = mock != null;
 
@@ -74,13 +70,13 @@ namespace HttpMock.Core
 
 					var statusCode = "404";
 					if (mock != null)
-						statusCode = mock.StatusCode;
+						statusCode = mock.Response.StatusCode;
 
 					httpInteraction.StatusCode = statusCode;
 
 					var builder = new ResponseBuilder(Encoding.UTF8);
 					builder.SetStatusCode(statusCode);
-					builder.SetContent(mock?.Content);
+					builder.SetContent(mock?.Response.Content);
 					byte[] data = builder.Build();
 
 					stream.Write(data, 0, data.Length);
@@ -119,6 +115,20 @@ namespace HttpMock.Core
 			{
 				Server = null;
 			}
+		}
+
+		private static string GetRequestContent(NetworkStream networkStream)
+		{
+			byte[] data = new byte[1024];
+			using MemoryStream memoryStream = new();
+
+			do
+			{
+				networkStream.Read(data);
+				memoryStream.Write(data);
+			} while (networkStream.DataAvailable);
+
+			return Encoding.Default.GetString(memoryStream.ToArray());
 		}
 	}
 }

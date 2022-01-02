@@ -7,16 +7,16 @@ using HttpMock.Core;
 
 namespace HttpMock.Client.Windows
 {
-	public class NewMockWindowViewModel : INotifyPropertyChanged
+	public class NewRouteWindowViewModel : INotifyPropertyChanged
 	{
-		private Mock _mock;
+		private Route _route;
 		public event PropertyChangedEventHandler PropertyChanged;
-		public CreateMockCommand CreateMock { get; }
+		public CreateRouteCommand CreateRoute { get; }
 
-		public NewMockWindowViewModel()
+		public NewRouteWindowViewModel()
 		{
-			var mockCache = ServiceLocator.Resolve<IMockCache>();
-			CreateMock = new CreateMockCommand(mockCache);
+			var httpServer = ServiceLocator.Resolve<IHttpServer>();
+			CreateRoute = new CreateRouteCommand(httpServer);
 		}
 
 		[NotifyPropertyChangedInvocator]
@@ -25,13 +25,13 @@ namespace HttpMock.Client.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public Mock Mock
+		public Route Route
 		{
-			get => _mock;
+			get => _route;
 			set
 			{
-				_mock = value;
-				OnPropertyChanged(nameof(Mock));
+				_route = value;
+				OnPropertyChanged(nameof(Route));
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace HttpMock.Client.Windows
 
 		public void SetCloseWindowAction(Action action)
 		{
-			CreateMock.CloseWindowAction = action;
+			CreateRoute.CloseWindowAction = action;
 		}
 	}
 }

@@ -6,53 +6,53 @@ using NUnit.Framework;
 namespace HttpMock.Client.Tests
 {
 	[TestFixture]
-	public class MockCollectionSynchronizerTests
+	public class RouteCollectionSynchronizerTests
 	{
-		private MockCollectionSynchronizer _synchronizer;
+		private RouteCollectionSynchronizer _synchronizer;
 
 		[SetUp]
 		public void SetUp()
 		{
-			_synchronizer = new MockCollectionSynchronizer();
+			_synchronizer = new RouteCollectionSynchronizer();
 		}
 
 		[Test]
-		public void Synchronize_add_mock_to_target()
+		public void Synchronize_add_route_to_target()
 		{
-			var mock = new Mock
+			var route = new Route
 			{
 				Uid = new Guid("20037054-3CC0-4457-9686-2B8A8C8B5814")
 			};
 
-			IList<Mock> source = new[]
+			IList<Route> source = new[]
 			{
-				mock
+				route
 			};
 
-			IList<Mock> target = new List<Mock>();
+			IList<Route> target = new List<Route>();
 
 			_synchronizer.Synchronize(source, target);
 
 			Assert.AreEqual(1, target.Count);
-			Assert.AreSame(mock, target[0]);
+			Assert.AreSame(route, target[0]);
 		}
 
 		[Test]
-		public void Synchronize_dont_add_existing_mock_to_target()
+		public void Synchronize_dont_add_existing_route_to_target()
 		{
 			var uid = new Guid("261B98BB-6BC7-4809-96E4-194A14EE36C6");
 
-			IList<Mock> source = new List<Mock>
+			IList<Route> source = new List<Route>
 			{
-				new Mock
+				new Route
 				{
 					Uid = uid
 				}
 			};
 
-			IList<Mock> target = new List<Mock>
+			IList<Route> target = new List<Route>
 			{
-				new Mock
+				new Route
 				{
 					Uid = uid
 				}
@@ -64,13 +64,13 @@ namespace HttpMock.Client.Tests
 		}
 
 		[Test]
-		public void Synchronize_remove_mock_from_target_if_its_does_not_exist_in_source()
+		public void Synchronize_remove_route_from_target_if_its_does_not_exist_in_source()
 		{
-			IList<Mock> source = new List<Mock>();
+			IList<Route> source = new List<Route>();
 
-			IList<Mock> target = new List<Mock>
+			IList<Route> target = new List<Route>
 			{
-				new Mock()
+				new Route()
 			};
 
 			_synchronizer.Synchronize(source, target);
