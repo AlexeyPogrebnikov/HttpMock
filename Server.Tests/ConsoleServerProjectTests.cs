@@ -1,5 +1,4 @@
-﻿using HttpMock.ConsoleClient;
-using HttpMock.Core;
+﻿using HttpMock.Core;
 using Moq;
 using NUnit.Framework;
 using System;
