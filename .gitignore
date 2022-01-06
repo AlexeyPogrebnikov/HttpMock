@@ -8,9 +8,9 @@ Client.Tests/bin/
 Client.Tests/obj/
 ConsoleClient/bin/
 ConsoleClient/obj/
-ConsoleClient.Tests/bin/
-ConsoleClient.Tests/obj/
 Core/bin/
 Core/obj/
 Core.Tests/bin/
 Core.Tests/obj/
+Server.Tests/bin/
+Server.Tests/obj/

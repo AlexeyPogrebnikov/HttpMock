@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>HttpMock.ConsoleClient.Tests</AssemblyName>
-    <RootNamespace>HttpMock.ConsoleClient.Tests</RootNamespace>
+    <AssemblyName>HttpMock.Server.Tests</AssemblyName>
+    <RootNamespace>HttpMock.Server.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

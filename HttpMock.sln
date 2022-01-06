@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Tests", "Client.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{B085059A-13EB-4EB6-AEA4-39EB65D7644A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient.Tests", "ConsoleClient.Tests\ConsoleClient.Tests.csproj", "{6C6FB1FE-E252-4569-A960-3F7D03B602F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Tests", "Server.Tests\Server.Tests.csproj", "{6C6FB1FE-E252-4569-A960-3F7D03B602F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E313B18-2AF1-4A44-95D6-B730570207F2}"
 	ProjectSection(SolutionItems) = preProject

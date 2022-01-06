@@ -1,11 +1,12 @@
-﻿using HttpMock.Core;
+﻿using HttpMock.ConsoleClient;
+using HttpMock.Core;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Net;
 
-namespace HttpMock.ConsoleClient.Tests
+namespace HttpMock.Server.Tests
 {
 	[TestFixture]
 	class ConsoleServerProjectTests
@@ -27,7 +28,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Routes = Array.Empty<Core.Route>()
+				Routes = Array.Empty<Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -66,7 +67,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Routes = Array.Empty<Core.Route>()
+				Routes = Array.Empty<Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -92,7 +93,7 @@ namespace HttpMock.ConsoleClient.Tests
 			{
 				Host = "127.0.0.1",
 				Port = "80",
-				Routes = Array.Empty<Core.Route>()
+				Routes = Array.Empty<Route>()
 			};
 
 			string testPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
