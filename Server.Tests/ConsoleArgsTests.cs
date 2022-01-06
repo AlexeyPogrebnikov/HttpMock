@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 
-namespace HttpMock.ConsoleClient.Tests
+namespace HttpMock.Server.Tests
 {
 	[TestFixture]
 	public class ConsoleArgsTests
@@ -10,7 +10,7 @@ namespace HttpMock.ConsoleClient.Tests
 		[Test]
 		public void Ctor_take_ServerProjectFileName_from_first_item()
 		{
-			ConsoleArgs args = new(new[] {"C:\\foo.json"});
+			ConsoleArgs args = new(new[] { "C:\\foo.json" });
 
 			Assert.AreEqual("C:\\foo.json", args.ServerProjectFileName);
 		}
@@ -26,7 +26,7 @@ namespace HttpMock.ConsoleClient.Tests
 		[Test]
 		public void Ctor_args_is_empty()
 		{
-			ConsoleArgs args = new(System.Array.Empty<string>());
+			ConsoleArgs args = new(Array.Empty<string>());
 
 			Assert.IsNull(args.ServerProjectFileName);
 		}

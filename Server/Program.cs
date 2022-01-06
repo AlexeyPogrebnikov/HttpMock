@@ -1,7 +1,7 @@
 ﻿using System;
 using HttpMock.Core;
 
-namespace HttpMock.ConsoleClient
+namespace HttpMock.Server
 {
 	internal class Program
 	{

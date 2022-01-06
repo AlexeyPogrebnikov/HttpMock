@@ -1,9 +1,7 @@
 ﻿using HttpMock.Core;
-using System;
-using System.Linq;
 using System.Net;
 
-namespace HttpMock.ConsoleClient
+namespace HttpMock.Server
 {
 	public class ConsoleArgs
 	{

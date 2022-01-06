@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HttpMock.ConsoleClient
+namespace HttpMock.Server
 {
 	[Serializable]
 	public class InvalidConsoleArgsException : Exception

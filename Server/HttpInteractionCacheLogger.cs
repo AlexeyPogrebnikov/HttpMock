@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HttpMock.Core;
 
-namespace HttpMock.ConsoleClient
+namespace HttpMock.Server
 {
 	public class HttpInteractionCacheLogger : IHttpInteractionCache
 	{

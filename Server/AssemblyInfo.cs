@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 
 [assembly: Guid("1ad36505-a668-42c6-9e8a-4ae6eb320fe6")]
-[assembly: InternalsVisibleTo("HttpMock.ConsoleClient.Tests")]
+[assembly: InternalsVisibleTo("HttpMock.Server.Tests")]
