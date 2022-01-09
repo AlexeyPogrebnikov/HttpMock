@@ -39,10 +39,10 @@
             <ComboBox ItemsSource="{Binding StatusCodes}"
                   SelectedValue="{Binding Route.Response.StatusCode}" Width="50" Height="21" />
           </StackPanel>
-          <TextBlock Text="Content" DockPanel.Dock="Top" Height="20" Margin="10, 5, 0, 0" />
+          <TextBlock Text="Body" DockPanel.Dock="Top" Height="20" Margin="10, 5, 0, 0" />
           <ScrollViewer Margin="5, 0, 5, 5">
             <TextBox TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                   Text="{Binding Route.Response.Content}" />
+                   Text="{Binding Route.Response.Body}" />
           </ScrollViewer>
         </DockPanel>
       </GroupBox>

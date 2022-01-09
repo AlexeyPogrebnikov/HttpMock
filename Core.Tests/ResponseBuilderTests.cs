@@ -14,7 +14,7 @@ namespace HttpMock.Core.Tests
 			ResponseBuilder builder = new ResponseBuilder(encoding);
 
 			builder.SetStatusCode("404");
-			builder.SetContent("foo");
+			builder.SetBody("foo");
 
 			byte[] data = builder.Build();
 			string response = encoding.GetString(data);
@@ -29,7 +29,7 @@ namespace HttpMock.Core.Tests
 			ResponseBuilder builder = new ResponseBuilder(encoding);
 
 			builder.SetStatusCode("404");
-			builder.SetContent(null);
+			builder.SetBody(null);
 
 			byte[] data = builder.Build();
 			string response = encoding.GetString(data);

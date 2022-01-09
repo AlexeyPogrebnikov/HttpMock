@@ -32,7 +32,7 @@ namespace HttpMock.Core.Tests
 				Response = new Response
 				{
 					StatusCode = "200",
-					Content = "C#"
+					Body = "C#"
 				}
 			});
 
@@ -56,7 +56,7 @@ namespace HttpMock.Core.Tests
 				Response = new Response
 				{
 					StatusCode = "200",
-					Content = "google"
+					Body = "google"
 				}
 			});
 

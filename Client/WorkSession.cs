@@ -23,7 +23,7 @@ namespace HttpMock.Client
 			if (loadedWorkSession != null)
 			{
 				ConnectionSettings = loadedWorkSession.ConnectionSettings;
-				Routes = loadedWorkSession.Routes?.Where(mock => mock != null).ToArray();
+				Routes = loadedWorkSession.Routes?.Where(route => route != null).ToArray();
 			}
 
 			ConnectionSettings ??= new ConnectionSettings();

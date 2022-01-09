@@ -17,7 +17,7 @@ namespace HttpMock.Client.Commands
 			InitialRoute.Method = changedRoute.Method;
 			InitialRoute.Path = changedRoute.Path;
 			InitialRoute.Response.StatusCode = changedRoute.Response.StatusCode;
-			InitialRoute.Response.Content = changedRoute.Response.Content;
+			InitialRoute.Response.Body = changedRoute.Response.Body;
 			CloseWindowAction();
 			MainWindowViewModel.RefreshRouteListView();
 		}

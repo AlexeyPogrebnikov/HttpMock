@@ -61,22 +61,22 @@ namespace HttpMock.Core
 						Path = request.Path
 					};
 
-					Route mock = Routes.Find(httpInteraction.Method, httpInteraction.Path).FirstOrDefault();
+					Route route = Routes.Find(httpInteraction.Method, httpInteraction.Path).FirstOrDefault();
 
-					httpInteraction.Handled = mock != null;
+					httpInteraction.Handled = route != null;
 
 					if (!IsStarted)
 						return;
 
 					var statusCode = "404";
-					if (mock != null)
-						statusCode = mock.Response.StatusCode;
+					if (route != null)
+						statusCode = route.Response.StatusCode;
 
 					httpInteraction.StatusCode = statusCode;
 
 					var builder = new ResponseBuilder(Encoding.UTF8);
 					builder.SetStatusCode(statusCode);
-					builder.SetContent(mock?.Response.Content);
+					builder.SetBody(route?.Response.Body);
 					byte[] data = builder.Build();
 
 					stream.Write(data, 0, data.Length);
