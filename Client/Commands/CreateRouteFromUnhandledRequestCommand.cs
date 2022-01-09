@@ -23,7 +23,6 @@ namespace HttpMock.Client.Commands
 			Route route = Route.CreateNew();
 			route.Method = httpInteraction.Method;
 			route.Path = httpInteraction.Path;
-			route.Response.StatusCode = "200";
 
 			dataContext.Route = route;
 

@@ -6,7 +6,7 @@
       "Method": "GET",
       "Path": "/",
       "Response": {
-        "StatusCode": null,
+        "StatusCode": 302,
         "Body": null
       }
     }

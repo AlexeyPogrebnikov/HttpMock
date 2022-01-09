@@ -10,7 +10,10 @@ namespace HttpMock.Core
 			return new Route
 			{
 				Uid = Guid.NewGuid(),
-				Response = new Response()
+				Response = new Response
+				{
+					StatusCode = 200
+				}
 			};
 		}
 

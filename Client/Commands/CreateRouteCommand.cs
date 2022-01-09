@@ -22,7 +22,7 @@ namespace HttpMock.Client.Commands
 		public void Execute(object parameter)
 		{
 			var route = (Route) parameter;
-			if (string.IsNullOrWhiteSpace(route.Method) || string.IsNullOrWhiteSpace(route.Path) || string.IsNullOrWhiteSpace(route.Response.StatusCode))
+			if (string.IsNullOrWhiteSpace(route.Method) || string.IsNullOrWhiteSpace(route.Path))
 			{
 				MessageBox.Show("Please fill required (*) fields.");
 				return;

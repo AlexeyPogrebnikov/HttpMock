@@ -14,7 +14,7 @@ namespace HttpMock.Core
 
 		public string Method { get; set; }
 
-		public string StatusCode { get; set; }
+		public int StatusCode { get; set; }
 
 		public string RawRequest { get; set; }
 	}

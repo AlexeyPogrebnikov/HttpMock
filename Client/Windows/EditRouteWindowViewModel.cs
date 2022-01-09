@@ -40,7 +40,7 @@ namespace HttpMock.Client.Windows
 
 		public IEnumerable<string> Methods => Constants.Methods;
 
-		public IEnumerable<string> StatusCodes => Constants.StatusCodes;
+		public IEnumerable<int> StatusCodes => Constants.StatusCodes;
 
 		public void SetCloseWindowAction(Action action)
 		{

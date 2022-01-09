@@ -68,7 +68,7 @@ namespace HttpMock.Core
 					if (!IsStarted)
 						return;
 
-					var statusCode = "404";
+					var statusCode = 404;
 					if (route != null)
 						statusCode = route.Response.StatusCode;
 

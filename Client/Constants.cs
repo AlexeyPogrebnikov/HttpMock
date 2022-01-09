@@ -9,9 +9,9 @@ namespace HttpMock.Client
 			get { return new[] { "GET", "POST", "PUT", "DELETE" }; }
 		}
 
-		public static IEnumerable<string> StatusCodes
+		public static IEnumerable<int> StatusCodes
 		{
-			get { return new[] { "200", "400", "401", "403", "404", "500" }; }
+			get { return new[] { 200, 400, 401, 403, 404, 500 }; }
 		}
 	}
 }

@@ -85,8 +85,8 @@ namespace HttpMock.Core
 			if (string.IsNullOrEmpty(route.Path))
 				throw new ArgumentException("Path of the route is null or empty.");
 
-			if (string.IsNullOrEmpty(route.Response.StatusCode))
-				throw new ArgumentException("StatusCode of the response is null or empty.");
+			if (route.Response.StatusCode == 0)
+				throw new ArgumentException("StatusCode of the response is 0.");
 		}
 	}
 }

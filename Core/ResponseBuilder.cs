@@ -9,7 +9,7 @@ namespace HttpMock.Core
 		// ReSharper restore InconsistentNaming
 
 		private readonly Encoding _encoding;
-		private string _statusCode;
+		private int _statusCode;
 		private string _body;
 
 		public ResponseBuilder(Encoding encoding)
@@ -17,7 +17,7 @@ namespace HttpMock.Core
 			_encoding = encoding;
 		}
 
-		public void SetStatusCode(string statusCode)
+		public void SetStatusCode(int statusCode)
 		{
 			_statusCode = statusCode;
 		}

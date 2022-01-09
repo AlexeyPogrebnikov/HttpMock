@@ -31,7 +31,7 @@ namespace HttpMock.Core.Tests
 				Path = "/language",
 				Response = new Response
 				{
-					StatusCode = "200",
+					StatusCode = 200,
 					Body = "C#"
 				}
 			});
@@ -55,7 +55,7 @@ namespace HttpMock.Core.Tests
 				Path = path,
 				Response = new Response
 				{
-					StatusCode = "200",
+					StatusCode = 200,
 					Body = "google"
 				}
 			});

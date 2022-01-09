@@ -21,6 +21,9 @@ namespace HttpMock.Core.Tests
 						Method = "GET",
 						Path = "/",
 						Response = new Response()
+						{
+							StatusCode = 302
+						}
 					}
 				}
 			};
