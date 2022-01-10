@@ -1,9 +1,10 @@
-﻿using HttpMock.Client.Commands;
+﻿using HttpMock.Client;
+using HttpMock.Client.Commands;
 using HttpMock.Core;
 using Moq;
 using NUnit.Framework;
 
-namespace HttpMock.Client.Tests.Commands
+namespace HttpMock.VisualServer.Tests.Commands
 {
 	[TestFixture]
 	public class StartHttpServerCommandTests

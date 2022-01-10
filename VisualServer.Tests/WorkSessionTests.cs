@@ -3,8 +3,9 @@ using System.IO;
 using Moq;
 using NUnit.Framework;
 using HttpMock.Core;
+using HttpMock.Client;
 
-namespace HttpMock.Client.Tests
+namespace HttpMock.VisualServer.Tests
 {
 	[TestFixture]
 	public class WorkSessionTests

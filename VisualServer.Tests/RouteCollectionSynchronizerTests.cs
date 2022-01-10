@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using HttpMock.Client;
 using HttpMock.Core;
 using NUnit.Framework;
 
-namespace HttpMock.Client.Tests
+namespace HttpMock.VisualServer.Tests
 {
 	[TestFixture]
 	public class RouteCollectionSynchronizerTests

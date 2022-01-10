@@ -4,8 +4,6 @@ HttpMock.sln.DotSettings
 .vs/
 Client/bin/
 Client/obj/
-Client.Tests/bin/
-Client.Tests/obj/
 Core/bin/
 Core/obj/
 Core.Tests/bin/
@@ -14,3 +12,5 @@ Server/bin/
 Server/obj/
 Server.Tests/bin/
 Server.Tests/obj/
+VisualServer.Tests/bin/
+VisualServer.Tests/obj/
