@@ -32,9 +32,6 @@ namespace HttpMock.Core
 			Host = project.Host;
 			Port = project.Port;
 			Routes = project.Routes;
-
-			foreach (Route route in Routes)
-				route.Uid = Guid.NewGuid();
 		}
 	}
 }

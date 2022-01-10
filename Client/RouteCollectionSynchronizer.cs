@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using HttpMock.Core;
 
 namespace HttpMock.Client
@@ -17,7 +16,7 @@ namespace HttpMock.Client
 		{
 			foreach (Route route in source)
 			{
-				if (target.All(m => m.Uid != route.Uid))
+				if (!target.Contains(route))
 					target.Add(route);
 			}
 		}
@@ -28,7 +27,7 @@ namespace HttpMock.Client
 
 			foreach (Route route in target)
 			{
-				if (source.All(m => m.Uid != route.Uid))
+				if (!source.Contains(route))
 					buffer.Add(route);
 			}
 

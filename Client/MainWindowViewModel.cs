@@ -189,7 +189,7 @@ namespace HttpMock.Client
 				synchronizer.Synchronize(routes, Routes);
 			}
 
-			if (Routes.All(route => route.Uid != SelectedRoute?.Uid))
+			if (Routes.Contains(SelectedRoute))
 			{
 				SelectedRoute = null;
 			}

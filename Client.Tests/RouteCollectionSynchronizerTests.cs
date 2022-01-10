@@ -21,7 +21,8 @@ namespace HttpMock.Client.Tests
 		{
 			var route = new Route
 			{
-				Uid = new Guid("20037054-3CC0-4457-9686-2B8A8C8B5814")
+				Method = "GET",
+				Path = "/"
 			};
 
 			IList<Route> source = new[]
@@ -46,7 +47,8 @@ namespace HttpMock.Client.Tests
 			{
 				new Route
 				{
-					Uid = uid
+					Method = "POST",
+					Path = "/item"
 				}
 			};
 
@@ -54,7 +56,8 @@ namespace HttpMock.Client.Tests
 			{
 				new Route
 				{
-					Uid = uid
+					Method = "POST",
+					Path = "/item"
 				}
 			};
 

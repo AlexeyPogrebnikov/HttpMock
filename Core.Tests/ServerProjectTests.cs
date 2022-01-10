@@ -60,7 +60,6 @@ namespace HttpMock.Core.Tests
 			Assert.AreEqual("127.0.0.1", project.Host);
 			Assert.AreEqual("443", project.Port);
 			Assert.AreEqual(1, project.Routes.Length);
-			Assert.AreNotEqual(Guid.Empty, project.Routes[0].Uid);
 			Assert.AreEqual("GET", project.Routes[0].Method);
 			Assert.AreEqual("/", project.Routes[0].Path);
 		}
