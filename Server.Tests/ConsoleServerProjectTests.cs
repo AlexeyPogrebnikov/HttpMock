@@ -25,8 +25,11 @@ namespace HttpMock.Server.Tests
 		{
 			ServerProject serverProject = new()
 			{
-				Host = "127.0.0.1",
-				Port = "80",
+				Connection = new Connection
+				{
+					Host = "127.0.0.1",
+					Port = 80
+				},
 				Routes = Array.Empty<Route>()
 			};
 
@@ -64,8 +67,11 @@ namespace HttpMock.Server.Tests
 		{
 			ServerProject serverProject = new()
 			{
-				Host = "127.0.0.1",
-				Port = "80",
+				Connection = new Connection
+				{
+					Host = "127.0.0.1",
+					Port = 80,
+				},
 				Routes = Array.Empty<Route>()
 			};
 
@@ -90,8 +96,11 @@ namespace HttpMock.Server.Tests
 		{
 			ServerProject serverProject = new()
 			{
-				Host = "127.0.0.1",
-				Port = "80",
+				Connection = new Connection
+				{
+					Host = "127.0.0.1",
+					Port = 80
+				},
 				Routes = Array.Empty<Route>()
 			};
 

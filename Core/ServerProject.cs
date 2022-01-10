@@ -1,14 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 
 namespace HttpMock.Core
 {
 	public class ServerProject
 	{
-		public string Host { get; set; }
-
-		public string Port { get; set; }
+		public Connection Connection { get; set; }
 
 		public Route[] Routes { get; set; }
 
@@ -29,8 +26,7 @@ namespace HttpMock.Core
 
 			var project = JsonSerializer.Deserialize<ServerProject>(json);
 
-			Host = project.Host;
-			Port = project.Port;
+			Connection = project.Connection;
 			Routes = project.Routes;
 		}
 	}

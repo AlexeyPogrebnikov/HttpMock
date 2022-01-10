@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Input;
 using HttpMock.Core;
 using Microsoft.Win32;
@@ -35,8 +34,11 @@ namespace HttpMock.Client.Commands
 
 				var project = new ServerProject
 				{
-					Host = connectionSettings.Host,
-					Port = connectionSettings.Port,
+					Connection = new Connection
+					{
+						Host = connectionSettings.Host,
+						Port = int.Parse(connectionSettings.Port)
+					},
 					Routes = _httpServer.Routes.ToArray()
 				};
 

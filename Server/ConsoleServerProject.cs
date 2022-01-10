@@ -21,8 +21,8 @@ namespace HttpMock.Server
 				
 				httpServer.Routes.Init(_serverProject.Routes);
 
-				host = IPAddress.Parse(_serverProject.Host);
-				port = int.Parse(_serverProject.Port);
+				host = IPAddress.Parse(_serverProject.Connection.Host);
+				port = _serverProject.Connection.Port;
 			} 
 
 			if (consoleArgs.Host != null)
