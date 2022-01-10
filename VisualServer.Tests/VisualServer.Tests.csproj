@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Client.csproj" />
+    <ProjectReference Include="..\VisualServer\VisualServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

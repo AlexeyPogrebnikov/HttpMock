@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using HttpMock.Client;
 using Moq;
 using NUnit.Framework;
 using Mock = HttpMock.Core.Route;

@@ -1,5 +1,4 @@
-﻿using HttpMock.Client;
-using HttpMock.Client.Commands;
+﻿using HttpMock.VisualServer.Commands;
 using HttpMock.Core;
 using Moq;
 using NUnit.Framework;

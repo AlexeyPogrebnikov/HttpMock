@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using HttpMock.Client;
 using HttpMock.Core;
 using NUnit.Framework;
 
