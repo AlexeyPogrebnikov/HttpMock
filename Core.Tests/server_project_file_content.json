@@ -1,13 +1,15 @@
 {
-  "Host": "127.0.0.1",
-  "Port": "443",
+  "Connection": {
+    "Host": "127.0.0.1",
+    "Port": 443
+  },
   "Routes": [
     {
       "Method": "GET",
       "Path": "/",
       "Response": {
-        "StatusCode": null,
-        "Content": null
+        "StatusCode": 302,
+        "Body": null
       }
     }
   ]

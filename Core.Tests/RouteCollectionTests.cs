@@ -34,12 +34,12 @@ namespace HttpMock.Core.Tests
 				Path = "/",
 				Response = new Response
 				{
-					StatusCode = ""
+					StatusCode = 0
 				}
 			};
 
 			var exception = Assert.Throws<ArgumentException>(() => routes.Add(route));
-			Assert.AreEqual("StatusCode of the response is null or empty.", exception.Message);
+			Assert.AreEqual("StatusCode of the response is 0.", exception.Message);
 		}
 
 		[Test]
@@ -53,7 +53,7 @@ namespace HttpMock.Core.Tests
 				Path = "/",
 				Response = new Response
 				{
-					StatusCode = "200"
+					StatusCode = 200
 				}
 			});
 
@@ -64,7 +64,7 @@ namespace HttpMock.Core.Tests
 					Path = "/clients",
 					Response = new Response 
 					{ 
-						StatusCode = "200"
+						StatusCode = 200
 					}					
 				},
 				new Route()
@@ -73,7 +73,7 @@ namespace HttpMock.Core.Tests
 					Path = "/orders",
 					Response = new Response
 					{
-						StatusCode = "200"
+						StatusCode = 200
 					}
 				}
 			};
@@ -101,7 +101,7 @@ namespace HttpMock.Core.Tests
 				Path = "/",
 				Response = new Response
 				{
-					StatusCode = "200"
+					StatusCode = 200
 				}
 			};
 			routeCollection.Add(route);
@@ -122,7 +122,7 @@ namespace HttpMock.Core.Tests
 				Path = "/",
 				Response = new Response
 				{
-					StatusCode = "200"
+					StatusCode = 200
 				}
 			};
 
@@ -134,7 +134,7 @@ namespace HttpMock.Core.Tests
 				Path = "/s",
 				Response = new Response
 				{
-					StatusCode = "500"
+					StatusCode = 500
 				}
 			};
 

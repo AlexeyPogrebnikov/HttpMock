@@ -2,38 +2,38 @@
 
 namespace HttpMock.Core
 {
-	public class ResponseBuilder
+	internal class ResponseBuilder
 	{
 		// ReSharper disable InconsistentNaming
 		private const string CRLF = "\r\n";
 		// ReSharper restore InconsistentNaming
 
 		private readonly Encoding _encoding;
-		private string _statusCode;
-		private string _content;
+		private int _statusCode;
+		private string _body;
 
 		public ResponseBuilder(Encoding encoding)
 		{
 			_encoding = encoding;
 		}
 
-		public void SetStatusCode(string statusCode)
+		public void SetStatusCode(int statusCode)
 		{
 			_statusCode = statusCode;
 		}
 
-		public void SetContent(string content)
+		public void SetBody(string body)
 		{
-			_content = content;
+			_body = body;
 		}
 
 		public byte[] Build()
 		{
 			var response = $"HTTP/1.1 {_statusCode} OK{CRLF}";
-			string content = _content ?? string.Empty;
-			response += $"Content-Length: {content.Length}{CRLF}{CRLF}";
-			if (!string.IsNullOrEmpty(content))
-				response += content + CRLF;
+			string body = _body ?? string.Empty;
+			response += $"Content-Length: {body.Length}{CRLF}{CRLF}";
+			if (!string.IsNullOrEmpty(body))
+				response += body + CRLF;
 
 			return _encoding.GetBytes(response);
 		}

@@ -12,8 +12,11 @@ namespace HttpMock.Core.Tests
 		{
 			var project = new ServerProject
 			{
-				Host = "127.0.0.1",
-				Port = "443",
+				Connection = new Connection
+				{
+					Host = "127.0.0.1",
+					Port = 443
+				},
 				Routes = new[]
 				{
 					new Route
@@ -21,6 +24,9 @@ namespace HttpMock.Core.Tests
 						Method = "GET",
 						Path = "/",
 						Response = new Response()
+						{
+							StatusCode = 302
+						}
 					}
 				}
 			};
@@ -54,10 +60,9 @@ namespace HttpMock.Core.Tests
 
 			project.Load(fileName);
 
-			Assert.AreEqual("127.0.0.1", project.Host);
-			Assert.AreEqual("443", project.Port);
+			Assert.AreEqual("127.0.0.1", project.Connection.Host);
+			Assert.AreEqual(443, project.Connection.Port);
 			Assert.AreEqual(1, project.Routes.Length);
-			Assert.AreNotEqual(Guid.Empty, project.Routes[0].Uid);
 			Assert.AreEqual("GET", project.Routes[0].Method);
 			Assert.AreEqual("/", project.Routes[0].Path);
 		}
