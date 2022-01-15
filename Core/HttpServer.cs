@@ -11,8 +11,8 @@ namespace HttpMock.Core
 	{
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		public RouteCollection Routes { get; }
-		private TcpListener _server;
-		private object _syncRoot = new();
+		private TcpListener _listener;
+		private readonly object _syncRoot = new();
 
 		public HttpServer(IHttpInteractionCache httpInteractionCache)
 		{
@@ -20,83 +20,29 @@ namespace HttpMock.Core
 			Routes = new RouteCollection();
 		}
 
-		private TcpListener Server
-		{
-			get => _server;
-			set
-			{
-				_server = value;
-				StatusChanged?.Invoke(this, EventArgs.Empty);
-			}
-		}
-
 		public event EventHandler StatusChanged;
-		public bool IsStarted => Server != null;
-		private bool _isStarted;
+		public bool IsStarted { get; private set; }
 
 		public void Start(IPAddress address, int port)
 		{
-			if (_isStarted == false)
+			if (IsStarted == false)
 			{
 				lock (_syncRoot)
 				{
-					if (_isStarted)
+					if (IsStarted)
 						ThrowHttpServerIsAlreadyStarted();
 
-					_isStarted = true;
+					IsStarted = true;
 				}
 			}
 			else
 				ThrowHttpServerIsAlreadyStarted();
 
+			OnStatusChanged();
+
 			try
 			{
-				Server = new TcpListener(address, port);
-
-				Server.Start();
-
-				while (true)
-				{
-					using TcpClient client = Server.AcceptTcpClient();
-					using NetworkStream stream = client.GetStream();
-
-					if (!IsStarted)
-						return;
-
-					TimeSpan time = DateTime.Now.TimeOfDay;
-					string content = GetRequestContent(stream);
-					Request request = Request.Parse(content);
-
-					var httpInteraction = new HttpInteraction
-					{
-						Uid = Guid.NewGuid(),
-						Time = time,
-						Method = request.Method,
-						Path = request.Path
-					};
-
-					Route route = Routes.Find(httpInteraction.Method, httpInteraction.Path).FirstOrDefault();
-
-					httpInteraction.Handled = route != null;
-
-					if (!IsStarted)
-						return;
-
-					var statusCode = 404;
-					if (route != null)
-						statusCode = route.Response.StatusCode;
-
-					httpInteraction.StatusCode = statusCode;
-
-					var builder = new ResponseBuilder(Encoding.UTF8);
-					builder.SetStatusCode(statusCode);
-					builder.SetBody(route?.Response.Body);
-					byte[] data = builder.Build();
-
-					stream.Write(data, 0, data.Length);
-
-					_httpInteractionCache.Add(httpInteraction);
-				}
+				DoStart(address, port);
 			}
 			catch (SocketException e)
 			{
@@ -111,8 +57,8 @@ namespace HttpMock.Core
 			}*/
 			finally
 			{
-				Stop();
-				_isStarted = false;
+				IsStarted = false;
+				OnStatusChanged();
 			}
 		}
 
@@ -120,7 +66,7 @@ namespace HttpMock.Core
 		{
 			try
 			{
-				Server?.Stop();
+				_listener?.Stop();
 			}
 			catch
 			{
@@ -128,7 +74,57 @@ namespace HttpMock.Core
 			}
 			finally
 			{
-				Server = null;
+				_listener = null;
+			}
+		}
+
+		private void DoStart(IPAddress address, int port)
+		{
+			_listener = new TcpListener(address, port);
+
+			_listener?.Start();
+
+			while (true)
+			{
+				if (_listener == null)
+					return;
+
+				using TcpClient client = _listener?.AcceptTcpClient();
+				using NetworkStream stream = client?.GetStream();
+
+				if (stream == null)
+					return;
+
+				TimeSpan time = DateTime.Now.TimeOfDay;
+				string content = GetRequestContent(stream);
+				Request request = Request.Parse(content);
+
+				var httpInteraction = new HttpInteraction
+				{
+					Uid = Guid.NewGuid(),
+					Time = time,
+					Method = request.Method,
+					Path = request.Path
+				};
+
+				Route route = Routes.Find(httpInteraction.Method, httpInteraction.Path).FirstOrDefault();
+
+				httpInteraction.Handled = route != null;
+
+				var statusCode = 404;
+				if (route != null)
+					statusCode = route.Response.StatusCode;
+
+				httpInteraction.StatusCode = statusCode;
+
+				var builder = new ResponseBuilder(Encoding.UTF8);
+				builder.SetStatusCode(statusCode);
+				builder.SetBody(route?.Response.Body);
+				byte[] data = builder.Build();
+
+				stream.Write(data, 0, data.Length);
+
+				_httpInteractionCache.Add(httpInteraction);
 			}
 		}
 
@@ -149,6 +145,11 @@ namespace HttpMock.Core
 		private static void ThrowHttpServerIsAlreadyStarted()
 		{
 			throw new InvalidOperationException("HTTP server is already started.");
+		}
+
+		private void OnStatusChanged()
+		{
+			StatusChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
