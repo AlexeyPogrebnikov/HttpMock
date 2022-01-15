@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			Task.Run(() => _server.Start(System.Net.IPAddress.Parse("127.0.0.1"), 80));
+			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 80));
 
 			WaitReadyServer();
 
@@ -60,7 +61,7 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			Task.Run(() => _server.Start(System.Net.IPAddress.Parse("127.0.0.1"), 80));
+			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 80));
 			WaitReadyServer();
 
 			WebClient webClient = new();
@@ -68,11 +69,23 @@ namespace HttpMock.Core.Tests
 			Assert.AreEqual("google", response);
 		}
 
+		[Test]
+		public void Start_throw_InvalidOperationException_if_server_already_started()
+		{
+			IPAddress address = IPAddress.Parse("127.0.0.1");
+			Task.Run(() => _server.Start(address, 80));
+			WaitReadyServer();
+			
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => _server.Start(address, 5000));
+
+			Assert.AreEqual("HTTP server is already started.", exception.Message);
+		}
+
 		private void WaitReadyServer()
 		{
 			while (!_server.IsStarted)
 			{
-				Thread.Sleep(100);
+				Task.Delay(100).Wait();
 			}
 		}
 	}

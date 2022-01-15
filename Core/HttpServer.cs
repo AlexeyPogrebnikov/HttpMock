@@ -12,6 +12,7 @@ namespace HttpMock.Core
 		private readonly IHttpInteractionCache _httpInteractionCache;
 		public RouteCollection Routes { get; }
 		private TcpListener _server;
+		private object _syncRoot = new();
 
 		public HttpServer(IHttpInteractionCache httpInteractionCache)
 		{
@@ -31,10 +32,23 @@ namespace HttpMock.Core
 
 		public event EventHandler StatusChanged;
 		public bool IsStarted => Server != null;
+		private bool _isStarted;
 
 		public void Start(IPAddress address, int port)
 		{
-			Server = null;
+			if (_isStarted == false)
+			{
+				lock (_syncRoot)
+				{
+					if (_isStarted)
+						ThrowHttpServerIsAlreadyStarted();
+
+					_isStarted = true;
+				}
+			}
+			else
+				ThrowHttpServerIsAlreadyStarted();
+
 			try
 			{
 				Server = new TcpListener(address, port);
@@ -98,6 +112,7 @@ namespace HttpMock.Core
 			finally
 			{
 				Stop();
+				_isStarted = false;
 			}
 		}
 
@@ -129,6 +144,11 @@ namespace HttpMock.Core
 			} while (networkStream.DataAvailable);
 
 			return Encoding.Default.GetString(memoryStream.ToArray());
+		}
+
+		private static void ThrowHttpServerIsAlreadyStarted()
+		{
+			throw new InvalidOperationException("HTTP server is already started.");
 		}
 	}
 }
