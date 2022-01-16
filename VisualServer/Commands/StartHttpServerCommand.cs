@@ -29,24 +29,26 @@ namespace HttpMock.VisualServer.Commands
 			if (!TryParseIpAddress(connectionSettings, out IPAddress address))
 				return;
 
-			if (!TryParsePort(connectionSettings, out int? port))
+			if (!TryParsePort(connectionSettings, out int port))
 				return;
 
-			await Task.Run(() =>
+			try
 			{
-				try
-				{
-					_httpServer.Start(address, port.GetValueOrDefault());
-				}
-				catch
-				{
-					_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
-					//TODO log error
-				}
-			});
+				await StartServerAsync(address, port);
+			}
+			catch
+			{
+				_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
+				//TODO log error
+			}
 		}
 
 		public event EventHandler CanExecuteChanged;
+
+		private async Task StartServerAsync(IPAddress address, int port)
+		{
+			await Task.Run(() => _httpServer.Start(address, port));
+		}
 
 		private bool TryParseIpAddress(ConnectionSettings connectionSettings, out IPAddress address)
 		{
@@ -71,9 +73,9 @@ namespace HttpMock.VisualServer.Commands
 			}
 		}
 
-		private bool TryParsePort(ConnectionSettings connectionSettings, out int? port)
+		private bool TryParsePort(ConnectionSettings connectionSettings, out int port)
 		{
-			port = null;
+			port = 0;
 
 			string portAsStr = connectionSettings.Port;
 			if (string.IsNullOrWhiteSpace(portAsStr))
