@@ -9,17 +9,17 @@ namespace HttpMock.Core
 {
 	public class HttpServer : IHttpServer
 	{
-		private readonly IHttpInteractionCache _httpInteractionCache;
-		public RouteCollection Routes { get; }
 		private TcpListener _listener;
 		private readonly object _syncRoot = new();
 
-		public HttpServer(IHttpInteractionCache httpInteractionCache)
+		public HttpServer()
 		{
-			_httpInteractionCache = httpInteractionCache;
 			Routes = new RouteCollection();
+			Requests = new RequestCollection();
 		}
 
+		public RouteCollection Routes { get; }
+		public RequestCollection Requests { get; }
 		public event EventHandler StatusChanged;
 		public bool IsStarted { get; private set; }
 
@@ -123,7 +123,7 @@ namespace HttpMock.Core
 
 				stream.Write(data, 0, data.Length);
 
-				_httpInteractionCache.Add(httpInteraction);
+				Requests.Add(httpInteraction);
 			}
 		}
 

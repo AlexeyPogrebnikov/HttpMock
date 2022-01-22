@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -15,7 +14,6 @@ namespace HttpMock.VisualServer
 	{
 		private Route _selectedRoute;
 		private readonly IHttpServer _httpServer;
-		private readonly IHttpInteractionCache _httpInteractionCache;
 		private Action _refreshRoutesListViewAction;
 
 		public MainWindowViewModel()
@@ -30,8 +28,6 @@ namespace HttpMock.VisualServer
 			{
 				Routes = new ObservableCollection<Route>();
 			}
-
-			_httpInteractionCache = ServiceLocator.Resolve<IHttpInteractionCache>();
 
 			HandledRequests = new ObservableCollection<HttpInteraction>();
 			ClearHandledRequests = new ClearHandledRequestsCommand(this);
@@ -97,19 +93,7 @@ namespace HttpMock.VisualServer
 			OnPropertyChanged(nameof(StopHttpServerVisibility));
 
 			UpdateRoutes();
-
-			if (_httpInteractionCache != null)
-			{
-				IEnumerable<HttpInteraction> interactions = _httpInteractionCache.PopAll();
-
-				foreach (HttpInteraction interaction in interactions)
-				{
-					if (interaction.Handled)
-						HandledRequests.Insert(0, interaction);
-					else
-						UnhandledRequests.Insert(0, interaction);
-				}
-			}
+			UpdateRequests();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -186,6 +170,22 @@ namespace HttpMock.VisualServer
 			if (Routes.Contains(SelectedRoute))
 			{
 				SelectedRoute = null;
+			}
+		}
+
+		private void UpdateRequests()
+		{
+			if (_httpServer != null)
+			{
+				IEnumerable<HttpInteraction> interactions = _httpServer.Requests.PopAll();
+
+				foreach (HttpInteraction interaction in interactions)
+				{
+					if (interaction.Handled)
+						HandledRequests.Insert(0, interaction);
+					else
+						UnhandledRequests.Insert(0, interaction);
+				}
 			}
 		}
 

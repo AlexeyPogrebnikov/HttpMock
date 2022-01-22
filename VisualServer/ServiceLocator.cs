@@ -34,7 +34,6 @@ namespace HttpMock.VisualServer
 		private static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddSingleton<IHttpServer, HttpServer>();
-			services.AddSingleton<IHttpInteractionCache, HttpInteractionCache>();
 		}
 	}
 }

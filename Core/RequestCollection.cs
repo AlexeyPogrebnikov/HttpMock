@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HttpMock.Core
 {
-	public class HttpInteractionCache : IHttpInteractionCache
+	public class RequestCollection
 	{
 		private readonly IList<HttpInteraction> _httpInteractions = new List<HttpInteraction>();
-		private readonly object _syncRoot = new object();
+		private readonly object _syncRoot = new();
+
+		public event EventHandler ItemAdded;
 
 		public void Add(HttpInteraction httpInteraction)
 		{
@@ -14,6 +17,8 @@ namespace HttpMock.Core
 			{
 				_httpInteractions.Add(httpInteraction);
 			}
+
+			ItemAdded?.Invoke(this, EventArgs.Empty);
 		}
 
 		public IEnumerable<HttpInteraction> PopAll()

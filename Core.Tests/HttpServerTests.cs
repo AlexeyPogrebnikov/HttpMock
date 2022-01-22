@@ -14,7 +14,7 @@ namespace HttpMock.Core.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			_server = new(new HttpInteractionCache());
+			_server = new();
 		}
 
 		[TearDown]
