@@ -4,8 +4,6 @@ namespace HttpMock.Core
 {
 	public class HttpInteraction
 	{
-		public Guid Uid { get; set; }
-
 		public TimeSpan Time { get; set; }
 
 		public bool Handled { get; set; }

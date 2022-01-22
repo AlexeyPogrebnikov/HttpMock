@@ -105,15 +105,9 @@ namespace HttpMock.VisualServer
 				foreach (HttpInteraction interaction in interactions)
 				{
 					if (interaction.Handled)
-					{
-						if (HandledRequests.All(rp => rp.Uid != interaction.Uid))
-							HandledRequests.Insert(0, interaction);
-					}
+						HandledRequests.Insert(0, interaction);
 					else
-					{
-						if (UnhandledRequests.All(rp => rp.Uid != interaction.Uid))
-							UnhandledRequests.Insert(0, interaction);
-					}
+						UnhandledRequests.Insert(0, interaction);
 				}
 			}
 		}

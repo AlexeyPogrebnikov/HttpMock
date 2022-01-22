@@ -101,7 +101,6 @@ namespace HttpMock.Core
 
 				var httpInteraction = new HttpInteraction
 				{
-					Uid = Guid.NewGuid(),
 					Time = time,
 					Method = request.Method,
 					Path = request.Path
