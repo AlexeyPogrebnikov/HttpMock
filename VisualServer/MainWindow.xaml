@@ -101,7 +101,7 @@
             </ListView.View>
             <ListView.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Mock it..." Command="{Binding NewRoute}"
+                <MenuItem Header="Route it..." Command="{Binding NewRoute}"
                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                 <MenuItem Header="Clear" Command="{Binding ClearUnhandledRequests}" />
               </ContextMenu>
