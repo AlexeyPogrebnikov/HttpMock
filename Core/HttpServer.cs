@@ -11,15 +11,22 @@ namespace HttpMock.Core
 	{
 		private TcpListener _listener;
 		private readonly object _syncRoot = new();
+		private Route _defaultRoute = new()
+		{
+			Response = new Response
+			{
+				StatusCode = 404
+			}
+		};
 
 		public HttpServer()
 		{
 			Routes = new RouteCollection();
-			Requests = new RequestCollection();
+			Interactions = new InteractionCollection();
 		}
 
 		public RouteCollection Routes { get; }
-		public RequestCollection Requests { get; }
+		public InteractionCollection Interactions { get; }
 		public event EventHandler StatusChanged;
 		public bool IsStarted { get; private set; }
 
@@ -99,31 +106,29 @@ namespace HttpMock.Core
 				string content = GetRequestContent(stream);
 				Request request = Request.Parse(content);
 
-				var httpInteraction = new HttpInteraction
+				Route route = Routes.Find(request.Method, request.Path).FirstOrDefault();
+
+				if (route == null)
 				{
-					Time = time,
-					Method = request.Method,
-					Path = request.Path
-				};
+					request.Handled = false;
+					route = _defaultRoute;
+				}
 
-				Route route = Routes.Find(httpInteraction.Method, httpInteraction.Path).FirstOrDefault();
-
-				httpInteraction.Handled = route != null;
-
-				var statusCode = 404;
-				if (route != null)
-					statusCode = route.Response.StatusCode;
-
-				httpInteraction.StatusCode = statusCode;
-
-				var builder = new ResponseBuilder(Encoding.UTF8);
-				builder.SetStatusCode(statusCode);
-				builder.SetBody(route?.Response.Body);
+				ResponseBuilder builder = new(Encoding.UTF8);
+				Response response = route.Response;
+				builder.SetStatusCode(response.StatusCode);
+				builder.SetBody(response.Body);
 				byte[] data = builder.Build();
 
 				stream.Write(data, 0, data.Length);
 
-				Requests.Add(httpInteraction);
+				Interaction interaction = new()
+				{
+					Request = request,
+					Response = response.Clone()
+				};
+
+				Interactions.Add(interaction);
 			}
 		}
 

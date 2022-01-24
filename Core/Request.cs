@@ -1,10 +1,22 @@
-﻿namespace HttpMock.Core
+﻿using System;
+
+namespace HttpMock.Core
 {
 	public class Request
 	{
-		public string Method { get; set; }
+		public Request()
+		{
+			Time = DateTime.Now.TimeOfDay;
+			Handled = true;
+		}
 
-		public string Path { get; set; }
+		public TimeSpan Time { get; }
+
+		public string Method { get; init; }
+
+		public string Path { get; init; }
+
+		public bool Handled { get; internal set; }
 
 		public static Request Parse(string s)
 		{

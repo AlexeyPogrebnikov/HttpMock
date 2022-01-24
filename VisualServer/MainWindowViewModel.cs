@@ -29,10 +29,10 @@ namespace HttpMock.VisualServer
 				Routes = new ObservableCollection<Route>();
 			}
 
-			HandledRequests = new ObservableCollection<HttpInteraction>();
+			HandledRequests = new ObservableCollection<Interaction>();
 			ClearHandledRequests = new ClearHandledRequestsCommand(this);
 
-			UnhandledRequests = new ObservableCollection<HttpInteraction>();
+			UnhandledRequests = new ObservableCollection<Interaction>();
 			ClearUnhandledRequests = new ClearUnhandledRequestsCommand(this);
 
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
@@ -118,11 +118,11 @@ namespace HttpMock.VisualServer
 
 		public ObservableCollection<Route> Routes { get; }
 
-		public ObservableCollection<HttpInteraction> HandledRequests { get; }
+		public ObservableCollection<Interaction> HandledRequests { get; }
 
 		public ClearHandledRequestsCommand ClearHandledRequests { get; }
 
-		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
+		public ObservableCollection<Interaction> UnhandledRequests { get; }
 
 		public void RefreshRouteListView()
 		{
@@ -177,11 +177,11 @@ namespace HttpMock.VisualServer
 		{
 			if (_httpServer != null)
 			{
-				IEnumerable<HttpInteraction> interactions = _httpServer.Requests.PopAll();
+				IEnumerable<Interaction> interactions = _httpServer.Interactions.PopAll();
 
-				foreach (HttpInteraction interaction in interactions)
+				foreach (Interaction interaction in interactions)
 				{
-					if (interaction.Handled)
+					if (interaction.Request.Handled)
 						HandledRequests.Insert(0, interaction);
 					else
 						UnhandledRequests.Insert(0, interaction);

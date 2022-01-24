@@ -14,7 +14,7 @@ namespace HttpMock.Server
 			ConsoleArgs consoleArgs = new(args);
 
 			_httpServer = new();
-			_httpServer.Requests.ItemAdded += Requests_ItemAdded;
+			_httpServer.Interactions.ItemAdded += Requests_ItemAdded;
 
 			ConsoleServerProject project = new(consoleArgs, _httpServer);
 
@@ -23,15 +23,16 @@ namespace HttpMock.Server
 
 		private static void Requests_ItemAdded(object sender, EventArgs e)
 		{
-			IEnumerable<HttpInteraction> requests = _httpServer.Requests.PopAll();
+			IEnumerable<Interaction> interactions = _httpServer.Interactions.PopAll();
 
-			foreach (var request in requests)
+			foreach (var interaction in interactions)
 			{
 				ConsoleColor defaultColor = Console.ForegroundColor;
+				Request request = interaction.Request;
 				if (!request.Handled)
 					Console.ForegroundColor = ConsoleColor.Yellow;
 				Console.WriteLine(
-					$"{request.Time} {request.Method} {request.Path} {request.StatusCode}");
+					$"{request.Time} {request.Method} {request.Path} {interaction.Response.StatusCode}");
 				Console.ForegroundColor = defaultColor;
 			}
 		}

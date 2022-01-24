@@ -18,16 +18,16 @@ namespace HttpMock.VisualServer.Commands
 			var newRouteWindowViewModel = (NewRouteWindowViewModel) window.DataContext;
 			Route route = new()
 			{
-				Response = new Response()
+				Response = new Response
 				{
 					StatusCode = 200
 				}
 			};
 
-			if (parameter is HttpInteraction httpInteraction)
+			if (parameter is Interaction httpInteraction)
 			{
-				route.Method = httpInteraction.Method;
-				route.Path = httpInteraction.Path;
+				route.Method = httpInteraction.Request.Method;
+				route.Path = httpInteraction.Request.Path;
 			}
 
 			newRouteWindowViewModel.Route = route;

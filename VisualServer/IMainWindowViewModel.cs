@@ -5,8 +5,8 @@ namespace HttpMock.VisualServer
 {
 	public interface IMainWindowViewModel
 	{
-		ObservableCollection<HttpInteraction> HandledRequests { get; }
-		ObservableCollection<HttpInteraction> UnhandledRequests { get; }
+		ObservableCollection<Interaction> HandledRequests { get; }
+		ObservableCollection<Interaction> UnhandledRequests { get; }
 		void RefreshRouteListView();
 	}
 }

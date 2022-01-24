@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace HttpMock.Core
 {
-	public class RequestCollection
+	public class InteractionCollection
 	{
-		private readonly IList<HttpInteraction> _httpInteractions = new List<HttpInteraction>();
+		private readonly IList<Interaction> _httpInteractions = new List<Interaction>();
 		private readonly object _syncRoot = new();
 
 		public event EventHandler ItemAdded;
 
-		public void Add(HttpInteraction httpInteraction)
+		public void Add(Interaction httpInteraction)
 		{
 			lock (_syncRoot)
 			{
@@ -21,11 +21,11 @@ namespace HttpMock.Core
 			ItemAdded?.Invoke(this, EventArgs.Empty);
 		}
 
-		public IEnumerable<HttpInteraction> PopAll()
+		public IEnumerable<Interaction> PopAll()
 		{
 			lock (_syncRoot)
 			{
-				HttpInteraction[] interactions = _httpInteractions.ToArray();
+				Interaction[] interactions = _httpInteractions.ToArray();
 				_httpInteractions.Clear();
 				return interactions;
 			}

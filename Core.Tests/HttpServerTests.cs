@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,6 +45,12 @@ namespace HttpMock.Core.Tests
 			WebClient webClient = new();
 			var response = webClient.DownloadString("http://127.0.0.1/language");
 			Assert.AreEqual("C#", response);
+
+			Assert.IsTrue(_server.IsStarted);
+
+			Interaction[] interactions = _server.Interactions.PopAll().ToArray();
+			Assert.AreEqual(1, interactions.Length);
+			Assert.AreEqual(200, interactions[0].Response.StatusCode);
 		}
 
 		[Test, Timeout(5000)]
@@ -67,6 +74,12 @@ namespace HttpMock.Core.Tests
 			WebClient webClient = new();
 			var response = webClient.DownloadString("http://127.0.0.1" + path);
 			Assert.AreEqual("google", response);
+
+			Assert.IsTrue(_server.IsStarted);
+
+			Interaction[] interactions = _server.Interactions.PopAll().ToArray();
+			Assert.AreEqual(1, interactions.Length);
+			Assert.AreEqual(200, interactions[0].Response.StatusCode);
 		}
 
 		[Test]
@@ -81,6 +94,27 @@ namespace HttpMock.Core.Tests
 			Assert.AreEqual("HTTP server is already started.", exception.Message);
 		}
 
+		[Test, Timeout(5000)]
+		public void Response_not_found()
+		{
+			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 5000));
+
+			WaitReadyServer();
+
+			WebClient webClient = new();
+			try
+			{
+				webClient.DownloadString("http://127.0.0.1:5000/year");
+			}
+			catch { }
+
+			Assert.IsTrue(_server.IsStarted);
+
+			Interaction[] interactions = _server.Interactions.PopAll().ToArray();
+
+			Assert.AreEqual(1, interactions.Length);
+			Assert.AreEqual(404, interactions[0].Response.StatusCode);
+		}
 		private void WaitReadyServer()
 		{
 			while (!_server.IsStarted)

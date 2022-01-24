@@ -9,7 +9,7 @@ namespace HttpMock.Core
 		
 		bool IsStarted { get; }
 		RouteCollection Routes { get; }
-		RequestCollection Requests { get; }
+		InteractionCollection Interactions { get; }
 
 		void Start(IPAddress address, int port);
 		void Stop();

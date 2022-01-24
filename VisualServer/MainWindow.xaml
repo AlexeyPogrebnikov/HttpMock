@@ -76,10 +76,10 @@
           <ListView ItemsSource="{Binding HandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}" />
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding StatusCode}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Request.Time}" />
+                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Request.Method}" />
+                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
+                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Request.Path}" />
               </GridView>
             </ListView.View>
             <ListView.ContextMenu>
@@ -93,10 +93,10 @@
           <ListView ItemsSource="{Binding UnhandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}" />
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding StatusCode}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Request.Time}" />
+                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Request.Method}" />
+                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
+                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Request.Path}" />
               </GridView>
             </ListView.View>
             <ListView.ContextMenu>
