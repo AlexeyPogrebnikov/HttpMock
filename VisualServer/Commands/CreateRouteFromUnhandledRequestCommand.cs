@@ -14,7 +14,7 @@ namespace HttpMock.VisualServer.Commands
 
 		public void Execute(object parameter)
 		{
-			var httpInteraction = (Interaction) parameter;
+			var interaction = (Interaction) parameter;
 
 			NewRouteWindow window = new();
 
@@ -22,14 +22,14 @@ namespace HttpMock.VisualServer.Commands
 
 			Route route = new()
 			{
-				Response = new Response()
+				Response = new Response
 				{
 					StatusCode = 200
 				}
 			};
 
-			route.Method = httpInteraction.Request.Method;
-			route.Path = httpInteraction.Request.Path;
+			route.Method = interaction.Request.Method;
+			route.Path = interaction.Request.Path;
 
 			dataContext.Route = route;
 

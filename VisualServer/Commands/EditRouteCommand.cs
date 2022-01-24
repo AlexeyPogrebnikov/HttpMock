@@ -21,12 +21,12 @@ namespace HttpMock.VisualServer.Commands
 
 		public void Execute(object parameter)
 		{
-			var window = new EditRouteWindow();
-			var newRouteWindowViewModel = (EditRouteWindowViewModel) window.DataContext;
-			newRouteWindowViewModel.SetMainWindowViewModel(_mainWindowViewModel);
-			var route = (Route) parameter;
-			newRouteWindowViewModel.SetInitialRoute(route);
-			newRouteWindowViewModel.Route = route.Clone();
+			var route = (Route)parameter;
+
+			EditRouteWindow window = new();
+			var viewModel = (EditRouteWindowViewModel) window.DataContext;
+			viewModel.SetMainWindowViewModel(_mainWindowViewModel);
+			viewModel.SetInitialRoute(route);
 			window.Show();
 		}
 

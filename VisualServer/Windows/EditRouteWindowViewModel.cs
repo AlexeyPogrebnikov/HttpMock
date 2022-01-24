@@ -26,6 +26,7 @@ namespace HttpMock.VisualServer.Windows
 		public void SetInitialRoute(Route route)
 		{
 			SaveRoute.InitialRoute = route;
+			Route = route.Clone();
 		}
 
 		public Route Route
@@ -38,9 +39,9 @@ namespace HttpMock.VisualServer.Windows
 			}
 		}
 
-		public IEnumerable<string> Methods => Constants.Methods;
+		public static IEnumerable<string> Methods => Constants.Methods;
 
-		public IEnumerable<int> StatusCodes => Constants.StatusCodes;
+		public static IEnumerable<int> StatusCodes => Constants.StatusCodes;
 
 		public void SetCloseWindowAction(Action action)
 		{

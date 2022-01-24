@@ -24,10 +24,10 @@ namespace HttpMock.VisualServer.Commands
 				}
 			};
 
-			if (parameter is Interaction httpInteraction)
+			if (parameter is Interaction interaction)
 			{
-				route.Method = httpInteraction.Request.Method;
-				route.Path = httpInteraction.Request.Path;
+				route.Method = interaction.Request.Method;
+				route.Path = interaction.Request.Path;
 			}
 
 			newRouteWindowViewModel.Route = route;

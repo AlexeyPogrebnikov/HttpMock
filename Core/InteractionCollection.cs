@@ -6,7 +6,7 @@ namespace HttpMock.Core
 {
 	public class InteractionCollection
 	{
-		private readonly IList<Interaction> _httpInteractions = new List<Interaction>();
+		private readonly IList<Interaction> _interactions = new List<Interaction>();
 		private readonly object _syncRoot = new();
 
 		public event EventHandler ItemAdded;
@@ -15,7 +15,7 @@ namespace HttpMock.Core
 		{
 			lock (_syncRoot)
 			{
-				_httpInteractions.Add(httpInteraction);
+				_interactions.Add(httpInteraction);
 			}
 
 			ItemAdded?.Invoke(this, EventArgs.Empty);
@@ -25,8 +25,8 @@ namespace HttpMock.Core
 		{
 			lock (_syncRoot)
 			{
-				Interaction[] interactions = _httpInteractions.ToArray();
-				_httpInteractions.Clear();
+				Interaction[] interactions = _interactions.ToArray();
+				_interactions.Clear();
 				return interactions;
 			}
 		}

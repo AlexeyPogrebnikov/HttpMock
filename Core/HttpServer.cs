@@ -125,7 +125,7 @@ namespace HttpMock.Core
 				Interaction interaction = new()
 				{
 					Request = request,
-					Response = response.Clone()
+					Response = response
 				};
 
 				Interactions.Add(interaction);

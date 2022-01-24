@@ -2,9 +2,9 @@
 {
 	public class Response
 	{
-		public int StatusCode { get; set; }
+		public int StatusCode { get; init; }
 
-		public string Body { get; set; }
+		public string Body { get; init; }
 
 		public Response Clone()
 		{
