@@ -45,7 +45,7 @@
                 Padding="10, 0, 10, 0" />
       </StackPanel>
       <TabControl>
-        <TabItem Header="Routes">
+        <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">
           <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
             <ListView.View>
               <GridView>
