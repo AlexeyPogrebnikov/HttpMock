@@ -114,13 +114,8 @@ namespace HttpMock.Core
 					route = _defaultRoute;
 				}
 
-				ResponseBuilder builder = new(Encoding.UTF8);
 				Response response = route.Response;
-				builder.SetStatusCode(response.StatusCode);
-				builder.SetBody(response.Body);
-				byte[] data = builder.Build();
-
-				stream.Write(data, 0, data.Length);
+				response.Write(stream);
 
 				Interaction interaction = new()
 				{
