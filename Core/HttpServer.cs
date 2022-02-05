@@ -113,7 +113,7 @@ namespace HttpMock.Core
 				string content = GetRequestContent(stream);
 				Request request = Request.Parse(content);
 
-				Log.Information($"Process request {request.Method} {request.Path}.");
+				Log.Information($"Process request {request.Method} {request.Path}");
 
 				Route route = Routes.Find(request.Method, request.Path).FirstOrDefault();
 

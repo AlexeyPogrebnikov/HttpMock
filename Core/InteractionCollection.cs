@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HttpMock.Core
 {
 	public class InteractionCollection
 	{
-		private readonly IList<Interaction> _interactions = new List<Interaction>();
+		private IList<Interaction> _interactions = new List<Interaction>();
 		private readonly object _syncRoot = new();
 
 		public event EventHandler ItemAdded;
@@ -25,8 +24,8 @@ namespace HttpMock.Core
 		{
 			lock (_syncRoot)
 			{
-				Interaction[] interactions = _interactions.ToArray();
-				_interactions.Clear();
+				var interactions = _interactions;
+				_interactions = new List<Interaction>();
 				return interactions;
 			}
 		}
