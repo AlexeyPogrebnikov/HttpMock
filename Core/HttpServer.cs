@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -45,6 +46,8 @@ namespace HttpMock.Core
 			else
 				ThrowHttpServerIsAlreadyStarted();
 
+			Log.Information("HTTP server started.");
+
 			OnStatusChanged();
 
 			try
@@ -54,14 +57,16 @@ namespace HttpMock.Core
 			catch (SocketException e)
 			{
 				if (e.SocketErrorCode != SocketError.Interrupted)
+				{
+					Log.Error(e, "Failed start the server or process a request.");
 					throw;
-				//TODO log error
+				}
 			}
-			/*catch (Exception)
+			catch (Exception e)
 			{
-				//TODO log error
+				Log.Error(e, "Failed start the server or process a request.");
 				throw;
-			}*/
+			}
 			finally
 			{
 				IsStarted = false;
@@ -75,12 +80,14 @@ namespace HttpMock.Core
 			{
 				_listener?.Stop();
 			}
-			catch
+			catch (Exception e)
 			{
-				//TODO log error
+				Log.Error(e, "Failed stop the server.");
 			}
 			finally
 			{
+				Log.Information("HTTP server stopped.");
+
 				_listener = null;
 			}
 		}
@@ -105,6 +112,8 @@ namespace HttpMock.Core
 				TimeSpan time = DateTime.Now.TimeOfDay;
 				string content = GetRequestContent(stream);
 				Request request = Request.Parse(content);
+
+				Log.Information($"Process request {request.Method} {request.Path}.");
 
 				Route route = Routes.Find(request.Method, request.Path).FirstOrDefault();
 

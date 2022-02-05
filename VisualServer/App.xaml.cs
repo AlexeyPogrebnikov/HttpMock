@@ -22,6 +22,8 @@ namespace HttpMock.VisualServer
 		{
 			base.OnStartup(e);
 
+			LogHelper.Init(false);
+
 			var workSession = new WorkSession();
 			workSession.Load(_environmentWrapper);
 

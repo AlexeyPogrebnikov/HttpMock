@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HttpMock.Core;
+using Serilog;
 
 namespace HttpMock.VisualServer.Commands
 {
@@ -36,10 +37,10 @@ namespace HttpMock.VisualServer.Commands
 			{
 				await StartServerAsync(address, port);
 			}
-			catch
+			catch (Exception e)
 			{
 				_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
-				//TODO log error
+				Log.Error(e, "Failed start the server or process a request.");
 			}
 		}
 

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using HttpMock.Core;
+using Serilog;
 
 namespace HttpMock.Server
 {
 	internal class Program
 	{
 		private static HttpServer _httpServer;
+
 		private static void Main(string[] args)
 		{
-			Console.WriteLine($"Version: {VersionHelper.GetCurrentAppVersion()}");
+			LogHelper.Init(true);
+
+			Log.Information($"Version: {VersionHelper.GetCurrentAppVersion()}");
 
 			ConsoleArgs consoleArgs = new(args);
 
@@ -27,13 +31,12 @@ namespace HttpMock.Server
 
 			foreach (var interaction in interactions)
 			{
-				ConsoleColor defaultColor = Console.ForegroundColor;
 				Request request = interaction.Request;
-				if (!request.Handled)
-					Console.ForegroundColor = ConsoleColor.Yellow;
-				Console.WriteLine(
-					$"{request.Time} {request.Method} {request.Path} {interaction.Response.StatusCode}");
-				Console.ForegroundColor = defaultColor;
+				string message = $"{request.Method} {request.Path} {interaction.Response.StatusCode}";
+				if (request.Handled)
+					Log.Information(message);
+				else
+					Log.Warning(message);
 			}
 		}
 	}

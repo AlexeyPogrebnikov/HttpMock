@@ -20,13 +20,20 @@ namespace HttpMock.Core
 
 		public static Request Parse(string s)
 		{
-			string[] parts = s.Split(" ");
-
-			return new Request
+			try
 			{
-				Method = parts[0],
-				Path = parts[1]
-			};
+				string[] parts = s.Split(" ");
+
+				return new Request
+				{
+					Method = parts[0],
+					Path = parts[1]
+				};
+			}
+			catch (Exception e)
+			{
+				throw new InvalidOperationException($"Error a request parsing: {Environment.NewLine}{s}", e);
+			}
 		}
 	}
 }
