@@ -1,5 +1,4 @@
-﻿using HttpMock.Core;
-using System.Net;
+﻿using System.Net;
 
 namespace HttpMock.Server
 {
@@ -71,16 +70,6 @@ namespace HttpMock.Server
 			}
 			else
 				throw new InvalidConsoleArgsException($"The port parameter must be specified only once. Port1: '{portAsStr}', Port2: '{arg}'.");
-		}
-
-		//TODO move to ConsoleServerProject
-		public ServerProject CreateServerProject()
-		{
-			var serverProject = new ServerProject();
-
-			serverProject.Load(ServerProjectFileName);
-
-			return serverProject;
 		}
 	}
 }

@@ -8,12 +8,10 @@ namespace HttpMock.Server
 	internal class Program
 	{
 		private static HttpServer _httpServer;
+
 		private static void Main(string[] args)
 		{
-			Log.Logger = new LoggerConfiguration()
-				.MinimumLevel.Information()
-				.WriteTo.Console()
-				.CreateLogger();
+			LogHelper.Init(true);
 
 			Log.Information($"Version: {VersionHelper.GetCurrentAppVersion()}");
 
