@@ -12,7 +12,7 @@ namespace HttpMock.Core
 	{
 		private TcpListener _listener;
 		private readonly object _syncRoot = new();
-		private Route _defaultRoute = new()
+		private readonly Route _defaultRoute = new()
 		{
 			Response = new Response
 			{
@@ -109,7 +109,6 @@ namespace HttpMock.Core
 				if (stream == null)
 					return;
 
-				TimeSpan time = DateTime.Now.TimeOfDay;
 				string content = GetRequestContent(stream);
 				Request request = Request.Parse(content);
 

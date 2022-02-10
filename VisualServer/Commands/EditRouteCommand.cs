@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
+using HttpMock.VisualServer.Model;
 using HttpMock.VisualServer.Windows;
-using HttpMock.Core;
 
 namespace HttpMock.VisualServer.Commands
 {
@@ -21,7 +21,7 @@ namespace HttpMock.VisualServer.Commands
 
 		public void Execute(object parameter)
 		{
-			var route = (Route)parameter;
+			var route = (RouteUI)parameter;
 
 			EditRouteWindow window = new();
 			var viewModel = (EditRouteWindowViewModel) window.DataContext;

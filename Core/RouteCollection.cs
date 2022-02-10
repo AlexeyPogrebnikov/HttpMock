@@ -1,77 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace HttpMock.Core
 {
-	public class RouteCollection
+	public class RouteCollection : IEnumerable<Route>
 	{
-		private List<Route> _routes = new();
-		private readonly object _syncRoot = new();
+		private IReadOnlyCollection<Route> _routes = new List<Route>();
 
-		public void Init(Route[] routes)
+		public IEnumerator<Route> GetEnumerator()
 		{
-			lock (_syncRoot)
-			{
-				foreach (Route route in routes)
-					CheckRoute(route);
-
-				_routes = new(routes);
-			}
+			return _routes.GetEnumerator();
 		}
 
-		public void Add(Route route)
+		IEnumerator IEnumerable.GetEnumerator()
 		{
-			lock (_syncRoot)
-			{
+			return GetEnumerator();
+		}
+
+		public void Init(IReadOnlyCollection<Route> routes)
+		{
+			foreach (Route route in routes)
 				CheckRoute(route);
-				_routes.Add(route);
-			}
-		}
 
-		public void Remove(Route route)
-		{
-			lock (_syncRoot)
-			{
-				_routes.Remove(route);
-			}
-		}
-
-		public void Clear()
-		{
-			lock (_syncRoot)
-			{
-				_routes.Clear();
-			}
-		}
-
-		public Route[] ToArray()
-		{
-			lock (_syncRoot)
-			{
-				return _routes.ToArray();
-			}
+			Interlocked.Exchange(ref _routes, routes);
 		}
 
 		public IEnumerable<Route> Find(string method, string path)
 		{
-			lock (_syncRoot)
-			{
-				return DoFind(method, path).ToArray();
-			}
-		}
-
-		public bool Contains(Route route)
-		{
-			lock (_syncRoot)
-			{
-				return DoFind(route.Method, route.Path).Any();
-			}
-		}
-
-		private IEnumerable<Route> DoFind(string method, string path)
-		{
-			return _routes.Where(m => m.Method == method && m.Path == path);
+			return _routes.Where(m => m.Method == method && m.Path == path).ToArray();
 		}
 
 		private static void CheckRoute(Route route)

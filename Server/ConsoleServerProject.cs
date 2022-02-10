@@ -5,10 +5,9 @@ namespace HttpMock.Server
 {
 	internal class ConsoleServerProject
 	{
-		private readonly ServerProject _serverProject;
 		private readonly IHttpServer _httpServer;
-		private readonly IPAddress host;
-		private readonly int port;
+		private readonly IPAddress _host;
+		private readonly int _port;
 
 		public ConsoleServerProject(ConsoleArgs consoleArgs, IHttpServer httpServer)
 		{
@@ -16,25 +15,25 @@ namespace HttpMock.Server
 
 			if (!string.IsNullOrEmpty(consoleArgs.ServerProjectFileName))
 			{
-				_serverProject = new ServerProject();
-				_serverProject.Load(consoleArgs.ServerProjectFileName);
+				var serverProject = new ServerProject();
+				serverProject.Load(consoleArgs.ServerProjectFileName);
 				
-				httpServer.Routes.Init(_serverProject.Routes);
+				httpServer.Routes.Init(serverProject.Routes);
 
-				host = IPAddress.Parse(_serverProject.Connection.Host);
-				port = _serverProject.Connection.Port;
+				_host = IPAddress.Parse(serverProject.Connection.Host);
+				_port = serverProject.Connection.Port;
 			} 
 
 			if (consoleArgs.Host != null)
-				host = consoleArgs.Host;
+				_host = consoleArgs.Host;
 
 			if (consoleArgs.Port.HasValue)
-				port = consoleArgs.Port.Value;
+				_port = consoleArgs.Port.Value;
 		}
 
 		internal void StartServer()
 		{
-			_httpServer.Start(host, port);
+			_httpServer.Start(_host, _port);
 		}
 	}
 }

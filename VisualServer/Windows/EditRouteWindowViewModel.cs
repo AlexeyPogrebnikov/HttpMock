@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using HttpMock.VisualServer.Commands;
-using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer.Windows
 {
 	public class EditRouteWindowViewModel : INotifyPropertyChanged
 	{
-		private Route _route;
+		private RouteUI _route;
 		public event PropertyChangedEventHandler PropertyChanged;
 		public SaveRouteCommand SaveRoute { get; }
 
 		public EditRouteWindowViewModel()
 		{
-			SaveRoute = new SaveRouteCommand();
+			RouteUICollection routes = ServiceLocator.Resolve<RouteUICollection>();
+			IMessageViewer messageViewer = ServiceLocator.Resolve<IMessageViewer>();
+			SaveRoute = new SaveRouteCommand(routes, messageViewer);
 		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -23,13 +25,13 @@ namespace HttpMock.VisualServer.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public void SetInitialRoute(Route route)
+		public void SetInitialRoute(RouteUI route)
 		{
 			SaveRoute.InitialRoute = route;
 			Route = route.Clone();
 		}
 
-		public Route Route
+		public RouteUI Route
 		{
 			get => _route;
 			set

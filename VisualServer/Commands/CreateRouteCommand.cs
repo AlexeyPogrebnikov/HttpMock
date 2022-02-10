@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Windows;
+using System.Linq;
 using System.Windows.Input;
-using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer.Commands
 {
 	public class CreateRouteCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly RouteUICollection _routes;
+		private readonly IMessageViewer _messageViewer;
 
-		public CreateRouteCommand(IHttpServer httpServer)
+		public CreateRouteCommand(RouteUICollection routes, IMessageViewer messageViewer)
 		{
-			_httpServer = httpServer;
+			_routes = routes;
+			_messageViewer = messageViewer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -21,21 +23,21 @@ namespace HttpMock.VisualServer.Commands
 
 		public void Execute(object parameter)
 		{
-			var route = (Route) parameter;
+			var route = (RouteUI)parameter;
 			if (string.IsNullOrWhiteSpace(route.Method) || string.IsNullOrWhiteSpace(route.Path))
 			{
-				MessageBox.Show("Please fill required (*) fields.");
+				_messageViewer.View(string.Empty, "Please fill required (*) fields.");
 				return;
 			}
 
-			if (_httpServer.Routes.Contains(route))
+			if (_routes.Any(rt => rt.Method == route.Method && rt.Path == route.Path))
 			{
-				MessageBox.Show("A route with same Method and Path already exists.");
+				_messageViewer.View(string.Empty, "A route with same Method and Path already exists.");
 				return;
 			}
 
-			_httpServer.Routes.Add(route);
-			CloseWindowAction();
+			_routes.Add(route);
+			CloseWindowAction?.Invoke();
 		}
 
 		public event EventHandler CanExecuteChanged;

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer.Commands
 {
 	public class ClearRoutesCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly RouteUICollection _routes;
 
-		public ClearRoutesCommand(IHttpServer httpServer)
+		public ClearRoutesCommand(RouteUICollection routes)
 		{
-			_httpServer = httpServer;
+			_routes = routes;
 		}
 
 		public bool CanExecute(object parameter)
@@ -22,9 +22,7 @@ namespace HttpMock.VisualServer.Commands
 		public void Execute(object parameter)
 		{
 			if (MessageBox.Show("Are you sure you want to clear the route list?", "Clear routes", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-			{
-				_httpServer.Routes.Clear();
-			}
+				_routes.Clear();
 		}
 
 		public event EventHandler CanExecuteChanged;

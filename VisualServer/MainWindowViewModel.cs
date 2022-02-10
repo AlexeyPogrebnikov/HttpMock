@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Threading;
 using HttpMock.VisualServer.Commands;
 using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer
 {
@@ -19,15 +20,9 @@ namespace HttpMock.VisualServer
 		public MainWindowViewModel()
 		{
 			_httpServer = ServiceLocator.Resolve<IHttpServer>();
-			if (_httpServer != null)
-			{
-				IEnumerable<Route> routes = _httpServer.Routes.ToArray();
-				Routes = new ObservableCollection<Route>(routes);
-			}
-			else
-			{
-				Routes = new ObservableCollection<Route>();
-			}
+			var routes = ServiceLocator.Resolve<RouteUICollection>();
+			if (routes != null)
+				Routes = routes.AsObservable();
 
 			HandledRequests = new ObservableCollection<Interaction>();
 			ClearHandledRequests = new ClearHandledRequestsCommand(this);
@@ -42,15 +37,14 @@ namespace HttpMock.VisualServer
 			Exit = new ExitCommand();
 			NewRoute = new NewRouteCommand();
 			EditRoute = new EditRouteCommand(this);
-			ClearRoutes = new ClearRoutesCommand(_httpServer);
+			ClearRoutes = new ClearRoutesCommand(routes);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
 			StopHttpServer = new StopHttpServerCommand(_httpServer);
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
 
-			RemoveRoute = new RemoveRouteCommand(_httpServer);
-			RemoveRoute.RouteCollectionChanged += RemoveRoute_RouteCollectionChanged;
+			RemoveRoute = new RemoveRouteCommand(routes);
 
 			var dispatcherTimer = new DispatcherTimer
 			{
@@ -59,18 +53,14 @@ namespace HttpMock.VisualServer
 
 			dispatcherTimer.Tick += DispatcherTimer_Tick;
 			dispatcherTimer.Start();
-			_httpServer.StatusChanged += HttpServer_StatusChanged;
+			if (_httpServer != null)
+				_httpServer.StatusChanged += HttpServer_StatusChanged;
 			Open.ServerProjectOpened += Open_ServerProjectOpened;
 		}
 
 		private void Open_ServerProjectOpened(object sender, EventArgs e)
 		{
 			OnPropertyChanged(nameof(ConnectionSettings));
-		}
-
-		private void RemoveRoute_RouteCollectionChanged(object sender, EventArgs e)
-		{
-			UpdateRoutes();
 		}
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -92,7 +82,6 @@ namespace HttpMock.VisualServer
 			OnPropertyChanged(nameof(StartHttpServerVisibility));
 			OnPropertyChanged(nameof(StopHttpServerVisibility));
 
-			UpdateRoutes();
 			UpdateRequests();
 		}
 
@@ -116,7 +105,7 @@ namespace HttpMock.VisualServer
 
 		public ClearRoutesCommand ClearRoutes { get; }
 
-		public ObservableCollection<Route> Routes { get; }
+		public ObservableCollection<RouteUI> Routes { get; }
 
 		public ObservableCollection<Interaction> HandledRequests { get; }
 
@@ -156,22 +145,6 @@ namespace HttpMock.VisualServer
 		}
 
 		public RemoveRouteCommand RemoveRoute { get; }
-
-		private void UpdateRoutes()
-		{
-			if (_httpServer != null)
-			{
-				Route[] routes = _httpServer.Routes.ToArray();
-
-				RouteCollectionSynchronizer synchronizer = new();
-				synchronizer.Synchronize(routes, Routes);
-			}
-
-			if (Routes.Contains(SelectedRoute))
-			{
-				SelectedRoute = null;
-			}
-		}
 
 		private void UpdateRequests()
 		{

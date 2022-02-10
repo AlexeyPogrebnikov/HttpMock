@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using HttpMock.Core;
 using Microsoft.Win32;

@@ -9,15 +9,6 @@ namespace HttpMock.Core
 
 		public string Body { get; init; }
 
-		public Response Clone()
-		{
-			return new Response
-			{
-				StatusCode = StatusCode,
-				Body = Body
-			};
-		}
-
 		internal void Write(Stream stream)
 		{
 			string responseText = GetResponseText();
