@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Sockets;
+using System.Text;
 
 namespace HttpMock.Core
 {
@@ -7,7 +9,6 @@ namespace HttpMock.Core
 		public Request()
 		{
 			Time = DateTime.Now.TimeOfDay;
-			Handled = true;
 		}
 
 		public TimeSpan Time { get; }
@@ -18,7 +19,13 @@ namespace HttpMock.Core
 
 		public bool Handled { get; internal set; }
 
-		public static Request Parse(string s)
+		public static Request Read(NetworkStream stream)
+		{
+			string content = GetRequestContent(stream);
+			return Parse(content);
+		}
+
+		private static Request Parse(string s)
 		{
 			try
 			{
@@ -34,6 +41,20 @@ namespace HttpMock.Core
 			{
 				throw new InvalidOperationException($"Error a request parsing: {Environment.NewLine}{s}", e);
 			}
+		}
+
+		private static string GetRequestContent(NetworkStream networkStream)
+		{
+			var buffer = new byte[1024];
+			StringBuilder content = new();
+
+			do
+			{
+				int count = networkStream.Read(buffer, 0, buffer.Length);
+				content.Append(Encoding.Default.GetString(buffer, 0, count));
+			} while (networkStream.DataAvailable);
+
+			return content.ToString();
 		}
 	}
 }

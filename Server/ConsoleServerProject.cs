@@ -1,39 +1,32 @@
-﻿using HttpMock.Core;
+﻿using System.Collections.Generic;
 using System.Net;
+using HttpMock.Core;
 
 namespace HttpMock.Server
 {
 	internal class ConsoleServerProject
 	{
-		private readonly IHttpServer _httpServer;
-		private readonly IPAddress _host;
-		private readonly int _port;
-
-		public ConsoleServerProject(ConsoleArgs consoleArgs, IHttpServer httpServer)
+		public ConsoleServerProject(ConsoleArgs consoleArgs)
 		{
-			_httpServer = httpServer;
-
 			if (!string.IsNullOrEmpty(consoleArgs.ServerProjectFileName))
 			{
 				var serverProject = new ServerProject();
 				serverProject.Load(consoleArgs.ServerProjectFileName);
-				
-				httpServer.Routes.Init(serverProject.Routes);
 
-				_host = IPAddress.Parse(serverProject.Connection.Host);
-				_port = serverProject.Connection.Port;
-			} 
+				Address = IPAddress.Parse(serverProject.Connection.Host);
+				Port = serverProject.Connection.Port;
+				Routes = serverProject.Routes;
+			}
 
 			if (consoleArgs.Host != null)
-				_host = consoleArgs.Host;
+				Address = consoleArgs.Host;
 
 			if (consoleArgs.Port.HasValue)
-				_port = consoleArgs.Port.Value;
+				Port = consoleArgs.Port.Value;
 		}
 
-		internal void StartServer()
-		{
-			_httpServer.Start(_host, _port);
-		}
+		internal IPAddress Address { get; }
+		internal int Port { get; }
+		internal IEnumerable<Route> Routes { get; }
 	}
 }

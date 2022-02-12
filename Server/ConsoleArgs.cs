@@ -1,21 +1,22 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 
 namespace HttpMock.Server
 {
 	public class ConsoleArgs
 	{
-		public string ServerProjectFileName { get; private set; }
+		public string ServerProjectFileName { get; }
 		public IPAddress Host { get; private set; }
 		public int? Port { get; private set; }
-		private string hostAsStr;
-		private string portAsStr;
+		private string _hostAsStr;
+		private string _portAsStr;
 
 		public ConsoleArgs(string[] args)
 		{
 			for (int i = 0; i < args.Length; i++)
 			{
 				string arg = args[i];
-				
+		
 				if (arg == "-host")
 				{
 					string nextArg = GetNextArg(args, i);
@@ -43,9 +44,9 @@ namespace HttpMock.Server
 			}
 		}
 
-		private static string GetNextArg(string[] args, int index)
+		private static string GetNextArg(IReadOnlyList<string> args, int index)
 		{
-			if (index + 1 >= args.Length)
+			if (index + 1 >= args.Count)
 				return null;
 			return args[index + 1];
 		}
@@ -55,10 +56,10 @@ namespace HttpMock.Server
 			if (Host == default)
 			{
 				Host = IPAddress.Parse(arg);
-				hostAsStr = arg;
+				_hostAsStr = arg;
 			}
 			else
-				throw new InvalidConsoleArgsException($"The host parameter must be specified only once. Host1: '{hostAsStr}', Host2: '{arg}'.");
+				throw new InvalidConsoleArgsException($"The host parameter must be specified only once. Host1: '{_hostAsStr}', Host2: '{arg}'.");
 		}
 
 		private void TryParsePort(string arg)
@@ -66,10 +67,10 @@ namespace HttpMock.Server
 			if (Port == default)
 			{
 				Port = int.Parse(arg);
-				portAsStr = arg;
+				_portAsStr = arg;
 			}
 			else
-				throw new InvalidConsoleArgsException($"The port parameter must be specified only once. Port1: '{portAsStr}', Port2: '{arg}'.");
+				throw new InvalidConsoleArgsException($"The port parameter must be specified only once. Port1: '{_portAsStr}', Port2: '{arg}'.");
 		}
 	}
 }

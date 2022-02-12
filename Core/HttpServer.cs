@@ -1,10 +1,8 @@
 ﻿using Serilog;
 using System;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace HttpMock.Core
 {
@@ -109,8 +107,7 @@ namespace HttpMock.Core
 				if (stream == null)
 					return;
 
-				string content = GetRequestContent(stream);
-				Request request = Request.Parse(content);
+				Request request = Request.Read(stream);
 
 				Log.Information($"Process request {request.Method} {request.Path}");
 
@@ -133,20 +130,6 @@ namespace HttpMock.Core
 
 				Interactions.Add(interaction);
 			}
-		}
-
-		private static string GetRequestContent(NetworkStream networkStream)
-		{
-			byte[] data = new byte[1024];
-			using MemoryStream memoryStream = new();
-
-			do
-			{
-				networkStream.Read(data);
-				memoryStream.Write(data);
-			} while (networkStream.DataAvailable);
-
-			return Encoding.Default.GetString(memoryStream.ToArray());
 		}
 
 		private static void ThrowHttpServerIsAlreadyStarted()

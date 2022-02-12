@@ -8,7 +8,16 @@ namespace HttpMock.Core
 {
 	public class RouteCollection : IEnumerable<Route>
 	{
-		private IReadOnlyCollection<Route> _routes = new List<Route>();
+		private IReadOnlyCollection<Route> _routes;
+
+		public RouteCollection() : this(Array.Empty<Route>())
+		{
+		}
+
+		public RouteCollection(IEnumerable<Route> routes)
+		{
+			_routes = new List<Route>(routes);
+		}
 
 		public IEnumerator<Route> GetEnumerator()
 		{
