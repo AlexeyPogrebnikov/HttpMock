@@ -17,7 +17,7 @@ namespace HttpMock.Core
 
 		public string Path { get; init; }
 
-		public bool Handled { get; internal set; }
+		public bool Handled { get; set; }
 
 		public static Request Read(NetworkStream stream)
 		{

@@ -10,12 +10,12 @@ namespace HttpMock.VisualServer.Tests.Commands
 	[TestFixture]
 	public class CreateRouteCommandTests
 	{
-		private Mock<IHttpServer> _httpServer;
+		private Mock<IVisualHttpServer> _httpServer;
 
 		[SetUp]
 		public void SetUp()
 		{
-			_httpServer = new Mock<IHttpServer>();
+			_httpServer = new Mock<IVisualHttpServer>();
 
 			_httpServer.SetupGet(server => server.Routes).Returns(new RouteCollection());
 		}

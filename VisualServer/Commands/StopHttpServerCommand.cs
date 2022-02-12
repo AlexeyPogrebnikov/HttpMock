@@ -6,9 +6,9 @@ namespace HttpMock.VisualServer.Commands
 {
 	public class StopHttpServerCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 
-		public StopHttpServerCommand(IHttpServer httpServer)
+		public StopHttpServerCommand(IVisualHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 		}

@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using HttpMock.Core;
 using NUnit.Framework;
 
-namespace HttpMock.Core.Tests
+namespace HttpMock.VisualServer.Tests
 {
 	[TestFixture]
 	public class HttpServerTests
@@ -12,7 +13,7 @@ namespace HttpMock.Core.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			_server = new HttpServer();
+			_server = new VisualHttpServer();
 		}
 
 		[TearDown]
@@ -21,7 +22,7 @@ namespace HttpMock.Core.Tests
 			_server.Stop();
 		}
 
-		private HttpServer _server;
+		private VisualHttpServer _server;
 
 		[Test]
 		[Timeout(5000)]

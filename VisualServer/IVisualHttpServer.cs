@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net;
+using HttpMock.Core;
 
-namespace HttpMock.Core
+namespace HttpMock.VisualServer
 {
-	public interface IHttpServer
+	public interface IVisualHttpServer
 	{
 		event EventHandler StatusChanged;
 		

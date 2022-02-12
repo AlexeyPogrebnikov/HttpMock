@@ -12,7 +12,7 @@ namespace HttpMock.VisualServer.Tests.Commands
 		[SetUp]
 		public void SetUp()
 		{
-			var httpServer = new Mock<IHttpServer>();
+			var httpServer = new Mock<IVisualHttpServer>();
 			httpServer
 				.SetupGet(server => server.Routes)
 				.Returns(new RouteCollection());

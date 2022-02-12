@@ -8,9 +8,9 @@ namespace HttpMock.VisualServer.Commands
 {
 	public class SaveAsCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 
-		public SaveAsCommand(IHttpServer httpServer)
+		public SaveAsCommand(IVisualHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 		}

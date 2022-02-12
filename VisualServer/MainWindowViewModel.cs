@@ -14,12 +14,12 @@ namespace HttpMock.VisualServer
 	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
 		private Route _selectedRoute;
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 		private Action _refreshRoutesListViewAction;
 
 		public MainWindowViewModel()
 		{
-			_httpServer = ServiceLocator.Resolve<IHttpServer>();
+			_httpServer = ServiceLocator.Resolve<IVisualHttpServer>();
 			var routes = ServiceLocator.Resolve<RouteUICollection>();
 			if (routes != null)
 				Routes = routes.AsObservable();

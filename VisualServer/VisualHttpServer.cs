@@ -1,12 +1,13 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using HttpMock.Core;
+using Serilog;
 
-namespace HttpMock.Core
+namespace HttpMock.VisualServer
 {
-	public class HttpServer : IHttpServer
+	public class VisualHttpServer : IVisualHttpServer
 	{
 		private TcpListener _listener;
 		private readonly object _syncRoot = new();
@@ -18,7 +19,7 @@ namespace HttpMock.Core
 			}
 		};
 
-		public HttpServer()
+		public VisualHttpServer()
 		{
 			Routes = new RouteCollection();
 			Interactions = new InteractionCollection();
@@ -118,6 +119,8 @@ namespace HttpMock.Core
 					request.Handled = false;
 					route = _defaultRoute;
 				}
+				else
+					request.Handled = true;
 
 				Response response = route.Response;
 				response.Write(stream);
