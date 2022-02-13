@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using HttpMock.VisualServer.Windows;
 using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer.Commands
 {
@@ -16,18 +17,18 @@ namespace HttpMock.VisualServer.Commands
 		{
 			NewRouteWindow window = new();
 			var newRouteWindowViewModel = (NewRouteWindowViewModel) window.DataContext;
-			Route route = new()
+			RouteUI route = new()
 			{
-				Response = new Response()
+				Response = new ResponseUI
 				{
 					StatusCode = 200
 				}
 			};
 
-			if (parameter is HttpInteraction httpInteraction)
+			if (parameter is Interaction interaction)
 			{
-				route.Method = httpInteraction.Method;
-				route.Path = httpInteraction.Path;
+				route.Method = interaction.Request.Method;
+				route.Path = interaction.Request.Path;
 			}
 
 			newRouteWindowViewModel.Route = route;

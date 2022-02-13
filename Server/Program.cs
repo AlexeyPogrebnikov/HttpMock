@@ -1,5 +1,5 @@
-﻿using System;
-using HttpMock.Core;
+﻿using HttpMock.Core;
+using Serilog;
 
 namespace HttpMock.Server
 {
@@ -7,14 +7,15 @@ namespace HttpMock.Server
 	{
 		private static void Main(string[] args)
 		{
-			Console.WriteLine($"Version: {VersionHelper.GetCurrentAppVersion()}");
+			LogHelper.Init(true);
+
+			Log.Information($"Version: {VersionHelper.GetCurrentAppVersion()}");
 
 			ConsoleArgs consoleArgs = new(args);
 
-			HttpServer httpServer = new(new HttpInteractionCacheLogger());
-			ConsoleServerProject project = new(consoleArgs, httpServer);
-
-			project.StartServer();
+			ConsoleServerProject project = new(consoleArgs);
+			ConsoleHttpServer httpServer = new(project.Routes);
+			httpServer.Start(project.Address, project.Port);
 		}
 	}
 }

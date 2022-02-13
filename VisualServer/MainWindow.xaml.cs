@@ -13,8 +13,8 @@ namespace HttpMock.VisualServer
 		public MainWindow()
 		{
 			InitializeComponent();
-			var dataContext = (MainWindowViewModel)DataContext;
-			dataContext.SetRefreshRoutesListViewAction(RefreshRoutesListView);
+			var viewModel = (MainWindowViewModel)DataContext;
+			viewModel.SetRefreshRoutesListViewAction(RefreshRoutesListView);
 		}
 
 		private void RouteListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

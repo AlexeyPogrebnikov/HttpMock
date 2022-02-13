@@ -43,9 +43,10 @@
                 Visibility="{Binding StartHttpServerVisibility}" Padding="10, 0, 10, 0" />
         <Button Content="Stop" Command="{Binding StopHttpServer}" Visibility="{Binding StopHttpServerVisibility}"
                 Padding="10, 0, 10, 0" />
+        <Label Content="Stopping" Visibility="{Binding StoppingHttpServerVisibility}"></Label>
       </StackPanel>
       <TabControl>
-        <TabItem Header="Routes">
+        <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">
           <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
             <ListView.View>
               <GridView>
@@ -76,10 +77,10 @@
           <ListView ItemsSource="{Binding HandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}" />
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding StatusCode}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Request.Time}" />
+                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Request.Method}" />
+                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
+                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Request.Path}" />
               </GridView>
             </ListView.View>
             <ListView.ContextMenu>
@@ -93,15 +94,15 @@
           <ListView ItemsSource="{Binding UnhandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}" />
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding StatusCode}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
+                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Request.Time}" />
+                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Request.Method}" />
+                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
+                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Request.Path}" />
               </GridView>
             </ListView.View>
             <ListView.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Mock it..." Command="{Binding NewRoute}"
+                <MenuItem Header="Route it..." Command="{Binding NewRoute}"
                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                 <MenuItem Header="Clear" Command="{Binding ClearUnhandledRequests}" />
               </ContextMenu>

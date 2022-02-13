@@ -2,41 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
 using HttpMock.VisualServer.Commands;
 using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer
 {
 	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
 		private Route _selectedRoute;
-		private readonly IHttpServer _httpServer;
-		private readonly IHttpInteractionCache _httpInteractionCache;
+		private readonly IVisualHttpServer _httpServer;
 		private Action _refreshRoutesListViewAction;
 
 		public MainWindowViewModel()
 		{
-			_httpServer = ServiceLocator.Resolve<IHttpServer>();
-			if (_httpServer != null)
-			{
-				IEnumerable<Route> routes = _httpServer.Routes.ToArray();
-				Routes = new ObservableCollection<Route>(routes);
-			}
-			else
-			{
-				Routes = new ObservableCollection<Route>();
-			}
+			_httpServer = ServiceLocator.Resolve<IVisualHttpServer>();
+			var routes = ServiceLocator.Resolve<RouteUICollection>();
+			if (routes != null)
+				Routes = routes.AsObservable();
 
-			_httpInteractionCache = ServiceLocator.Resolve<IHttpInteractionCache>();
-
-			HandledRequests = new ObservableCollection<HttpInteraction>();
+			HandledRequests = new ObservableCollection<Interaction>();
 			ClearHandledRequests = new ClearHandledRequestsCommand(this);
 
-			UnhandledRequests = new ObservableCollection<HttpInteraction>();
+			UnhandledRequests = new ObservableCollection<Interaction>();
 			ClearUnhandledRequests = new ClearUnhandledRequestsCommand(this);
 
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
@@ -46,15 +37,14 @@ namespace HttpMock.VisualServer
 			Exit = new ExitCommand();
 			NewRoute = new NewRouteCommand();
 			EditRoute = new EditRouteCommand(this);
-			ClearRoutes = new ClearRoutesCommand(_httpServer);
+			ClearRoutes = new ClearRoutesCommand(routes);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
-			StopHttpServer = new StopHttpServerCommand(_httpServer);
+			StopHttpServer = new StopHttpServerCommand(_httpServer, new MessageViewer());
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
 
-			RemoveRoute = new RemoveRouteCommand(_httpServer);
-			RemoveRoute.RouteCollectionChanged += RemoveRoute_RouteCollectionChanged;
+			RemoveRoute = new RemoveRouteCommand(routes);
 
 			var dispatcherTimer = new DispatcherTimer
 			{
@@ -63,7 +53,8 @@ namespace HttpMock.VisualServer
 
 			dispatcherTimer.Tick += DispatcherTimer_Tick;
 			dispatcherTimer.Start();
-			_httpServer.StatusChanged += HttpServer_StatusChanged;
+			if (_httpServer != null)
+				_httpServer.StatusChanged += HttpServer_StatusChanged;
 			Open.ServerProjectOpened += Open_ServerProjectOpened;
 		}
 
@@ -72,50 +63,37 @@ namespace HttpMock.VisualServer
 			OnPropertyChanged(nameof(ConnectionSettings));
 		}
 
-		private void RemoveRoute_RouteCollectionChanged(object sender, EventArgs e)
-		{
-			UpdateRoutes();
-		}
-
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
 			if (_httpServer != null)
 			{
-				if (_httpServer.IsStarted)
+				if (_httpServer.StartEnabled && !_httpServer.StopEnabled)
+				{
+					StartHttpServerVisibility = Visibility.Visible;
+					StopHttpServerVisibility = Visibility.Collapsed;
+				}
+				else if (!_httpServer.StartEnabled && _httpServer.StopEnabled)
 				{
 					StartHttpServerVisibility = Visibility.Collapsed;
 					StopHttpServerVisibility = Visibility.Visible;
 				}
 				else
 				{
-					StartHttpServerVisibility = Visibility.Visible;
+					StartHttpServerVisibility = Visibility.Collapsed;
 					StopHttpServerVisibility = Visibility.Collapsed;
 				}
+
+				if (!_httpServer.StartEnabled && !_httpServer.StopEnabled)
+					StoppingHttpServerVisibility = Visibility.Visible;
+				else
+					StoppingHttpServerVisibility = Visibility.Collapsed;
 			}
 
 			OnPropertyChanged(nameof(StartHttpServerVisibility));
 			OnPropertyChanged(nameof(StopHttpServerVisibility));
+			OnPropertyChanged(nameof(StoppingHttpServerVisibility));
 
-			UpdateRoutes();
-
-			if (_httpInteractionCache != null)
-			{
-				IEnumerable<HttpInteraction> interactions = _httpInteractionCache.PopAll();
-
-				foreach (HttpInteraction interaction in interactions)
-				{
-					if (interaction.Handled)
-					{
-						if (HandledRequests.All(rp => rp.Uid != interaction.Uid))
-							HandledRequests.Insert(0, interaction);
-					}
-					else
-					{
-						if (UnhandledRequests.All(rp => rp.Uid != interaction.Uid))
-							UnhandledRequests.Insert(0, interaction);
-					}
-				}
-			}
+			UpdateRequests();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -138,13 +116,13 @@ namespace HttpMock.VisualServer
 
 		public ClearRoutesCommand ClearRoutes { get; }
 
-		public ObservableCollection<Route> Routes { get; }
+		public ObservableCollection<RouteUI> Routes { get; }
 
-		public ObservableCollection<HttpInteraction> HandledRequests { get; }
+		public ObservableCollection<Interaction> HandledRequests { get; }
 
 		public ClearHandledRequestsCommand ClearHandledRequests { get; }
 
-		public ObservableCollection<HttpInteraction> UnhandledRequests { get; }
+		public ObservableCollection<Interaction> UnhandledRequests { get; }
 
 		public void RefreshRouteListView()
 		{
@@ -165,6 +143,8 @@ namespace HttpMock.VisualServer
 
 		public Visibility StopHttpServerVisibility { get; set; }
 
+		public Visibility StoppingHttpServerVisibility { get; set; }
+
 		public AboutProgramCommand AboutProgram { get; }
 
 		public Route SelectedRoute
@@ -179,19 +159,15 @@ namespace HttpMock.VisualServer
 
 		public RemoveRouteCommand RemoveRoute { get; }
 
-		private void UpdateRoutes()
+		private void UpdateRequests()
 		{
 			if (_httpServer != null)
 			{
-				Route[] routes = _httpServer.Routes.ToArray();
+				foreach (Interaction interaction in _httpServer.HandledInteractions.PopAll())
+					HandledRequests.Insert(0, interaction);
 
-				RouteCollectionSynchronizer synchronizer = new();
-				synchronizer.Synchronize(routes, Routes);
-			}
-
-			if (Routes.Contains(SelectedRoute))
-			{
-				SelectedRoute = null;
+				foreach (Interaction interaction in _httpServer.UnhandledInteractions.PopAll())
+					UnhandledRequests.Insert(0, interaction);
 			}
 		}
 

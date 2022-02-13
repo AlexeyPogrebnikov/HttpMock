@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using HttpMock.Core;
+using Serilog;
 
 namespace HttpMock.VisualServer.Commands
 {
 	public class StartHttpServerCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 		private readonly IMessageViewer _messageViewer;
 
-		public StartHttpServerCommand(IHttpServer httpServer, IMessageViewer messageViewer)
+		public StartHttpServerCommand(IVisualHttpServer httpServer, IMessageViewer messageViewer)
 		{
 			_httpServer = httpServer;
 			_messageViewer = messageViewer;
@@ -29,21 +28,18 @@ namespace HttpMock.VisualServer.Commands
 			if (!TryParseIpAddress(connectionSettings, out IPAddress address))
 				return;
 
-			if (!TryParsePort(connectionSettings, out int? port))
+			if (!TryParsePort(connectionSettings, out int port))
 				return;
 
-			await Task.Run(() =>
+			try
 			{
-				try
-				{
-					_httpServer.Start(address, port.GetValueOrDefault());
-				}
-				catch
-				{
-					_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
-					//TODO log error
-				}
-			});
+				await _httpServer.StartAsync(address, port);
+			}
+			catch (Exception e)
+			{
+				_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
+				Log.Error(e, "Failed start a server or process a request.");
+			}
 		}
 
 		public event EventHandler CanExecuteChanged;
@@ -71,9 +67,9 @@ namespace HttpMock.VisualServer.Commands
 			}
 		}
 
-		private bool TryParsePort(ConnectionSettings connectionSettings, out int? port)
+		private bool TryParsePort(ConnectionSettings connectionSettings, out int port)
 		{
-			port = null;
+			port = 0;
 
 			string portAsStr = connectionSettings.Port;
 			if (string.IsNullOrWhiteSpace(portAsStr))

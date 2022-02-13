@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Windows.Input;
-using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 
 namespace HttpMock.VisualServer.Commands
 {
 	public class RemoveRouteCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly RouteUICollection _routes;
 
-		public event EventHandler RouteCollectionChanged;
-
-		public RemoveRouteCommand(IHttpServer httpServer)
+		public RemoveRouteCommand(RouteUICollection routes)
 		{
-			_httpServer = httpServer;
+			_routes = routes;
 		}
 
 		public bool CanExecute(object parameter)
@@ -22,9 +20,8 @@ namespace HttpMock.VisualServer.Commands
 
 		public void Execute(object parameter)
 		{
-			var route = (Route) parameter;
-			_httpServer.Routes.Remove(route);
-			RouteCollectionChanged?.Invoke(this, EventArgs.Empty);
+			var route = (RouteUI) parameter;
+			_routes.Remove(route);
 		}
 
 		public event EventHandler CanExecuteChanged;

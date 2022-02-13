@@ -7,10 +7,10 @@ namespace HttpMock.VisualServer.Commands
 {
 	public class OpenCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 		private readonly IMessageViewer _messageViewer;
 
-		public OpenCommand(IHttpServer httpServer, IMessageViewer messageViewer)
+		public OpenCommand(IVisualHttpServer httpServer, IMessageViewer messageViewer)
 		{
 			_httpServer = httpServer;
 			_messageViewer = messageViewer;

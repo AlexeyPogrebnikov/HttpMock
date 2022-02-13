@@ -8,24 +8,17 @@ namespace HttpMock.Core.Tests
 	public class RouteCollectionTests
 	{
 		[Test]
-		public void Add_throw_ArgumentNullException_if_route_is_null()
+		public void Init_throw_ArgumentException_if_Method_is_null()
 		{
 			var routes = new RouteCollection();
-			Assert.Throws<ArgumentNullException>(() => routes.Add(null));
-		}
+			var route = new Route {Method = null};
 
-		[Test]
-		public void Add_throw_ArgumentException_if_Method_is_null()
-		{
-			var routes = new RouteCollection();
-			var route = new Route { Method = null };
-
-			var exception = Assert.Throws<ArgumentException>(() => routes.Add(route));
+			var exception = Assert.Throws<ArgumentException>(() => routes.Init(new[] {route}));
 			Assert.AreEqual("Method of the route is null or empty.", exception.Message);
 		}
 
 		[Test]
-		public void Add_throw_ArgumentException_if_StatusCode_is_empty()
+		public void Init_throw_ArgumentException_if_StatusCode_is_empty()
 		{
 			var routes = new RouteCollection();
 			var route = new Route
@@ -38,7 +31,7 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			var exception = Assert.Throws<ArgumentException>(() => routes.Add(route));
+			var exception = Assert.Throws<ArgumentException>(() => routes.Init(new[] {route}));
 			Assert.AreEqual("StatusCode of the response is 0.", exception.Message);
 		}
 
@@ -47,27 +40,31 @@ namespace HttpMock.Core.Tests
 		{
 			RouteCollection routeCollection = new();
 
-			routeCollection.Add(new Route
+			routeCollection.Init(new[]
 			{
-				Method = "GET",
-				Path = "/",
-				Response = new Response
+				new Route
 				{
-					StatusCode = 200
+					Method = "GET",
+					Path = "/",
+					Response = new Response
+					{
+						StatusCode = 200
+					}
 				}
 			});
 
-			var routes = new Route[] {
-				new Route() 
-				{ 
+			var routes = new[]
+			{
+				new()
+				{
 					Method = "GET",
 					Path = "/clients",
-					Response = new Response 
-					{ 
+					Response = new Response
+					{
 						StatusCode = 200
-					}					
+					}
 				},
-				new Route()
+				new Route
 				{
 					Method = "GET",
 					Path = "/orders",
@@ -87,7 +84,7 @@ namespace HttpMock.Core.Tests
 		public void Init_throw_ArgumentNullException_if_route_is_null()
 		{
 			var routeCollection = new RouteCollection();
-			var routes = new Route[] { null };
+			var routes = new Route[] {null};
 			Assert.Throws<ArgumentNullException>(() => routeCollection.Init(routes));
 		}
 
@@ -95,25 +92,25 @@ namespace HttpMock.Core.Tests
 		public void GetAll_return_all_added_routes()
 		{
 			var routeCollection = new RouteCollection();
-			var route = new Route 
-			{ 
-				Method = "GET", 
+			var route = new Route
+			{
+				Method = "GET",
 				Path = "/",
 				Response = new Response
 				{
 					StatusCode = 200
 				}
 			};
-			routeCollection.Add(route);
+			routeCollection.Init(new[] {route});
 
-			Route[] routes = routeCollection.ToArray();
+			var routes = routeCollection.ToArray();
 
 			Assert.AreEqual(1, routes.Length);
 			Assert.AreSame(route, routes[0]);
 		}
 
 		[Test]
-		public void Add_not_throw_exception_if_Paths_are_not_same()
+		public void Init_not_throw_exception_if_Paths_are_not_same()
 		{
 			var routeCollection = new RouteCollection();
 			var firstRoute = new Route
@@ -126,8 +123,6 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			routeCollection.Add(firstRoute);
-
 			var secondRoute = new Route
 			{
 				Method = "GET",
@@ -138,7 +133,7 @@ namespace HttpMock.Core.Tests
 				}
 			};
 
-			routeCollection.Add(secondRoute);
+			routeCollection.Init(new[] {firstRoute, secondRoute});
 		}
 	}
 }

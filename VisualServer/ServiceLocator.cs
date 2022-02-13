@@ -1,5 +1,6 @@
 ﻿using System;
 using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HttpMock.VisualServer
@@ -33,8 +34,9 @@ namespace HttpMock.VisualServer
 
 		private static void ConfigureServices(IServiceCollection services)
 		{
-			services.AddSingleton<IHttpServer, HttpServer>();
-			services.AddSingleton<IHttpInteractionCache, HttpInteractionCache>();
+			services.AddSingleton<IVisualHttpServer, VisualHttpServer>();
+			services.AddSingleton<RouteUICollection, RouteUICollection>();
+			services.AddSingleton<IMessageViewer, MessageViewer>();
 		}
 	}
 }

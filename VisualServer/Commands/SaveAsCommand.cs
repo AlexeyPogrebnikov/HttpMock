@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using HttpMock.Core;
 using Microsoft.Win32;
@@ -7,9 +8,9 @@ namespace HttpMock.VisualServer.Commands
 {
 	public class SaveAsCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 
-		public SaveAsCommand(IHttpServer httpServer)
+		public SaveAsCommand(IVisualHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 		}
