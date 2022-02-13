@@ -53,7 +53,7 @@ namespace HttpMock.VisualServer.Tests
 
 			Assert.IsTrue(_server.IsStarted);
 
-			var interactions = _server.Interactions.PopAll().ToArray();
+			var interactions = _server.HandledInteractions.PopAll().ToArray();
 			Assert.AreEqual(1, interactions.Length);
 			Assert.AreEqual(200, interactions[0].Response.StatusCode);
 		}
@@ -86,7 +86,7 @@ namespace HttpMock.VisualServer.Tests
 
 			Assert.IsTrue(_server.IsStarted);
 
-			var interactions = _server.Interactions.PopAll().ToArray();
+			var interactions = _server.HandledInteractions.PopAll().ToArray();
 			Assert.AreEqual(1, interactions.Length);
 			Assert.AreEqual(200, interactions[0].Response.StatusCode);
 		}
@@ -123,7 +123,7 @@ namespace HttpMock.VisualServer.Tests
 
 			Assert.IsTrue(_server.IsStarted);
 
-			var interactions = _server.Interactions.PopAll().ToArray();
+			var interactions = _server.UnhandledInteractions.PopAll().ToArray();
 
 			Assert.AreEqual(1, interactions.Length);
 			Assert.AreEqual(404, interactions[0].Response.StatusCode);

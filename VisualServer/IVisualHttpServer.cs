@@ -11,7 +11,8 @@ namespace HttpMock.VisualServer
 		bool StartEnabled { get; }
 		bool StopEnabled { get; }
 		RouteCollection Routes { get; }
-		InteractionCollection Interactions { get; }
+		InteractionCollection HandledInteractions { get; }
+		InteractionCollection UnhandledInteractions { get; }
 		event EventHandler StatusChanged;
 
 		/// <exception cref="InvalidOperationException"></exception>

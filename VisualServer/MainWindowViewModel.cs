@@ -163,15 +163,11 @@ namespace HttpMock.VisualServer
 		{
 			if (_httpServer != null)
 			{
-				IEnumerable<Interaction> interactions = _httpServer.Interactions.PopAll();
+				foreach (Interaction interaction in _httpServer.HandledInteractions.PopAll())
+					HandledRequests.Insert(0, interaction);
 
-				foreach (Interaction interaction in interactions)
-				{
-					if (interaction.Request.Handled)
-						HandledRequests.Insert(0, interaction);
-					else
-						UnhandledRequests.Insert(0, interaction);
-				}
+				foreach (Interaction interaction in _httpServer.UnhandledInteractions.PopAll())
+					UnhandledRequests.Insert(0, interaction);
 			}
 		}
 

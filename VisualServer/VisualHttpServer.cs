@@ -26,12 +26,14 @@ namespace HttpMock.VisualServer
 		public VisualHttpServer()
 		{
 			Routes = new RouteCollection();
-			Interactions = new InteractionCollection();
+			HandledInteractions = new InteractionCollection();
+			UnhandledInteractions = new InteractionCollection();
 			StartEnabled = true;
 		}
 
 		public RouteCollection Routes { get; }
-		public InteractionCollection Interactions { get; }
+		public InteractionCollection HandledInteractions { get; }
+		public InteractionCollection UnhandledInteractions { get; }
 		public event EventHandler StatusChanged;
 
 		public bool IsStarted
@@ -162,14 +164,11 @@ namespace HttpMock.VisualServer
 
 					Route route = Routes.Find(request.Method, request.Path).FirstOrDefault();
 
+					var handled = true;
 					if (route == null)
 					{
-						request.Handled = false;
+						handled = false;
 						route = _defaultRoute;
-					}
-					else
-					{
-						request.Handled = true;
 					}
 
 					Response response = route.Response;
@@ -181,7 +180,10 @@ namespace HttpMock.VisualServer
 						Response = response
 					};
 
-					Interactions.Add(interaction);
+					if (handled)
+						HandledInteractions.Add(interaction);
+					else
+						UnhandledInteractions.Add(interaction);
 				}
 				finally
 				{
