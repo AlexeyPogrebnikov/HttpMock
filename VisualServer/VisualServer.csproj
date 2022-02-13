@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>HttpMock.VisualServer</AssemblyName>
     <RootNamespace>HttpMock.VisualServer</RootNamespace>
-	<Version>0.5</Version>
+	<Version>0.6</Version>
   </PropertyGroup>
 
   <ItemGroup>
