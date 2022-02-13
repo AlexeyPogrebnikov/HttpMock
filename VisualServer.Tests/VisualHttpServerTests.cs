@@ -2,26 +2,28 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using HttpMock.Core;
 using NUnit.Framework;
 
-namespace HttpMock.Core.Tests
+namespace HttpMock.VisualServer.Tests
 {
 	[TestFixture]
-	public class HttpServerTests
+	public class VisualHttpServerTests
 	{
 		[SetUp]
 		public void SetUp()
 		{
-			_server = new HttpServer();
+			_server = new VisualHttpServer();
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			_server.Stop();
+			if (_server.IsStarted)
+				_server.StopAsync().Wait();
 		}
 
-		private HttpServer _server;
+		private VisualHttpServer _server;
 
 		[Test]
 		[Timeout(5000)]
@@ -41,7 +43,7 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 80));
+			Task.Run(() => _server.StartAsync(IPAddress.Parse("127.0.0.1"), 80));
 
 			WaitReadyServer();
 
@@ -51,7 +53,7 @@ namespace HttpMock.Core.Tests
 
 			Assert.IsTrue(_server.IsStarted);
 
-			var interactions = _server.Interactions.PopAll().ToArray();
+			var interactions = _server.HandledInteractions.PopAll().ToArray();
 			Assert.AreEqual(1, interactions.Length);
 			Assert.AreEqual(200, interactions[0].Response.StatusCode);
 		}
@@ -75,7 +77,7 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 80));
+			Task.Run(() => _server.StartAsync(IPAddress.Parse("127.0.0.1"), 80));
 			WaitReadyServer();
 
 			WebClient webClient = new();
@@ -84,19 +86,20 @@ namespace HttpMock.Core.Tests
 
 			Assert.IsTrue(_server.IsStarted);
 
-			var interactions = _server.Interactions.PopAll().ToArray();
+			var interactions = _server.HandledInteractions.PopAll().ToArray();
 			Assert.AreEqual(1, interactions.Length);
 			Assert.AreEqual(200, interactions[0].Response.StatusCode);
 		}
 
 		[Test]
-		public void Start_throw_InvalidOperationException_if_server_already_started()
+		[Timeout(5000)]
+		public void StartAsync_throw_InvalidOperationException_if_server_already_started()
 		{
 			var address = IPAddress.Parse("127.0.0.1");
-			Task.Run(() => _server.Start(address, 80));
+			Task.Run(() => _server.StartAsync(address, 80));
 			WaitReadyServer();
 
-			var exception = Assert.Throws<InvalidOperationException>(() => _server.Start(address, 5000));
+			var exception = Assert.ThrowsAsync<InvalidOperationException>(() => _server.StartAsync(address, 5000));
 
 			Assert.AreEqual("HTTP server is already started.", exception.Message);
 		}
@@ -105,7 +108,7 @@ namespace HttpMock.Core.Tests
 		[Timeout(5000)]
 		public void Response_not_found()
 		{
-			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 5000));
+			Task.Run(() => _server.StartAsync(IPAddress.Parse("127.0.0.1"), 5000));
 
 			WaitReadyServer();
 
@@ -120,7 +123,7 @@ namespace HttpMock.Core.Tests
 
 			Assert.IsTrue(_server.IsStarted);
 
-			var interactions = _server.Interactions.PopAll().ToArray();
+			var interactions = _server.UnhandledInteractions.PopAll().ToArray();
 
 			Assert.AreEqual(1, interactions.Length);
 			Assert.AreEqual(404, interactions[0].Response.StatusCode);
@@ -129,6 +132,15 @@ namespace HttpMock.Core.Tests
 		private void WaitReadyServer()
 		{
 			while (!_server.IsStarted) Task.Delay(100).Wait();
+		}
+
+		[Test]
+		[Timeout(5000)]
+		public void StopAsync_throw_InvalidOperationException_if_server_is_stopped()
+		{
+			var exception = Assert.ThrowsAsync<InvalidOperationException>(() => _server.StopAsync());
+
+			Assert.AreEqual("HTTP server is stopped.", exception.Message);
 		}
 	}
 }

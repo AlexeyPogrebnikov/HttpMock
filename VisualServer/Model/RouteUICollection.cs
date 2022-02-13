@@ -9,9 +9,9 @@ namespace HttpMock.VisualServer.Model
 	public class RouteUICollection : IEnumerable<RouteUI>
 	{
 		private readonly ObservableCollection<RouteUI> _collection = new();
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 
-		public RouteUICollection(IHttpServer httpServer)
+		public RouteUICollection(IVisualHttpServer httpServer)
 		{
 			_httpServer = httpServer;
 		}
@@ -60,6 +60,7 @@ namespace HttpMock.VisualServer.Model
 			_collection.Clear();
 			foreach (var route in routes)
 				_collection.Add(route);
+			UpdateServerRoutes();
 		}
 
 		private void UpdateServerRoutes()

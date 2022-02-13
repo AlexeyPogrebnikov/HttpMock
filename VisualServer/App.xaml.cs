@@ -44,7 +44,7 @@ namespace HttpMock.VisualServer
 		{
 			base.OnExit(e);
 
-			var httpServer = ServiceLocator.Resolve<IHttpServer>();
+			var httpServer = ServiceLocator.Resolve<IVisualHttpServer>();
 			var workSession = new WorkSession
 			{
 				ConnectionSettings = ConnectionSettingsCache.ConnectionSettings,

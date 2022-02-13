@@ -43,6 +43,7 @@
                 Visibility="{Binding StartHttpServerVisibility}" Padding="10, 0, 10, 0" />
         <Button Content="Stop" Command="{Binding StopHttpServer}" Visibility="{Binding StopHttpServerVisibility}"
                 Padding="10, 0, 10, 0" />
+        <Label Content="Stopping" Visibility="{Binding StoppingHttpServerVisibility}"></Label>
       </StackPanel>
       <TabControl>
         <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">

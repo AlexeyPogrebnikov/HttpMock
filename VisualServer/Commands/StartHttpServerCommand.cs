@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using HttpMock.Core;
 using Serilog;
 
 namespace HttpMock.VisualServer.Commands
 {
 	public class StartHttpServerCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 		private readonly IMessageViewer _messageViewer;
 
-		public StartHttpServerCommand(IHttpServer httpServer, IMessageViewer messageViewer)
+		public StartHttpServerCommand(IVisualHttpServer httpServer, IMessageViewer messageViewer)
 		{
 			_httpServer = httpServer;
 			_messageViewer = messageViewer;
@@ -35,21 +33,16 @@ namespace HttpMock.VisualServer.Commands
 
 			try
 			{
-				await StartServerAsync(address, port);
+				await _httpServer.StartAsync(address, port);
 			}
 			catch (Exception e)
 			{
 				_messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
-				Log.Error(e, "Failed start the server or process a request.");
+				Log.Error(e, "Failed start a server or process a request.");
 			}
 		}
 
 		public event EventHandler CanExecuteChanged;
-
-		private async Task StartServerAsync(IPAddress address, int port)
-		{
-			await Task.Run(() => _httpServer.Start(address, port));
-		}
 
 		private bool TryParseIpAddress(ConnectionSettings connectionSettings, out IPAddress address)
 		{

@@ -14,12 +14,12 @@ namespace HttpMock.VisualServer
 	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
 		private Route _selectedRoute;
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
 		private Action _refreshRoutesListViewAction;
 
 		public MainWindowViewModel()
 		{
-			_httpServer = ServiceLocator.Resolve<IHttpServer>();
+			_httpServer = ServiceLocator.Resolve<IVisualHttpServer>();
 			var routes = ServiceLocator.Resolve<RouteUICollection>();
 			if (routes != null)
 				Routes = routes.AsObservable();
@@ -39,7 +39,7 @@ namespace HttpMock.VisualServer
 			EditRoute = new EditRouteCommand(this);
 			ClearRoutes = new ClearRoutesCommand(routes);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
-			StopHttpServer = new StopHttpServerCommand(_httpServer);
+			StopHttpServer = new StopHttpServerCommand(_httpServer, new MessageViewer());
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
@@ -67,20 +67,31 @@ namespace HttpMock.VisualServer
 		{
 			if (_httpServer != null)
 			{
-				if (_httpServer.IsStarted)
+				if (_httpServer.StartEnabled && !_httpServer.StopEnabled)
+				{
+					StartHttpServerVisibility = Visibility.Visible;
+					StopHttpServerVisibility = Visibility.Collapsed;
+				}
+				else if (!_httpServer.StartEnabled && _httpServer.StopEnabled)
 				{
 					StartHttpServerVisibility = Visibility.Collapsed;
 					StopHttpServerVisibility = Visibility.Visible;
 				}
 				else
 				{
-					StartHttpServerVisibility = Visibility.Visible;
+					StartHttpServerVisibility = Visibility.Collapsed;
 					StopHttpServerVisibility = Visibility.Collapsed;
 				}
+
+				if (!_httpServer.StartEnabled && !_httpServer.StopEnabled)
+					StoppingHttpServerVisibility = Visibility.Visible;
+				else
+					StoppingHttpServerVisibility = Visibility.Collapsed;
 			}
 
 			OnPropertyChanged(nameof(StartHttpServerVisibility));
 			OnPropertyChanged(nameof(StopHttpServerVisibility));
+			OnPropertyChanged(nameof(StoppingHttpServerVisibility));
 
 			UpdateRequests();
 		}
@@ -132,6 +143,8 @@ namespace HttpMock.VisualServer
 
 		public Visibility StopHttpServerVisibility { get; set; }
 
+		public Visibility StoppingHttpServerVisibility { get; set; }
+
 		public AboutProgramCommand AboutProgram { get; }
 
 		public Route SelectedRoute
@@ -150,15 +163,11 @@ namespace HttpMock.VisualServer
 		{
 			if (_httpServer != null)
 			{
-				IEnumerable<Interaction> interactions = _httpServer.Interactions.PopAll();
+				foreach (Interaction interaction in _httpServer.HandledInteractions.PopAll())
+					HandledRequests.Insert(0, interaction);
 
-				foreach (Interaction interaction in interactions)
-				{
-					if (interaction.Request.Handled)
-						HandledRequests.Insert(0, interaction);
-					else
-						UnhandledRequests.Insert(0, interaction);
-				}
+				foreach (Interaction interaction in _httpServer.UnhandledInteractions.PopAll())
+					UnhandledRequests.Insert(0, interaction);
 			}
 		}
 

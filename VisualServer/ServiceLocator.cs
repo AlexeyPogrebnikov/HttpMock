@@ -34,7 +34,7 @@ namespace HttpMock.VisualServer
 
 		private static void ConfigureServices(IServiceCollection services)
 		{
-			services.AddSingleton<IHttpServer, HttpServer>();
+			services.AddSingleton<IVisualHttpServer, VisualHttpServer>();
 			services.AddSingleton<RouteUICollection, RouteUICollection>();
 			services.AddSingleton<IMessageViewer, MessageViewer>();
 		}

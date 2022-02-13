@@ -9,7 +9,7 @@ namespace HttpMock.Core
 
 		public string Body { get; init; }
 
-		internal void Write(Stream stream)
+		public void Write(Stream stream)
 		{
 			string responseText = GetResponseText();
 			byte[] data = Encoding.Default.GetBytes(responseText);

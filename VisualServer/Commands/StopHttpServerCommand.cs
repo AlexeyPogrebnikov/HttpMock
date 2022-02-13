@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Windows.Input;
-using HttpMock.Core;
+using Serilog;
 
 namespace HttpMock.VisualServer.Commands
 {
 	public class StopHttpServerCommand : ICommand
 	{
-		private readonly IHttpServer _httpServer;
+		private readonly IVisualHttpServer _httpServer;
+		private readonly IMessageViewer _messageViewer;
 
-		public StopHttpServerCommand(IHttpServer httpServer)
+		public StopHttpServerCommand(IVisualHttpServer httpServer, IMessageViewer messageViewer)
 		{
 			_httpServer = httpServer;
+			_messageViewer = messageViewer;
 		}
 
 		public bool CanExecute(object parameter)
@@ -18,9 +20,17 @@ namespace HttpMock.VisualServer.Commands
 			return true;
 		}
 
-		public void Execute(object parameter)
+		public async void Execute(object parameter)
 		{
-			_httpServer.Stop();
+			try
+			{
+				await _httpServer.StopAsync();
+			}
+			catch (Exception e)
+			{
+				_messageViewer.View("Error!", "Can't stop a server.");
+				Log.Error(e, "Failed stop the server.");
+			}
 		}
 
 		public event EventHandler CanExecuteChanged;
