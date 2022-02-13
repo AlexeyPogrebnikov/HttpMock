@@ -39,7 +39,7 @@ namespace HttpMock.VisualServer
 			EditRoute = new EditRouteCommand(this);
 			ClearRoutes = new ClearRoutesCommand(routes);
 			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
-			StopHttpServer = new StopHttpServerCommand(_httpServer);
+			StopHttpServer = new StopHttpServerCommand(_httpServer, new MessageViewer());
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
@@ -67,20 +67,31 @@ namespace HttpMock.VisualServer
 		{
 			if (_httpServer != null)
 			{
-				if (_httpServer.IsStarted)
+				if (_httpServer.StartEnabled && !_httpServer.StopEnabled)
+				{
+					StartHttpServerVisibility = Visibility.Visible;
+					StopHttpServerVisibility = Visibility.Collapsed;
+				}
+				else if (!_httpServer.StartEnabled && _httpServer.StopEnabled)
 				{
 					StartHttpServerVisibility = Visibility.Collapsed;
 					StopHttpServerVisibility = Visibility.Visible;
 				}
 				else
 				{
-					StartHttpServerVisibility = Visibility.Visible;
+					StartHttpServerVisibility = Visibility.Collapsed;
 					StopHttpServerVisibility = Visibility.Collapsed;
 				}
+
+				if (!_httpServer.StartEnabled && !_httpServer.StopEnabled)
+					StoppingHttpServerVisibility = Visibility.Visible;
+				else
+					StoppingHttpServerVisibility = Visibility.Collapsed;
 			}
 
 			OnPropertyChanged(nameof(StartHttpServerVisibility));
 			OnPropertyChanged(nameof(StopHttpServerVisibility));
+			OnPropertyChanged(nameof(StoppingHttpServerVisibility));
 
 			UpdateRequests();
 		}
@@ -131,6 +142,8 @@ namespace HttpMock.VisualServer
 		public StopHttpServerCommand StopHttpServer { get; }
 
 		public Visibility StopHttpServerVisibility { get; set; }
+
+		public Visibility StoppingHttpServerVisibility { get; set; }
 
 		public AboutProgramCommand AboutProgram { get; }
 

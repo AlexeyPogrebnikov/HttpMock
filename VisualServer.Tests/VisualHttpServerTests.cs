@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace HttpMock.VisualServer.Tests
 {
 	[TestFixture]
-	public class HttpServerTests
+	public class VisualHttpServerTests
 	{
 		[SetUp]
 		public void SetUp()
@@ -19,7 +19,8 @@ namespace HttpMock.VisualServer.Tests
 		[TearDown]
 		public void TearDown()
 		{
-			_server.Stop();
+			if (_server.IsStarted)
+				_server.StopAsync().Wait();
 		}
 
 		private VisualHttpServer _server;
@@ -42,7 +43,7 @@ namespace HttpMock.VisualServer.Tests
 				}
 			});
 
-			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 80));
+			Task.Run(() => _server.StartAsync(IPAddress.Parse("127.0.0.1"), 80));
 
 			WaitReadyServer();
 
@@ -76,7 +77,7 @@ namespace HttpMock.VisualServer.Tests
 				}
 			});
 
-			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 80));
+			Task.Run(() => _server.StartAsync(IPAddress.Parse("127.0.0.1"), 80));
 			WaitReadyServer();
 
 			WebClient webClient = new();
@@ -91,13 +92,14 @@ namespace HttpMock.VisualServer.Tests
 		}
 
 		[Test]
-		public void Start_throw_InvalidOperationException_if_server_already_started()
+		[Timeout(5000)]
+		public void StartAsync_throw_InvalidOperationException_if_server_already_started()
 		{
 			var address = IPAddress.Parse("127.0.0.1");
-			Task.Run(() => _server.Start(address, 80));
+			Task.Run(() => _server.StartAsync(address, 80));
 			WaitReadyServer();
 
-			var exception = Assert.Throws<InvalidOperationException>(() => _server.Start(address, 5000));
+			var exception = Assert.ThrowsAsync<InvalidOperationException>(() => _server.StartAsync(address, 5000));
 
 			Assert.AreEqual("HTTP server is already started.", exception.Message);
 		}
@@ -106,7 +108,7 @@ namespace HttpMock.VisualServer.Tests
 		[Timeout(5000)]
 		public void Response_not_found()
 		{
-			Task.Run(() => _server.Start(IPAddress.Parse("127.0.0.1"), 5000));
+			Task.Run(() => _server.StartAsync(IPAddress.Parse("127.0.0.1"), 5000));
 
 			WaitReadyServer();
 
@@ -130,6 +132,15 @@ namespace HttpMock.VisualServer.Tests
 		private void WaitReadyServer()
 		{
 			while (!_server.IsStarted) Task.Delay(100).Wait();
+		}
+
+		[Test]
+		[Timeout(5000)]
+		public void StopAsync_throw_InvalidOperationException_if_server_is_stopped()
+		{
+			var exception = Assert.ThrowsAsync<InvalidOperationException>(() => _server.StopAsync());
+
+			Assert.AreEqual("HTTP server is stopped.", exception.Message);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using HttpMock.Core;
 using Serilog;
 
@@ -9,8 +10,6 @@ namespace HttpMock.VisualServer
 {
 	public class VisualHttpServer : IVisualHttpServer
 	{
-		private TcpListener _listener;
-		private readonly object _syncRoot = new();
 		private readonly Route _defaultRoute = new()
 		{
 			Response = new Response
@@ -19,39 +18,69 @@ namespace HttpMock.VisualServer
 			}
 		};
 
+		private bool _isStarted;
+		private TcpListener _listener;
+		private bool _startEnabled;
+		private bool _stopEnabled;
+
 		public VisualHttpServer()
 		{
 			Routes = new RouteCollection();
 			Interactions = new InteractionCollection();
+			StartEnabled = true;
 		}
 
 		public RouteCollection Routes { get; }
 		public InteractionCollection Interactions { get; }
 		public event EventHandler StatusChanged;
-		public bool IsStarted { get; private set; }
 
-		public void Start(IPAddress address, int port)
+		public bool IsStarted
 		{
-			if (IsStarted == false)
+			get => _isStarted;
+			private set
 			{
-				lock (_syncRoot)
-				{
-					if (IsStarted)
-						ThrowHttpServerIsAlreadyStarted();
-
-					IsStarted = true;
-				}
+				_isStarted = value;
+				OnStatusChanged();
 			}
-			else
-				ThrowHttpServerIsAlreadyStarted();
+		}
 
+		public bool StartEnabled
+		{
+			get => _startEnabled;
+			private set
+			{
+				_startEnabled = value;
+				OnStatusChanged();
+			}
+		}
+
+		public bool StopEnabled
+		{
+			get => _stopEnabled;
+			private set
+			{
+				_stopEnabled = value;
+				OnStatusChanged();
+			}
+		}
+
+		public async Task StartAsync(IPAddress address, int port)
+		{
+			if (!StartEnabled)
+				throw new InvalidOperationException("HTTP server is already started.");
+
+			StartEnabled = false;
+
+			_listener = new TcpListener(address, port);
+			_listener.Start();
+
+			StopEnabled = true;
+			IsStarted = true;
 			Log.Information("HTTP server started.");
-
-			OnStatusChanged();
 
 			try
 			{
-				DoStart(address, port);
+				await Task.Run(ProcessRequests);
 			}
 			catch (SocketException e)
 			{
@@ -69,75 +98,96 @@ namespace HttpMock.VisualServer
 			finally
 			{
 				IsStarted = false;
-				OnStatusChanged();
+				StopEnabled = false;
+				StartEnabled = true;
 			}
 		}
 
-		public void Stop()
+		public async Task StopAsync()
 		{
+			if (!StopEnabled)
+				throw new InvalidOperationException("HTTP server is stopped.");
+
+			StopEnabled = false;
+
 			try
 			{
-				_listener?.Stop();
+				_listener.Stop();
 			}
 			catch (Exception e)
 			{
 				Log.Error(e, "Failed stop the server.");
+				throw;
 			}
-			finally
-			{
-				Log.Information("HTTP server stopped.");
 
-				_listener = null;
-			}
+			while (IsStarted) await Task.Delay(100);
+
+			Log.Information("HTTP server stopped.");
+
+			StartEnabled = true;
 		}
 
-		private void DoStart(IPAddress address, int port)
+		private void ProcessRequests()
 		{
-			_listener = new TcpListener(address, port);
-
-			_listener?.Start();
-
 			while (true)
 			{
-				if (_listener == null)
-					return;
-
-				using TcpClient client = _listener?.AcceptTcpClient();
-				using NetworkStream stream = client?.GetStream();
-
-				if (stream == null)
-					return;
-
-				Request request = Request.Read(stream);
-
-				Log.Information($"Process request {request.Method} {request.Path}");
-
-				Route route = Routes.Find(request.Method, request.Path).FirstOrDefault();
-
-				if (route == null)
+				TcpClient client = null;
+				try
 				{
-					request.Handled = false;
-					route = _defaultRoute;
+					try
+					{
+						client = _listener.AcceptTcpClient();
+					}
+					catch (InvalidOperationException e)
+					{
+						Log.Warning(e, "Error accept a tcp client.");
+						return;
+					}
+
+					using NetworkStream stream = client.GetStream();
+
+					Request request;
+					try
+					{
+						stream.ReadTimeout = 1000;
+						request = Request.Read(stream);
+					}
+					catch (Exception e)
+					{
+						Log.Warning(e, "Error read a request.");
+						continue;
+					}
+
+					Log.Information($"Process request {request.Method} {request.Path}");
+
+					Route route = Routes.Find(request.Method, request.Path).FirstOrDefault();
+
+					if (route == null)
+					{
+						request.Handled = false;
+						route = _defaultRoute;
+					}
+					else
+					{
+						request.Handled = true;
+					}
+
+					Response response = route.Response;
+					response.Write(stream);
+
+					Interaction interaction = new()
+					{
+						Request = request,
+						Response = response
+					};
+
+					Interactions.Add(interaction);
 				}
-				else
-					request.Handled = true;
-
-				Response response = route.Response;
-				response.Write(stream);
-
-				Interaction interaction = new()
+				finally
 				{
-					Request = request,
-					Response = response
-				};
-
-				Interactions.Add(interaction);
+					client?.Dispose();
+				}
 			}
-		}
-
-		private static void ThrowHttpServerIsAlreadyStarted()
-		{
-			throw new InvalidOperationException("HTTP server is already started.");
 		}
 
 		private void OnStatusChanged()

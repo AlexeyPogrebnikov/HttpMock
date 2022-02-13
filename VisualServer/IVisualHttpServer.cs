@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using HttpMock.Core;
 
 namespace HttpMock.VisualServer
 {
 	public interface IVisualHttpServer
 	{
-		event EventHandler StatusChanged;
-		
 		bool IsStarted { get; }
+		bool StartEnabled { get; }
+		bool StopEnabled { get; }
 		RouteCollection Routes { get; }
 		InteractionCollection Interactions { get; }
+		event EventHandler StatusChanged;
 
-		void Start(IPAddress address, int port);
-		void Stop();
+		/// <exception cref="InvalidOperationException"></exception>
+		Task StartAsync(IPAddress address, int port);
+
+		/// <exception cref="InvalidOperationException"></exception>
+		Task StopAsync();
 	}
 }
