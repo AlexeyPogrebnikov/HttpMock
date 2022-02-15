@@ -1,5 +1,6 @@
 ﻿using System;
 using HttpMock.Core;
+using HttpMock.VisualServer.Commands;
 using HttpMock.VisualServer.Model;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,8 +36,14 @@ namespace HttpMock.VisualServer
 		private static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddSingleton<IVisualHttpServer, VisualHttpServer>();
-			services.AddSingleton<RouteUICollection, RouteUICollection>();
+			services.AddSingleton<RouteUICollection>();
 			services.AddSingleton<IMessageViewer, MessageViewer>();
+			services.AddTransient<OpenCommand>();
+			services.AddTransient<SaveAsCommand>();
+			services.AddTransient<ClearRoutesCommand>();
+			services.AddTransient<StartHttpServerCommand>();
+			services.AddTransient<StopHttpServerCommand>();
+			services.AddTransient<RemoveRouteCommand>();
 		}
 	}
 }

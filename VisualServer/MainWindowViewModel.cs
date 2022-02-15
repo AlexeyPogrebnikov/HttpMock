@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -32,19 +31,19 @@ namespace HttpMock.VisualServer
 
 			ConnectionSettings = ConnectionSettingsCache.ConnectionSettings;
 
-			SaveAs = new SaveAsCommand(_httpServer);
-			Open = new OpenCommand(_httpServer, new MessageViewer());
+			SaveAs = ServiceLocator.Resolve<SaveAsCommand>();
+			Open = ServiceLocator.Resolve<OpenCommand>();
 			Exit = new ExitCommand();
 			NewRoute = new NewRouteCommand();
 			EditRoute = new EditRouteCommand(this);
-			ClearRoutes = new ClearRoutesCommand(routes);
-			StartHttpServer = new StartHttpServerCommand(_httpServer, new MessageViewer());
-			StopHttpServer = new StopHttpServerCommand(_httpServer, new MessageViewer());
+			ClearRoutes = ServiceLocator.Resolve<ClearRoutesCommand>();
+			StartHttpServer = ServiceLocator.Resolve<StartHttpServerCommand>();
+			StopHttpServer = ServiceLocator.Resolve<StopHttpServerCommand>();
 			StartHttpServerVisibility = Visibility.Visible;
 			StopHttpServerVisibility = Visibility.Hidden;
 			AboutProgram = new AboutProgramCommand();
 
-			RemoveRoute = new RemoveRouteCommand(routes);
+			RemoveRoute = ServiceLocator.Resolve<RemoveRouteCommand>();
 
 			var dispatcherTimer = new DispatcherTimer
 			{
@@ -55,7 +54,8 @@ namespace HttpMock.VisualServer
 			dispatcherTimer.Start();
 			if (_httpServer != null)
 				_httpServer.StatusChanged += HttpServer_StatusChanged;
-			Open.ServerProjectOpened += Open_ServerProjectOpened;
+			if (Open != null)
+				Open.ServerProjectOpened += Open_ServerProjectOpened;
 		}
 
 		private void Open_ServerProjectOpened(object sender, EventArgs e)
@@ -133,7 +133,7 @@ namespace HttpMock.VisualServer
 
 		public ConnectionSettings ConnectionSettings { get; }
 
-		public bool IsEnabledEditConnectionSettings => !_httpServer.IsStarted;
+		public bool IsEnabledEditConnectionSettings => _httpServer.StartEnabled;
 
 		public StartHttpServerCommand StartHttpServer { get; }
 
