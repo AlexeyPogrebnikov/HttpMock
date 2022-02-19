@@ -6,6 +6,10 @@ src/Core/bin/
 src/Core/obj/
 src/Core.Tests/bin/
 src/Core.Tests/obj/
+src/Runner/bin/
+src/Runner/obj/
+src/Runner.Tests/bin/
+src/Runner.Tests/obj/
 src/Server/bin/
 src/Server/obj/
 src/Server.Tests/bin/
