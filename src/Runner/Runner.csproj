@@ -5,7 +5,7 @@
     <Version>0.6</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Alexey Pogrebnikov</Authors>
-    <PackageProjectUrl>https://github.com/AlexeyPogrebnikov/HttpMock.Runner</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexeyPogrebnikov/HttpMock</PackageProjectUrl>
     <Description>A library for running Mock HTTP server in tests.</Description>
     <Copyright>Alexey Pogrebnikov</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
