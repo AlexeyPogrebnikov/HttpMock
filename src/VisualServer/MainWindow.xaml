@@ -9,6 +9,11 @@
   <Window.DataContext>
     <client:MainWindowViewModel />
   </Window.DataContext>
+  <Window.Resources>
+    <Style x:Key="TableHeader">
+      <Setter Property="TextBlock.Padding" Value="10, 0, 10, 0" />
+    </Style>
+  </Window.Resources>
   <Grid>
     <StackPanel>
       <Menu>
@@ -50,9 +55,27 @@
           <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Method}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Method" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Path}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Path" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Response.StatusCode}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Status code" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
               </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -77,10 +100,34 @@
           <ListView ItemsSource="{Binding HandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Request.Time}" />
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Request.Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Request.Path}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Time}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Time" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Method}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Method" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Response.StatusCode}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Status code" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Path" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
               </GridView>
             </ListView.View>
             <ListView.ContextMenu>
@@ -94,10 +141,34 @@
           <ListView ItemsSource="{Binding UnhandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Request.Time}" />
-                <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Request.Method}" />
-                <GridViewColumn Header="Status code" DisplayMemberBinding="{Binding Response.StatusCode}" />
-                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Request.Path}" />
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Time}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Time" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Method}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Method" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Response.StatusCode}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Status code" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
+                  <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="Path" Style="{StaticResource TableHeader}"></TextBlock>
+                    </DataTemplate>
+                  </GridViewColumn.HeaderTemplate>
+                </GridViewColumn>
               </GridView>
             </ListView.View>
             <ListView.ContextMenu>
