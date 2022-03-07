@@ -10,6 +10,9 @@
     <client:MainWindowViewModel />
   </Window.DataContext>
   <Window.Resources>
+    <Style TargetType="ListViewItem">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
     <Style x:Key="TableHeader">
       <Setter Property="TextBlock.Padding" Value="10, 0, 10, 0" />
     </Style>
@@ -55,12 +58,17 @@
           <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
             <ListView.View>
               <GridView>
-                <GridViewColumn DisplayMemberBinding="{Binding Method}">
+                <GridViewColumn>
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Method" Style="{StaticResource TableHeader}"></TextBlock>
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Method}" TextAlignment="Center" />
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn DisplayMemberBinding="{Binding Path}">
                   <GridViewColumn.HeaderTemplate>
@@ -69,18 +77,24 @@
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
                 </GridViewColumn>
-                <GridViewColumn DisplayMemberBinding="{Binding Response.StatusCode}">
+                <GridViewColumn>
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Status code" Style="{StaticResource TableHeader}"></TextBlock>
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
                 </GridViewColumn>
               </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
               <Style TargetType="ListViewItem">
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="RouteListView_PreviewMouseLeftButtonDown" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
               </Style>
             </ListView.ItemContainerStyle>
             <ListView.ContextMenu>
@@ -107,19 +121,29 @@
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
                 </GridViewColumn>
-                <GridViewColumn DisplayMemberBinding="{Binding Request.Method}">
+                <GridViewColumn>
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Method" Style="{StaticResource TableHeader}"></TextBlock>
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Request.Method}" TextAlignment="Center" />
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
                 </GridViewColumn>
-                <GridViewColumn DisplayMemberBinding="{Binding Response.StatusCode}">
+                <GridViewColumn>
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Status code" Style="{StaticResource TableHeader}"></TextBlock>
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
                   <GridViewColumn.HeaderTemplate>
@@ -148,19 +172,29 @@
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
                 </GridViewColumn>
-                <GridViewColumn DisplayMemberBinding="{Binding Request.Method}">
+                <GridViewColumn>
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Method" Style="{StaticResource TableHeader}"></TextBlock>
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Request.Method}" TextAlignment="Center" />
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
                 </GridViewColumn>
-                <GridViewColumn DisplayMemberBinding="{Binding Response.StatusCode}">
+                <GridViewColumn>
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Status code" Style="{StaticResource TableHeader}"></TextBlock>
                     </DataTemplate>
                   </GridViewColumn.HeaderTemplate>
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
                   <GridViewColumn.HeaderTemplate>

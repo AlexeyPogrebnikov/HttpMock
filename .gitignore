@@ -2,6 +2,8 @@
 src/HttpMock.sln.DotSettings
 
 src/.vs/
+src/.idea/
+
 src/Core/bin/
 src/Core/obj/
 src/Core.Tests/bin/
