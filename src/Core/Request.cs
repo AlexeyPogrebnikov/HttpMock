@@ -6,14 +6,14 @@ namespace HttpMock.Core
 {
 	public class Request
 	{
-		public Request()
+		private Request()
 		{
 			Time = DateTime.Now.TimeOfDay;
 		}
 
 		public TimeSpan Time { get; }
 
-		public string Method { get; init; }
+		public string Method { get; private init; }
 
 		public string Path { get; init; }
 

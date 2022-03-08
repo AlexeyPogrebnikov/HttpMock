@@ -114,7 +114,7 @@
           <ListView ItemsSource="{Binding HandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn DisplayMemberBinding="{Binding Request.Time}">
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Time" Style="{StaticResource TableHeader}"></TextBlock>
@@ -165,7 +165,7 @@
           <ListView ItemsSource="{Binding UnhandledRequests}">
             <ListView.View>
               <GridView>
-                <GridViewColumn DisplayMemberBinding="{Binding Request.Time}">
+                <GridViewColumn DisplayMemberBinding="{Binding Request.Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
                   <GridViewColumn.HeaderTemplate>
                     <DataTemplate>
                       <TextBlock Text="Time" Style="{StaticResource TableHeader}"></TextBlock>
