@@ -27,7 +27,7 @@ namespace HttpMock.VisualServer.Commands
 			var viewModel = (EditRouteWindowViewModel) window.DataContext;
 			viewModel.SetMainWindowViewModel(_mainWindowViewModel);
 			viewModel.SetInitialRoute(route);
-			window.Show();
+			window.ShowDialog();
 		}
 
 		public event EventHandler CanExecuteChanged;

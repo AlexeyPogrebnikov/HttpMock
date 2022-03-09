@@ -93,7 +93,7 @@
             </ListView.View>
             <ListView.ItemContainerStyle>
               <Style TargetType="ListViewItem">
-                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="RouteListView_PreviewMouseLeftButtonDown" />
+                <EventSetter Event="MouseDoubleClick" Handler="RouteListView_MouseDoubleClick" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
               </Style>
             </ListView.ItemContainerStyle>

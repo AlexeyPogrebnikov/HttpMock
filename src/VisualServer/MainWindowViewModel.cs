@@ -12,7 +12,6 @@ namespace HttpMock.VisualServer
 {
 	public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 	{
-		private Route _selectedRoute;
 		private readonly IVisualHttpServer _httpServer;
 		private Action _refreshRoutesListViewAction;
 
@@ -146,16 +145,6 @@ namespace HttpMock.VisualServer
 		public Visibility StoppingHttpServerVisibility { get; set; }
 
 		public AboutProgramCommand AboutProgram { get; }
-
-		public Route SelectedRoute
-		{
-			get => _selectedRoute;
-			set
-			{
-				_selectedRoute = value;
-				OnPropertyChanged(nameof(SelectedRoute));
-			}
-		}
 
 		public RemoveRouteCommand RemoveRoute { get; }
 
