@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using HttpMock.Core;
+using HttpMock.VisualServer.Model;
 using Microsoft.Win32;
 
 namespace HttpMock.VisualServer.Commands
@@ -8,11 +10,13 @@ namespace HttpMock.VisualServer.Commands
 	public class OpenCommand : ICommand
 	{
 		private readonly IVisualHttpServer _httpServer;
+		private readonly RouteUICollection _routes;
 		private readonly IMessageViewer _messageViewer;
 
-		public OpenCommand(IVisualHttpServer httpServer, IMessageViewer messageViewer)
+		public OpenCommand(IVisualHttpServer httpServer, RouteUICollection routes, IMessageViewer messageViewer)
 		{
 			_httpServer = httpServer;
+			_routes = routes;
 			_messageViewer = messageViewer;
 		}
 
@@ -45,7 +49,7 @@ namespace HttpMock.VisualServer.Commands
 				connectionSettings.Host = project.Connection.Host;
 				connectionSettings.Port = project.Connection.Port.ToString();
 
-				_httpServer.Routes.Init(project.Routes);
+				_routes.Init(project.Routes.Select(route => route.Convert()));
 				ServerProjectOpened?.Invoke(this, EventArgs.Empty);
 			}
 		}
