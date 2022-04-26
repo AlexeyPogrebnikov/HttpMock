@@ -16,7 +16,3 @@ src/Server/bin/
 src/Server/obj/
 src/Server.Tests/bin/
 src/Server.Tests/obj/
-src/VisualServer/bin/
-src/VisualServer/obj/
-src/VisualServer.Tests/bin/
-src/VisualServer.Tests/obj/
