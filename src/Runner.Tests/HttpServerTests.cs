@@ -10,7 +10,8 @@ namespace HttpMock.Runner.Tests
 		[Test]
 		public void Route_GET_request()
 		{
-			using HttpServer server = new(@"C:\HttpMockServer\HttpMock.Server.exe", new ServerValidator(new VersionService()));
+			using HttpServer server = new(@"C:\HttpMockServer\HttpMock.Server.exe",
+				new ServerValidator(new VersionService()));
 			Response response = new()
 			{
 				StatusCode = 200,
@@ -32,10 +33,12 @@ namespace HttpMock.Runner.Tests
 		{
 			using HttpServer server = new(@"server.exe");
 
-			FileNotFoundException exception = Assert.Throws<FileNotFoundException>(() => server.Start("127.0.0.1", 5000));
+			var exception = Assert.Throws<FileNotFoundException>(() => server.Start("127.0.0.1", 5000));
 
 			Assert.AreEqual("server.exe", exception.FileName);
-			Assert.AreEqual("Server executable file not found. You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases", exception.Message);
+			Assert.AreEqual(
+				"Server executable file not found. You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases",
+				exception.Message);
 		}
 	}
 }

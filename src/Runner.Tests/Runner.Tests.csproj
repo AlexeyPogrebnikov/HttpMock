@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>HttpMock.Runner.Tests</AssemblyName>
-    <RootNamespace>HttpMock.Runner.Tests</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>HttpMock.Runner.Tests</AssemblyName>
+        <RootNamespace>HttpMock.Runner.Tests</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="server-config.json" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="server-config.json"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="server-config.json" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="server-config.json"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
+        <PackageReference Include="NUnit" Version="3.13.2"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.2.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Runner\Runner.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Runner\Runner.csproj"/>
+    </ItemGroup>
 
 </Project>

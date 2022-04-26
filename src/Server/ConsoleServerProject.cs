@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using HttpMock.Core;
+using HttpMock.Server.Core;
 
 namespace HttpMock.Server
 {

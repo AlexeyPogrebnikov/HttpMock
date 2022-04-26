@@ -1,4 +1,4 @@
-﻿namespace HttpMock.Core
+﻿namespace HttpMock.Server.Core
 {
 	public class Route
 	{

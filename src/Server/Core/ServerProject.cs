@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace HttpMock.Core
+namespace HttpMock.Server.Core
 {
 	public class ServerProject
 	{

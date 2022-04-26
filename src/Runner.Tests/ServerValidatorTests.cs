@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace HttpMock.Runner.Tests
 {
 	[TestFixture]
-	class ServerValidatorTests
+	internal class ServerValidatorTests
 	{
 		[Test]
 		public void Validate_server_is_too_old()
@@ -21,9 +21,11 @@ namespace HttpMock.Runner.Tests
 			var versionService = new VersionServiceStub(new Version("0.5.0.0"));
 			ServerValidator validator = new(versionService);
 
-			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => validator.Validate(serverFileName));
+			var exception = Assert.Throws<InvalidOperationException>(() => validator.Validate(serverFileName));
 
-			Assert.AreEqual("The version of HttpMock.Runner and the version of the server are different. The version of HttpMock.Runner is 0.5.0.0. The version of server is 0.4.0.0. You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases", exception.Message);
+			Assert.AreEqual(
+				"The version of HttpMock.Runner and the version of the server are different. The version of HttpMock.Runner is 0.5.0.0. The version of server is 0.4.0.0. You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases",
+				exception.Message);
 		}
 
 		[Test]
@@ -57,6 +59,5 @@ namespace HttpMock.Runner.Tests
 				return _version;
 			}
 		}
-
 	}
 }

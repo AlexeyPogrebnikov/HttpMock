@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace HttpMock.Core
+namespace HttpMock.Server.Core
 {
 	public static class VersionHelper
 	{

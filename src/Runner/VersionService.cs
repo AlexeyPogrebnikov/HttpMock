@@ -9,5 +9,4 @@ namespace HttpMock.Runner
 			return GetType().Assembly.GetName().Version;
 		}
 	}
-
 }

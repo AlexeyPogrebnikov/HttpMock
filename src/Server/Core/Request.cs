@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 
-namespace HttpMock.Core
+namespace HttpMock.Server.Core
 {
 	public class Request
 	{

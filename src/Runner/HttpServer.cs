@@ -8,13 +8,16 @@ namespace HttpMock.Runner
 {
 	public class HttpServer : IDisposable
 	{
+		private readonly List<Route> _routes = new List<Route>();
 		private readonly string _serverFileName;
 		private readonly ServerValidator _serverValidator;
-		Process _serverProcess;
-		private readonly List<Route> _routes = new List<Route>();
 		private bool _disposedValue;
+		private Process _serverProcess;
 
-		/// <param name="serverFileName">e.g. "C:\HttpMockServer\HttpMock.Server.exe", You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases </param>
+		/// <param name="serverFileName">
+		/// e.g. "C:\HttpMockServer\HttpMock.Server.exe", You can download the server here
+		/// https://github.com/AlexeyPogrebnikov/HttpMock/releases
+		/// </param>
 		public HttpServer(string serverFileName)
 			: this(serverFileName, new ServerValidator(new VersionService()))
 		{
@@ -26,10 +29,19 @@ namespace HttpMock.Runner
 			_serverValidator = serverValidator;
 		}
 
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
 		/// <summary>
-		/// 
 		/// </summary>
-		/// <param name="method">HTTP defines a set of request methods to indicate the desired action to be performed for a given resource.</param>
+		/// <param name="method">
+		/// HTTP defines a set of request methods to indicate the desired action to be performed for a given
+		/// resource.
+		/// </param>
 		/// <param name="path">e.g. /year</param>
 		/// <param name="response"></param>
 		public void Route(HttpMethod method, string path, Response response)
@@ -67,7 +79,7 @@ namespace HttpMock.Runner
 
 			string configPath = Path.GetTempFileName();
 
-			ServerConfig config = new ServerConfig
+			var config = new ServerConfig
 			{
 				Connection = new Connection
 				{
@@ -79,7 +91,7 @@ namespace HttpMock.Runner
 
 			config.Save(configPath);
 
-			ProcessStartInfo startInfo = new ProcessStartInfo
+			var startInfo = new ProcessStartInfo
 			{
 				FileName = _serverFileName,
 				Arguments = configPath
@@ -108,14 +120,7 @@ namespace HttpMock.Runner
 		~HttpServer()
 		{
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-			Dispose(disposing: false);
-		}
-
-		public void Dispose()
-		{
-			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-			Dispose(disposing: true);
-			GC.SuppressFinalize(this);
+			Dispose(false);
 		}
 	}
 }

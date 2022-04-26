@@ -5,25 +5,25 @@ using NUnit.Framework;
 namespace HttpMock.Runner.Tests
 {
 	[TestFixture]
-	class ServerConfigTests
+	internal class ServerConfigTests
 	{
 		[Test]
 		public void Save_config()
 		{
 			ServerConfig config = new()
 			{
-				Connection = new Connection()
+				Connection = new Connection
 				{
 					Host = "127.0.0.1",
 					Port = 443
 				},
-				Routes = new Route[]
+				Routes = new[]
 				{
-					new Route()
+					new Route
 					{
 						Method = "GET",
 						Path = "/order",
-						Response = new Response()
+						Response = new Response
 						{
 							StatusCode = 200,
 							Body = "abc"

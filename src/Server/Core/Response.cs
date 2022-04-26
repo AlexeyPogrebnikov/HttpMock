@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace HttpMock.Core
+namespace HttpMock.Server.Core
 {
 	public class Response
 	{
@@ -28,6 +28,5 @@ namespace HttpMock.Core
 
 			return sb.ToString();
 		}
-
 	}
 }

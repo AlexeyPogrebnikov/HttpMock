@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using HttpMock.Server.Core;
 using NUnit.Framework;
 
-namespace HttpMock.Core.Tests
+namespace HttpMock.Server.Tests.Core
 {
 	[TestFixture]
 	public class RouteCollectionTests
@@ -53,7 +54,7 @@ namespace HttpMock.Core.Tests
 				}
 			});
 
-			var routes = new[]
+			Route[] routes =
 			{
 				new()
 				{
@@ -64,7 +65,7 @@ namespace HttpMock.Core.Tests
 						StatusCode = 200
 					}
 				},
-				new Route
+				new()
 				{
 					Method = "GET",
 					Path = "/orders",
@@ -77,7 +78,7 @@ namespace HttpMock.Core.Tests
 
 			routeCollection.Init(routes);
 
-			Assert.AreEqual(2, routeCollection.ToArray().Count());
+			Assert.AreEqual(2, routeCollection.ToArray().Length);
 		}
 
 		[Test]
@@ -103,7 +104,7 @@ namespace HttpMock.Core.Tests
 			};
 			routeCollection.Init(new[] {route});
 
-			var routes = routeCollection.ToArray();
+			Route[] routes = routeCollection.ToArray();
 
 			Assert.AreEqual(1, routes.Length);
 			Assert.AreSame(route, routes[0]);

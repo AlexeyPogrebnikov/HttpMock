@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using HttpMock.Server.Core;
 using NUnit.Framework;
 
-namespace HttpMock.Core.Tests
+namespace HttpMock.Server.Tests.Core
 {
 	[TestFixture]
 	public class RequestTests

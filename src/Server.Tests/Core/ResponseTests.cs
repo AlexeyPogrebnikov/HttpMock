@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
-using System.IO;
+﻿using System.IO;
 using System.Text;
+using HttpMock.Server.Core;
+using NUnit.Framework;
 
-namespace HttpMock.Core.Tests
+namespace HttpMock.Server.Tests.Core
 {
 	[TestFixture]
 	public class ResponseTests

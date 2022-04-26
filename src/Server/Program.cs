@@ -1,4 +1,4 @@
-﻿using HttpMock.Core;
+﻿using HttpMock.Server.Core;
 using Serilog;
 
 namespace HttpMock.Server

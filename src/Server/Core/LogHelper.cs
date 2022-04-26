@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.IO;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System.IO;
 
-namespace HttpMock.Core
+namespace HttpMock.Server.Core
 {
 	public static class LogHelper
 	{
@@ -14,9 +14,9 @@ namespace HttpMock.Core
 		{
 			using IHost host = Host.CreateDefaultBuilder().Build();
 
-			IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+			var config = host.Services.GetRequiredService<IConfiguration>();
 
-			string logDir = config.GetValue<string>("LogDir");
+			var logDir = config.GetValue<string>("LogDir");
 
 			string path = null;
 			if (string.IsNullOrEmpty(logDir))
@@ -25,8 +25,8 @@ namespace HttpMock.Core
 				path = Path.Combine(logDir, LogPattern);
 
 			LoggerConfiguration configuration = new LoggerConfiguration()
-							.MinimumLevel.Information()
-							.WriteTo.File(path, rollingInterval: RollingInterval.Day);
+				.MinimumLevel.Information()
+				.WriteTo.File(path, rollingInterval: RollingInterval.Day);
 
 			if (writeToConsole)
 				configuration.WriteTo.Console();

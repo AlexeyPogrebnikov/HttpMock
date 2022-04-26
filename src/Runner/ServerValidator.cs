@@ -19,7 +19,9 @@ namespace HttpMock.Runner
 		public void Validate(string serverFileName)
 		{
 			if (!File.Exists(serverFileName))
-				throw new FileNotFoundException("Server executable file not found. You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases", serverFileName);
+				throw new FileNotFoundException(
+					"Server executable file not found. You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases",
+					serverFileName);
 
 			string fileVersion = FileVersionInfo.GetVersionInfo(serverFileName).FileVersion;
 			var serverVersion = new Version(fileVersion);
@@ -30,8 +32,8 @@ namespace HttpMock.Runner
 				string assemblyName = GetType().Assembly.GetName().Name;
 
 				string message = $"The version of {assemblyName} and the version of the server are different. " +
-					$"The version of {assemblyName} is {version}. The version of server is {fileVersion}. " +
-					"You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases";
+				                 $"The version of {assemblyName} is {version}. The version of server is {fileVersion}. " +
+				                 "You can download the server here https://github.com/AlexeyPogrebnikov/HttpMock/releases";
 
 				throw new InvalidOperationException(message);
 			}

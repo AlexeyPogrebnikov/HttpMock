@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using HttpMock.Core;
+using HttpMock.Server.Core;
 using Serilog;
 
 namespace HttpMock.Server

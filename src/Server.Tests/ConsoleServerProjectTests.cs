@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
-using HttpMock.Core;
+using HttpMock.Server.Core;
 using NUnit.Framework;
 
 namespace HttpMock.Server.Tests

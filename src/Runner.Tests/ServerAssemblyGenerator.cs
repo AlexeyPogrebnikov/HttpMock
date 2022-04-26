@@ -15,28 +15,29 @@ namespace HttpMock.Runner.Tests
 			asmInfo.AppendLine("using System.Reflection;");
 			asmInfo.AppendLine($"[assembly: AssemblyVersion(\"{version}\")]");
 
-			var syntaxTree = CSharpSyntaxTree.ParseText(asmInfo.ToString(), encoding: Encoding.Default);
+			SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(asmInfo.ToString(), encoding: Encoding.Default);
 
 			string mscorlibPath = typeof(object).Assembly.Location;
-			MetadataReference mscorlib = MetadataReference.CreateFromFile(mscorlibPath, new MetadataReferenceProperties(MetadataImageKind.Assembly));
+			MetadataReference mscorlib = MetadataReference.CreateFromFile(mscorlibPath,
+				new MetadataReferenceProperties(MetadataImageKind.Assembly));
 			CSharpCompilationOptions options = new(OutputKind.DynamicallyLinkedLibrary);
 
-			CSharpCompilation compilation = CSharpCompilation.Create("TestServer.dll",
-									references: new[] { mscorlib },
-									syntaxTrees: new[] { syntaxTree },
-									options: options);
+			var compilation = CSharpCompilation.Create("TestServer.dll",
+				references: new[] {mscorlib},
+				syntaxTrees: new[] {syntaxTree},
+				options: options);
 
 			using MemoryStream dllStream = new();
 			using MemoryStream pdbStream = new();
 			using Stream win32resStream = compilation.CreateDefaultWin32Resources(
-																		versionResource: true,
-																		noManifest: false,
-																		manifestContents: null,
-																		iconInIcoFormat: null);
+				true,
+				false,
+				null,
+				null);
 			EmitResult result = compilation.Emit(
-										peStream: dllStream,
-										pdbStream: pdbStream,
-										win32Resources: win32resStream);
+				dllStream,
+				pdbStream,
+				win32Resources: win32resStream);
 
 			File.WriteAllBytes(serverFileName, dllStream.ToArray());
 		}
