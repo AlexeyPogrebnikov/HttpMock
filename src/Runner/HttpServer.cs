@@ -29,6 +29,12 @@ namespace HttpMock.Runner
 			_serverValidator = serverValidator;
 		}
 
+		~HttpServer()
+		{
+			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+			Dispose(false);
+		}
+
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -100,6 +106,55 @@ namespace HttpMock.Runner
 			_serverProcess = Process.Start(startInfo);
 		}
 
+		/// <summary>
+		/// Route GET request.
+		/// </summary>
+		/// <param name="path">e.g. /order</param>
+		/// <param name="response"></param>
+		public void RouteGet(string path, Response response)
+		{
+			Route(HttpMethod.GET, path, response);
+		}
+
+		/// <summary>
+		/// Route POST request.
+		/// </summary>
+		/// <param name="path">e.g. /order</param>
+		/// <param name="response"></param>
+		public void RoutePost(string path, Response response)
+		{
+			Route(HttpMethod.POST, path, response);
+		}
+
+		/// <summary>
+		/// Route PUT request.
+		/// </summary>
+		/// <param name="path">e.g. /order</param>
+		/// <param name="response"></param>
+		public void RoutePut(string path, Response response)
+		{
+			Route(HttpMethod.PUT, path, response);
+		}
+
+		/// <summary>
+		/// Route DELETE request.
+		/// </summary>
+		/// <param name="path">e.g. /order</param>
+		/// <param name="response"></param>
+		public void RouteDelete(string path, Response response)
+		{
+			Route(HttpMethod.DELETE, path, response);
+		}
+
+		/// <summary>
+		/// Run server on localhost (IP address: 127.0.0.1).
+		/// </summary>
+		/// <param name="port">e.g. 80</param>
+		public void StartOnLocal(int port)
+		{
+			Start(IPAddress.Loopback, port);
+		}
+
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!_disposedValue)
@@ -115,12 +170,6 @@ namespace HttpMock.Runner
 				// TODO: set large fields to null
 				_disposedValue = true;
 			}
-		}
-
-		~HttpServer()
-		{
-			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-			Dispose(false);
 		}
 	}
 }
